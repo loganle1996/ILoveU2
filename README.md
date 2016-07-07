@@ -1,6 +1,6 @@
 # I Love You -  SADI Project
 
-** PROJECT IS NOW USING MVC FOR ITS BASE. **
+**PROJECT IS NOW USING MVC FOR ITS BASE**
 
 ## Notice
 - Vlad has specified to follow design patterns - when proceeding to code, try to follow design patterns as much as possible.
