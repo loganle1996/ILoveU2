@@ -3,19 +3,14 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/Users/NangTrongVuon/Desktop/Programming%20Projects/ArcaneArena/src/Model/Tile.java</file>
-            <file>file:/Users/NangTrongVuon/Desktop/Programming%20Projects/ArcaneArena/src/Controller/GameController.java</file>
-            <file>file:/Users/NangTrongVuon/Desktop/Programming%20Projects/ArcaneArena/src/Main/Main.java</file>
+            <file>file:/Users/NangTrongVuon/Desktop/Programming%20Projects/ArcaneArena/src/Model/SpriteSheet.java</file>
             <file>file:/Users/NangTrongVuon/Desktop/Programming%20Projects/ArcaneArena/src/Model/TiledMap.java</file>
-            <file>file:/Users/NangTrongVuon/Desktop/Programming%20Projects/ArcaneArena/src/Model/Player.java</file>
-            <file>file:/Users/NangTrongVuon/Desktop/Programming%20Projects/ArcaneArena/src/Model/Wall2.java</file>
-            <file>file:/Users/NangTrongVuon/Desktop/Programming%20Projects/ArcaneArena/src/Model/GameModel.java</file>
             <file>file:/Users/NangTrongVuon/Desktop/Programming%20Projects/ArcaneArena/src/Model/Entity.java</file>
             <file>file:/Users/NangTrongVuon/Desktop/Programming%20Projects/ArcaneArena/src/Model/Wall1.java</file>
             <file>file:/Users/NangTrongVuon/Desktop/Programming%20Projects/ArcaneArena/src/View/GameView.java</file>
-            <file>file:/Users/NangTrongVuon/Desktop/Programming%20Projects/ArcaneArena/src/Controller/prepareKeyEvent.java</file>
+            <file>file:/Users/NangTrongVuon/Desktop/Programming%20Projects/ArcaneArena/src/Model/Wall2.java</file>
             <file>file:/Users/NangTrongVuon/Desktop/Programming%20Projects/ArcaneArena/src/Model/Wall3.java</file>
-            <file>file:/Users/NangTrongVuon/Desktop/Programming%20Projects/ArcaneArena/src/Model/TileCache.java</file>
+            <file>file:/Users/NangTrongVuon/Desktop/Programming%20Projects/ArcaneArena/src/Model/GameModel.java</file>
         </group>
     </open-files>
 </project-private>

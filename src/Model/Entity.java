@@ -21,7 +21,7 @@ public abstract class Entity {
     public final double gravity= 10;
     public double velX,velY;
     public Id id;
-    public boolean jumping = false;
+    public boolean isMovingLeft, isMovingRight, jumping = false;
     GameModel gameModel;
     public int facing = 0; //0 is left; 1 is right
     //public boolean falling = true;
@@ -87,6 +87,22 @@ public abstract class Entity {
 
     public boolean isJumping() {
         return jumping;
+    }
+
+    public boolean isMovingLeft() {
+        return isMovingLeft;
+    }
+
+    public void setMovingLeft(boolean movingLeft) {
+        isMovingLeft = movingLeft;
+    }
+
+    public boolean isMovingRight() {
+        return isMovingRight;
+    }
+
+    public void setMovingRight(boolean movingRight) {
+        isMovingRight = movingRight;
     }
 
     public void setJumping(boolean jumping) {

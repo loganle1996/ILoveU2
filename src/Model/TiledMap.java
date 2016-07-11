@@ -67,7 +67,7 @@ public class TiledMap
 //                    clonedTile1.setY((i/20) * clonedTile1.getHeight());
 ////                    clonedTile.getBoundary();
 //                    //clonedTile1.setGameModel(GameView.gameModel);
-//                    GameView.gameModel.addTile(clonedTile1);
+                    GameView.gameModel.addTile(clonedTile1);
                     break;
                 case 1:
                     gc.setFill(Color.WHITE);
@@ -80,7 +80,7 @@ public class TiledMap
 //                    clonedTile2.setY((i/20) * clonedTile2.getHeight());
 ////                    clonedTile.getBoundary();
 //                    //clonedTile2.setGameModel(GameView.gameModel);
-//                    GameView.gameModel.addTile(clonedTile2);
+                    GameView.gameModel.addTile(clonedTile2);
 
                     break;
                 case 3:
@@ -97,7 +97,7 @@ public class TiledMap
 //                    clonedTile2.setX((i%20) * clonedTile2.getWidth());
 //                    clonedTile2.setY((i/20) * clonedTile2.getHeight());
                     //clonedTile2.setGameModel(GameView.gameModel);
-//                    GameView.gameModel.addTile(clonedTile2);
+                    GameView.gameModel.addTile(clonedTile2);
 //                    clonedTile.getBoundary();
                     break;
                 case 6:
@@ -111,7 +111,7 @@ public class TiledMap
 //                    clonedTile3.setY((i/20) * clonedTile3.getHeight());
 ////                    clonedTile.getBoundary();
 //                    //clonedTile3.setGameModel(GameView.gameModel);
-//                    GameView.gameModel.addTile(clonedTile3);
+                    GameView.gameModel.addTile(clonedTile3);
                     break;
                 case 10:
                     //gc.drawImage(character, (i%20) * squareSize, (i / 20) * squareSize,squareSize, squareSize);

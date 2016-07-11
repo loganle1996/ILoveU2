@@ -24,7 +24,4 @@ public class GameController {
         //display all game graphics
         gameView.display(gameModel);
     }
-    public void updateGame(){
-        gameModel.updateModelGame();
-    }  
 }

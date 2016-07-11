@@ -70,20 +70,34 @@ public class Player extends Entity {
                     }
                     if(this.intersectsRightObject(t)){
                         setVelX(0);
-                        x = t.getX()+t.width;
+                        x = t.getX() + t.width;
                     }
                     if(this.intersectsLeftObject(t)){
                         setVelX(0);
-                        x = t.getX()-t.width;                       
+                        x = t.getX() - t.width;
                     }
                 }
             }
-            if(this.isJumping() == false){
+            if(this.isJumping() == false) {
                     this.setVelY(10.0);
-                }
-                if(this.isJumping() == true){
+
+            }
+
+            if  (this.isJumping() == true){
                     this.setVelY(-10.0);
-                }
+            }
+
+           if (this.isMovingLeft) {
+               this.setVelX(-5.0);
+           } else if (this.isMovingRight) {
+               this.setVelX(5);
+               this.facing = 1;
+           } else {
+               this.setVelX(0);
+           }
+
+
+
             }
         if(animate == true){
             frameDelay++;
