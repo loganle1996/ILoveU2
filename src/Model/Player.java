@@ -87,18 +87,16 @@ public class Player extends Entity {
                     this.setVelY(-10.0);
             }
 
-           if (this.isMovingLeft) {
-               this.setVelX(-5.0);
-           } else if (this.isMovingRight) {
-               this.setVelX(5);
-               this.facing = 1;
-           } else {
-               this.setVelX(0);
-           }
-
-
-
+            if (this.isMovingLeft) {
+                this.setVelX(-5.0);
+            } else if (this.isMovingRight) {
+                this.setVelX(5);
+                this.facing = 1;
+            } else {
+                this.setVelX(0);
             }
+
+        }
         if(animate == true){
             frameDelay++;
             if(frameDelay >=3){
