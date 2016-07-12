@@ -33,11 +33,34 @@ public class Player extends Entity {
              g.drawImage(GameModel.playerSprite[frame].getImage(), x, y, width, height);
          }
     }
+    
+    public void jump() {
+        this.setVelY(-15);
+    }
 
     @Override
     public void tick() {
         x+= velX;
         y += velY;
+        
+        System.out.println(velY);
+
+        
+        
+          if (this.isMovingLeft) {
+                this.setVelX(-5.0);
+                this.facing = 0;
+            } else if (this.isMovingRight) {
+                this.setVelX(5);
+                this.facing = 1;
+            } else {
+                this.setVelX(0);
+            }
+          
+          if (this.jumping) {
+              velY += this.getGravity() / 10;
+          }
+        
         if(velX != 0){
             this.animate = true;
         }
@@ -80,6 +103,8 @@ public class Player extends Entity {
                 if(t.getId() == Id.wall){
                     if(this.intersectsTopObject(t)){
                         y = t.getY() - height;
+                        this.setVelY(10);
+                        this.setJumping(false);
                     }    
                     if(this.intersectsBottomobject(t)){                       
                         setVelY(0);
@@ -95,22 +120,10 @@ public class Player extends Entity {
                     }
                 }
             }
-            if(this.isJumping() == false){
-                    this.setVelY(10.0);
-                }
-                if(this.isJumping() == true){
-                    this.setVelY(-10.0);
-                }
+           
             
-            if (this.isMovingLeft) {
-                this.setVelX(-5.0);
-                this.facing = 0;
-            } else if (this.isMovingRight) {
-                this.setVelX(5);
-                this.facing = 1;
-            } else {
-                this.setVelX(0);
-            }
+            
+          
         }
     }
     public void enemyCollidingChecking(){

@@ -6,6 +6,7 @@
 package MVCpattern;
 
 import Entity.Entity;
+import Entity.Player;
 import Graphics.Sprite;
 import Graphics.SpriteSheet;
 import java.util.LinkedList;
@@ -143,6 +144,7 @@ public class GameModel extends Application{
             for(int i = 0; i< playerSprite.length;i++){
                 playerSprite[i] = new Sprite(sheet,i+1,1);
             }
+            
             tiledMap.addAllObjectsToGameModel(this,tileCache);
     }
     public static void main(String[] args) {
@@ -164,6 +166,7 @@ public class GameModel extends Application{
                     if(event.getCode() == KeyCode.SPACE){
                         if(en.isJumping() == false){
                             en.setJumping(true);
+                            en.setVelY(-15);
                             System.out.println("space pressed");
                         }
                     }
@@ -183,7 +186,7 @@ public class GameModel extends Application{
             {
                 for(Entity en: getEntity()){   
                     if(event.getCode() == KeyCode.SPACE){
-                        en.setJumping(false);
+                       
                         System.out.println("space realeased");
                     }
                     if(event.getCode() == KeyCode.A){

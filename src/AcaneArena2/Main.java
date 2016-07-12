@@ -3,18 +3,19 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package Main;
+package AcaneArena2;
 
-import Controller.GameController;
-import Model.GameModel;
-import View.GameView;
+import MVCpattern.GameController;
+import MVCpattern.GameModel;
+import MVCpattern.GameView;
+import tile.TileCache;
 
 /**
  *
  * @author owne
  */
 public class Main {
-    public static GameModel gameModel;
+
     public static void main(String[] args) {
         GameModel model = new GameModel();
         GameView view = new GameView();
