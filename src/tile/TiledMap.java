@@ -6,6 +6,7 @@
 package tile;
 
 
+import Entity.Entity;
 import Entity.Id;
 import Entity.Player;
 import MVCpattern.GameModel;

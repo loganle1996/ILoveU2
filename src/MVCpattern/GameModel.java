@@ -122,16 +122,12 @@ public class GameModel extends Application{
         loadGraphics();
         // main scene listens for keyevent
         prepareKeyEvent(mainScene);
-        final long startNanoTime = System.nanoTime();
         new AnimationTimer()
         {
             @Override
             public void handle(long currentNanoTime)
             {
-                double t = (currentNanoTime - startNanoTime) / 1000000000.0; 
 
-                double x = 232 + 128 * Math.cos(t);
-                double y = 232 + 128 * Math.sin(t);
                 tickAndRenderModel();
             }
         }.start();

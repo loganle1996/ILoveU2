@@ -25,10 +25,10 @@ public class Player extends Entity {
     @Override
     public void render(GraphicsContext g ) {
         if(this.facing == 0 ){
-            g.drawImage(GameModel.playerSprite[frame+ 3].getImage(), x, y, width, height);
+            g.drawImage(GameModel.playerSprite[frame+ 3].getImage(), x, y, 40, 40);
         }
         else if(this.facing == 1){
-            g.drawImage(GameModel.playerSprite[frame].getImage(), x, y, width, height);
+            g.drawImage(GameModel.playerSprite[frame].getImage(), x, y, 40, 40);
         }
     }
 
@@ -47,12 +47,19 @@ public class Player extends Entity {
 
         x += velX;
 
-        if (this.isFalling()) {
-            velY += this.getGravity() / 10;
-        }
+//        if (this.isFalling()) {
+
+        // Simulates gravity
+        velY += this.getGravity() / 10;
+//        }
 
         y += velY;
 
+        if (this.velY > 0) {
+            this.setJumping(false);
+            this.setFalling(true);
+            this.touchingGround = false;
+        }
 
 
 //        System.out.println(this.getVelY());
@@ -112,25 +119,17 @@ public class Player extends Entity {
                 if (t.getId() == Id.wall) {
 
 //                    double currentLocation = 0.0;
-
-                    System.out.println("player y: " + this.getY());
-                    System.out.println("tile y:  " + t.getY());
-
-
                     if (this.intersectsTopObject(t)) {
 
                         y = t.getY() - height;
 
                         this.setVelY(0);
-                        System.out.println(this.getVelY());
                         this.setFalling(false);
                         this.setJumping(false);
-                        System.out.println("touched ground");
                         this.touchingGround = true;
+
                     }
-//                    else if(this.getY() == currentLocation){
-//                        System.out.println("not touching");
-//                    }
+
                 }
                 if (this.intersectsBottomObject(t)) {
                     setVelY(0);
