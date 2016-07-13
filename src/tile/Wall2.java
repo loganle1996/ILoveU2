@@ -7,7 +7,6 @@ package tile;
 
 import Entity.Id;
 import MVCpattern.GameModel;
-import MVCpattern.GameView;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
 

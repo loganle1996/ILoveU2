@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project name="module_iloveu2" default="compile.module.iloveu2">
+  <dirname property="module.iloveu2.basedir" file="${ant.file.module_iloveu2}"/>
+  
+  <property name="module.jdk.home.iloveu2" value="${project.jdk.home}"/>
+  <property name="module.jdk.bin.iloveu2" value="${project.jdk.bin}"/>
+  <property name="module.jdk.classpath.iloveu2" value="${project.jdk.classpath}"/>
+  
+  <property name="compiler.args.iloveu2" value="-encoding UTF-8 -source 8 -target 8 ${compiler.args}"/>
+  
+  <property name="iloveu2.output.dir" value="${module.iloveu2.basedir}/../out/production/ILoveU2"/>
+  <property name="iloveu2.testoutput.dir" value="${module.iloveu2.basedir}/../out/test/ILoveU2"/>
+  
+  <path id="iloveu2.module.bootclasspath">
+    <!-- Paths to be included in compilation bootclasspath -->
+  </path>
+  
+  <path id="iloveu2.module.production.classpath">
+    <path refid="${module.jdk.classpath.iloveu2}"/>
+    <path refid="library.acanearena2.classpath"/>
+    <pathelement location="${iloveu21.output.dir}"/>
+  </path>
+  
+  <path id="iloveu2.runtime.production.module.classpath">
+    <pathelement location="${iloveu2.output.dir}"/>
+    <path refid="library.acanearena2.classpath"/>
+    <path refid="iloveu21.runtime.production.module.classpath"/>
+  </path>
+  
+  <path id="iloveu2.module.classpath">
+    <path refid="${module.jdk.classpath.iloveu2}"/>
+    <pathelement location="${iloveu2.output.dir}"/>
+    <path refid="library.acanearena2.classpath"/>
+    <pathelement location="${iloveu21.testoutput.dir}"/>
+    <pathelement location="${iloveu21.output.dir}"/>
+  </path>
+  
+  <path id="iloveu2.runtime.module.classpath">
+    <pathelement location="${iloveu2.testoutput.dir}"/>
+    <pathelement location="${iloveu2.output.dir}"/>
+    <path refid="library.acanearena2.classpath"/>
+    <path refid="iloveu21.runtime.module.classpath"/>
+  </path>
+  
+  
+  <patternset id="excluded.from.module.iloveu2">
+    <patternset refid="ignored.files"/>
+  </patternset>
+  
+  <patternset id="excluded.from.compilation.iloveu2">
+    <patternset refid="excluded.from.module.iloveu2"/>
+  </patternset>
+  
+  <path id="iloveu2.module.sourcepath">
+    <dirset dir="${module.iloveu2.basedir}">
+      <include name="ArcaneArena"/>
+    </dirset>
+  </path>
+  
+  
+  <target name="compile.module.iloveu2" depends="compile.module.iloveu2.production,compile.module.iloveu2.tests" description="Compile module ILoveU2"/>
+  
+  <target name="compile.module.iloveu2.production" depends="register.custom.compilers,compile.module.iloveu21" description="Compile module ILoveU2; production classes">
+    <mkdir dir="${iloveu2.output.dir}"/>
+    <javac2 destdir="${iloveu2.output.dir}" debug="${compiler.debug}" nowarn="${compiler.generate.no.warnings}" memorymaximumsize="${compiler.max.memory}" fork="true" executable="${module.jdk.bin.iloveu2}/javac">
+      <compilerarg line="${compiler.args.iloveu2}"/>
+      <bootclasspath refid="iloveu2.module.bootclasspath"/>
+      <classpath refid="iloveu2.module.production.classpath"/>
+      <src refid="iloveu2.module.sourcepath"/>
+      <patternset refid="excluded.from.compilation.iloveu2"/>
+    </javac2>
+    
+    <copy todir="${iloveu2.output.dir}">
+      <fileset dir="${module.iloveu2.basedir}/ArcaneArena">
+        <patternset refid="compiler.resources"/>
+        <type type="file"/>
+      </fileset>
+    </copy>
+  </target>
+  
+  <target name="compile.module.iloveu2.tests" depends="register.custom.compilers,compile.module.iloveu2.production" description="compile module ILoveU2; test classes" unless="skip.tests"/>
+  
+  <target name="clean.module.iloveu2" description="cleanup module">
+    <delete dir="${iloveu2.output.dir}"/>
+    <delete dir="${iloveu2.testoutput.dir}"/>
+  </target>
+</project>

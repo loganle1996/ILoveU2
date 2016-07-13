@@ -7,7 +7,7 @@ package tile;
 
 import Entity.Id;
 import MVCpattern.GameModel;
-import MVCpattern.GameView;
+
 import java.util.Hashtable;
 
 /**

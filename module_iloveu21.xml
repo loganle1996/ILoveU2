@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project name="module_iloveu21" default="compile.module.iloveu21">
+  <dirname property="module.iloveu21.basedir" file="${ant.file.module_iloveu21}"/>
+  
+  <property name="module.jdk.home.iloveu21" value="${project.jdk.home}"/>
+  <property name="module.jdk.bin.iloveu21" value="${project.jdk.bin}"/>
+  <property name="module.jdk.classpath.iloveu21" value="${project.jdk.classpath}"/>
+  
+  <property name="compiler.args.iloveu21" value="-encoding UTF-8 -source 8 -target 8 ${compiler.args}"/>
+  
+  <property name="iloveu21.output.dir" value="${module.iloveu21.basedir}/out/production/ILoveU21"/>
+  <property name="iloveu21.testoutput.dir" value="${module.iloveu21.basedir}/out/test/ILoveU21"/>
+  
+  <path id="iloveu21.module.bootclasspath">
+    <!-- Paths to be included in compilation bootclasspath -->
+  </path>
+  
+  <path id="iloveu21.module.production.classpath">
+    <path refid="${module.jdk.classpath.iloveu21}"/>
+  </path>
+  
+  <path id="iloveu21.runtime.production.module.classpath">
+    <pathelement location="${iloveu21.output.dir}"/>
+  </path>
+  
+  <path id="iloveu21.module.classpath">
+    <path refid="${module.jdk.classpath.iloveu21}"/>
+    <pathelement location="${iloveu21.output.dir}"/>
+  </path>
+  
+  <path id="iloveu21.runtime.module.classpath">
+    <pathelement location="${iloveu21.testoutput.dir}"/>
+    <pathelement location="${iloveu21.output.dir}"/>
+  </path>
+  
+  
+  <patternset id="excluded.from.module.iloveu21">
+    <patternset refid="ignored.files"/>
+  </patternset>
+  
+  <patternset id="excluded.from.compilation.iloveu21">
+    <patternset refid="excluded.from.module.iloveu21"/>
+  </patternset>
+  
+  
+  <target name="compile.module.iloveu21" depends="compile.module.iloveu21.production,compile.module.iloveu21.tests" description="Compile module ILoveU21"/>
+  
+  <target name="compile.module.iloveu21.production" depends="register.custom.compilers" description="Compile module ILoveU21; production classes"/>
+  
+  <target name="compile.module.iloveu21.tests" depends="register.custom.compilers,compile.module.iloveu21.production" description="compile module ILoveU21; test classes" unless="skip.tests"/>
+  
+  <target name="clean.module.iloveu21" description="cleanup module">
+    <delete dir="${iloveu21.output.dir}"/>
+    <delete dir="${iloveu21.testoutput.dir}"/>
+  </target>
+</project>

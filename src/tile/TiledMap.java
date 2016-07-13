@@ -96,6 +96,7 @@ public class TiledMap
                 case 10:
                     player1 = new Player((i% 20)*40,(i/20)*40, 40, 40, true, Id.player, gameModel);
                     gameModel.addEntity(player1);
+                    gameModel.player = player1;
                     break;
                 default:
                 

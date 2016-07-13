@@ -8,7 +8,6 @@ package AcaneArena2;
 import MVCpattern.GameController;
 import MVCpattern.GameModel;
 import MVCpattern.GameView;
-import tile.TileCache;
 
 /**
  *

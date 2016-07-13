@@ -9,7 +9,6 @@ import Entity.Entity;
 import Entity.Player;
 import Graphics.Sprite;
 import Graphics.SpriteSheet;
-import java.util.LinkedList;
 import javafx.animation.AnimationTimer;
 import javafx.application.Application;
 import javafx.event.EventHandler;
@@ -21,10 +20,11 @@ import javafx.scene.image.Image;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.stage.Stage;
-import prepareKeyEvent.prepareKeyEvent;
 import tile.Tile;
 import tile.TileCache;
 import tile.TiledMap;
+
+import java.util.LinkedList;
 
 /**
  *
@@ -40,8 +40,9 @@ public class GameModel extends Application{
     public static SpriteSheet sheet;
     public static Sprite playerSprite [] = new Sprite[6];
     public static TiledMap tiledMap = new TiledMap();
-    public LinkedList<Entity> entity = new LinkedList<Entity>();;
-    public LinkedList<Tile> tile = new LinkedList<Tile>();;
+    public LinkedList<Entity> entity = new LinkedList<Entity>();
+    public Player player;
+    public LinkedList<Tile> tile = new LinkedList<Tile>();
     public TileCache tileCache = new TileCache();
     
     public GameModel(){
@@ -155,49 +156,55 @@ public class GameModel extends Application{
          this.TickModelGame();
          this.renderModelGame(gc);
     }
+
+    // Game Input
+
     public void prepareKeyEvent(Scene mainScene) {
-        mainScene.setOnKeyPressed(new EventHandler<KeyEvent>()
-        {
-            @Override
-            public void handle(KeyEvent event)
-            {
-                //currentlyActiveKeys.add(event.getCode().toString());
-                for(Entity en: getEntity()){   
-                    if(event.getCode() == KeyCode.SPACE){
-                        if(en.isJumping() == false){
-                            en.setJumping(true);
-                            en.setVelY(-15);
-                            System.out.println("space pressed");
-                        }
-                    }
-                    if(event.getCode() == KeyCode.A){
-                          en.setIsMovingLeft(true);
-                    }
-                    if(event.getCode() == KeyCode.D){
-                        en.setIsMovingRight(true);
-                    }
-                }
+        mainScene.setOnKeyPressed(event -> {
+//                //currentlyActiveKeys.add(event.getCode().toString());
+////                for(Entity en: getEntity()){
+//                    if(event.getCode() == KeyCode.SPACE){
+//                        if(en.jumping() == false){
+//                            en.setJumping(true);
+//                            en.setVelY(-20);
+//                            System.out.println("space pressed");
+//                        }
+//                    }
+//                    if(event.getCode() == KeyCode.A){
+//                          en.setIsMovingLeft(true);
+//                    }
+//                    if(event.getCode() == KeyCode.D){
+//                        en.setIsMovingRight(true);
+//                    }
+
+            switch (event.getCode()) {
+                case A: player.setMovingLeft(true); break;
+                case D: player.setMovingRight(true); break;
+                case SPACE: if (player.touchingGround) { System.out.println("Jumped"); player.jump(); break; }
             }
+
+            });
+        mainScene.setOnKeyReleased(event -> {
+//                for(Entity en: getEntity()){
+//                    if(event.getCode() == KeyCode.SPACE){
+//
+//                        System.out.println("space realeased");
+//                    }
+//                    if(event.getCode() == KeyCode.A){
+//                        en.setIsMovingLeft(false);
+//                    }
+//                    if(event.getCode() == KeyCode.D){
+//                        en.setIsMovingRight(false);
+//                    }
+//                }
+
+            switch (event.getCode()) {
+                case A: player.setMovingLeft(false); break;
+                case D: player.setMovingRight(false); break;
+                case SPACE: break;
+            }
+
         });
-        mainScene.setOnKeyReleased(new EventHandler<KeyEvent>()
-        {
-            @Override
-            public void handle(KeyEvent event)
-            {
-                for(Entity en: getEntity()){   
-                    if(event.getCode() == KeyCode.SPACE){
-                       
-                        System.out.println("space realeased");
-                    }
-                    if(event.getCode() == KeyCode.A){
-                        en.setIsMovingLeft(false);
-                    }
-                    if(event.getCode() == KeyCode.D){
-                        en.setIsMovingRight(false);
-                    }
-                }
-            }
-        });      
     }
     public void display(){
         String[] args = null;
