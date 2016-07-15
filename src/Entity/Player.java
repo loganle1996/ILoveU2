@@ -42,7 +42,77 @@ public class Player extends Entity {
     public void tick() {
         x+= velX;
         y += velY;
+<<<<<<< Updated upstream
         System.out.println("hp: "+this.getHp());
+=======
+<<<<<<< HEAD
+
+        if (this.velY > 0) {
+            this.setJumping(false);
+            this.setFalling(true);
+            this.touchingGround = false;
+        }
+
+
+//        System.out.println(this.getVelY());
+//        System.out.println("jumping: " + this.isJumping());
+//        System.out.println("falling: " + this.isFalling());
+
+        if (this.isMovingLeft()) {
+            this.setVelX(-5.0);
+            this.facing = 0;
+        } else if (this.isMovingRight()) {
+            this.setVelX(5);
+            this.facing = 1;
+        } else {
+            this.setVelX(0);
+        }
+
+=======
+        System.out.println("hp: "+this.getHp());
+        if(x<=0){
+            x = 0;
+        }
+        if( y <= 0 ){
+            y = 0;
+        }
+        if(x + width>= 800){
+            x = 800 - width;
+        }
+        if(y +height>= 800){
+            y = 800 - height;
+        }
+          if(hp == 0){
+              this.die();
+          }
+          if (this.isMovingLeft == true && this.isCollidingRight() == false) {
+                this.setVelX(-5.0);
+                this.facing = 0;
+            } 
+           else if (this.isMovingRight == true && this.isCollidingLeft() == false) {
+                this.setVelX(5);
+                this.facing = 1;
+            }
+            else if (this.isJumping() == true && this.isCollidingBottom() == false && this.isCollidingTop() == true && this.isFalling()== false) {
+                 //this.setY(this.getY() + 5);
+            }
+            else if(this.isFalling() == true && this.isCollidingTop() == false&& this.isJumping() == false){
+                setVelY(this.getVelY() - this.getGravity());
+            }
+            else {
+                this.setVelY(0);
+                this.setVelX(0);
+            }
+        
+>>>>>>> ai-enemy
+        if(velX != 0){
+            this.animate = true;
+        }
+        else{
+            this.animate = false;
+        }
+<<<<<<< HEAD
+>>>>>>> Stashed changes
         if(x<=0){
             x = 0;
         }
@@ -85,6 +155,13 @@ public class Player extends Entity {
         }
         //Check if the player collides with tiles
         tileCollidingChecking();
+<<<<<<< Updated upstream
+=======
+
+=======
+        //Check if the player collides with tiles
+        tileCollidingChecking();
+>>>>>>> Stashed changes
         for(Entity e : gameModel.getEntity()){
             if(e.getId() == Id.Goomba){
                 if(this.intersectsTopEntity(e)){
@@ -121,6 +198,10 @@ public class Player extends Entity {
                 }
             }
         }
+<<<<<<< Updated upstream
+=======
+>>>>>>> ai-enemy
+>>>>>>> Stashed changes
         //check if the player collides with enemies
         if(animate == true){
             frameDelay++;
@@ -138,6 +219,24 @@ public class Player extends Entity {
         for(Tile t: gameModel.getTileList()){
             if(t.solid == false){
                 break;
+<<<<<<< Updated upstream
+=======
+<<<<<<< HEAD
+            } else {
+                if (t.getId() == Id.wall) {
+
+//                    double currentLocation = 0.0;
+                    if (this.intersectsTopObject(t)) {
+
+                        y = t.getY() - height;
+
+                        this.setVelY(0);
+                        this.setFalling(false);
+                        this.setJumping(false);
+                        this.touchingGround = true;
+
+=======
+>>>>>>> Stashed changes
             }
             else{
                 if(t.getId() == Id.wall){
@@ -162,9 +261,21 @@ public class Player extends Entity {
 //                        x = t.getX()-t.width; 
                           this.setCollidingLeft(true);
                           
+<<<<<<< Updated upstream
+=======
+>>>>>>> ai-enemy
+>>>>>>> Stashed changes
                     }
                 }
+<<<<<<< Updated upstream
             }          
+=======
+<<<<<<< HEAD
+            }
+=======
+            }          
+>>>>>>> ai-enemy
+>>>>>>> Stashed changes
         }
     }
     public void enemyCollidingChecking(){

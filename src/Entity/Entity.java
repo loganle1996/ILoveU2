@@ -19,16 +19,36 @@ import tile.Tile;
 public abstract class Entity {
     public double x, y;
     public int width = 40 , height = 40;
+<<<<<<< Updated upstream
     
     public boolean solid;
     public double gravity= 10;
     public double velX = 0,velY =0;
     public Id id;
+=======
+<<<<<<< HEAD
+    public Id id;
+    double velX,velY;
+    GameModel gameModel;
+    int facing = 0; //0 is left; 1 is right
+    private boolean solid;
+    private boolean movingLeft, movingRight, jumping, falling = false;
+=======
+    
+    public boolean solid;
+    public double gravity= 10;
+    public double velX = 0,velY =0;
+    public Id id;
+>>>>>>> Stashed changes
     public GameModel gameModel;
     public boolean isMovingLeft = false, isMovingRight = false, jumping = false, falling = false;
     public int facing = 0; //0 is left; 1 is right
     public double hp;
     public boolean collidingLeft = false,collidingRight = false,collidingTop = false,collidingBottom =false ;
+<<<<<<< Updated upstream
+=======
+>>>>>>> ai-enemy
+>>>>>>> Stashed changes
     //public boolean falling = true;
     
     public Entity(int x, int y, int width, int height, boolean solid,Id id,GameModel gameModel) {
@@ -41,6 +61,17 @@ public abstract class Entity {
         this.gameModel = gameModel;
         velY += gravity;
         hp = 1000;
+<<<<<<< Updated upstream
+=======
+    }
+
+    public boolean isFalling() {
+        return falling;
+    }
+
+    public void setFalling(boolean falling) {
+        this.falling = falling;
+>>>>>>> Stashed changes
     }
 
     public abstract void render(GraphicsContext g);
@@ -150,6 +181,7 @@ public abstract class Entity {
     public boolean intersectsBottomEntity(Entity en){
         return en.getBottomBoundary().intersects(this.getBoundary());
     }
+<<<<<<< Updated upstream
 
     public boolean isIsMovingLeft() {
         return isMovingLeft;
@@ -166,6 +198,8 @@ public abstract class Entity {
     public void setIsMovingRight(boolean isMovingRight) {
         this.isMovingRight = isMovingRight;
     }
+=======
+>>>>>>> Stashed changes
 
     public int getWidth() {
         return width;

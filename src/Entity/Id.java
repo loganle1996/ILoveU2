@@ -10,5 +10,13 @@ package Entity;
  * @author owne
  */
 public enum Id {
+<<<<<<< Updated upstream
     player,wall, Goomba;
+=======
+<<<<<<< HEAD
+    player,wall, groundBox;
+=======
+    player,wall, Goomba;
+>>>>>>> ai-enemy
+>>>>>>> Stashed changes
 }

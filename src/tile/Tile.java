@@ -101,7 +101,15 @@ public abstract class Tile implements Cloneable{
         return new Rectangle2D(getX(), getY(), width, height);
     }
     public Rectangle2D getTopBoundary(){
+<<<<<<< Updated upstream
         return new Rectangle2D(getX(),getY(),width -20,5);
+=======
+<<<<<<< HEAD
+        return new Rectangle2D(getX() + 10, getY() , width - 20 , 5);
+=======
+        return new Rectangle2D(getX(),getY(),width -20,5);
+>>>>>>> ai-enemy
+>>>>>>> Stashed changes
     }
     public Rectangle2D getBottomBoundary(){
         return new Rectangle2D(getX(),getY()+ height -5,width - 20,5);

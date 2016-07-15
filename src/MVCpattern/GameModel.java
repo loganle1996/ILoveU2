@@ -26,6 +26,11 @@ import prepareKeyEvent.prepareKeyEvent;
 import tile.Tile;
 import tile.TileCache;
 import tile.GameMap;
+<<<<<<< Updated upstream
+=======
+
+import java.util.LinkedList;
+>>>>>>> Stashed changes
 
 /**
  *
@@ -40,9 +45,22 @@ public class GameModel extends Application{
     private Stage mainStage;
     public static SpriteSheet sheet;
     public static Sprite playerSprite [] = new Sprite[6];
+<<<<<<< Updated upstream
     public static GameMap tiledMap = new GameMap();
     public LinkedList<Entity> entity = new LinkedList<Entity>();;
     public LinkedList<Tile> tile = new LinkedList<Tile>();;
+=======
+<<<<<<< HEAD
+    public static TiledMap tiledMap = new TiledMap();
+    public LinkedList<Entity> entity = new LinkedList<Entity>();
+    public Player player;
+    public LinkedList<Tile> tile = new LinkedList<Tile>();
+=======
+    public static GameMap tiledMap = new GameMap();
+    public LinkedList<Entity> entity = new LinkedList<Entity>();;
+    public LinkedList<Tile> tile = new LinkedList<Tile>();;
+>>>>>>> ai-enemy
+>>>>>>> Stashed changes
     public TileCache tileCache = new TileCache();
     
     public GameModel(){
@@ -157,6 +175,53 @@ public class GameModel extends Application{
          this.renderModelGame(gc);
     }
     public void prepareKeyEvent(Scene mainScene) {
+<<<<<<< Updated upstream
+=======
+<<<<<<< HEAD
+        mainScene.setOnKeyPressed(event -> {
+//                //currentlyActiveKeys.add(event.getCode().toString());
+////                for(Entity en: getEntity()){
+//                    if(event.getCode() == KeyCode.SPACE){
+//                        if(en.jumping() == false){
+//                            en.setJumping(true);
+//                            en.setVelY(-20);
+//                            System.out.println("space pressed");
+//                        }
+//                    }
+//                    if(event.getCode() == KeyCode.A){
+//                          en.setIsMovingLeft(true);
+//                    }
+//                    if(event.getCode() == KeyCode.D){
+//                        en.setIsMovingRight(true);
+//                    }
+
+            switch (event.getCode()) {
+                case A: player.setMovingLeft(true); break;
+                case D: player.setMovingRight(true); break;
+                case SPACE: if (player.touchingGround) { System.out.println("Jumped"); player.jump(); break; }
+            }
+
+            });
+        mainScene.setOnKeyReleased(event -> {
+//                for(Entity en: getEntity()){
+//                    if(event.getCode() == KeyCode.SPACE){
+//
+//                        System.out.println("space realeased");
+//                    }
+//                    if(event.getCode() == KeyCode.A){
+//                        en.setIsMovingLeft(false);
+//                    }
+//                    if(event.getCode() == KeyCode.D){
+//                        en.setIsMovingRight(false);
+//                    }
+//                }
+
+            switch (event.getCode()) {
+                case A: player.setMovingLeft(false); break;
+                case D: player.setMovingRight(false); break;
+                case SPACE: break;
+=======
+>>>>>>> Stashed changes
         mainScene.setOnKeyPressed(new EventHandler<KeyEvent>()
         {
             @Override
@@ -182,6 +247,32 @@ public class GameModel extends Application{
                     }
                     
                 }
+<<<<<<< Updated upstream
+=======
+            }
+        });
+        mainScene.setOnKeyReleased(new EventHandler<KeyEvent>()
+        {
+            @Override
+            public void handle(KeyEvent event)
+            {
+                for(Entity en: getEntity()){   
+                    if(en.getId() == Id.player){
+                        if(event.getCode() == KeyCode.SPACE){
+                            en.setJumping(false);
+                            en.setFalling(true);
+                            System.out.println("space realeased");
+                        }
+                        if(event.getCode() == KeyCode.A){
+                            en.setIsMovingLeft(false);
+                        }
+                        if(event.getCode() == KeyCode.D){
+                            en.setIsMovingRight(false);
+                        }
+                    }
+                }
+>>>>>>> ai-enemy
+>>>>>>> Stashed changes
             }
         });
         mainScene.setOnKeyReleased(new EventHandler<KeyEvent>()
