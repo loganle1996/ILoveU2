@@ -8,6 +8,7 @@ package tile;
 
 import Entity.Id;
 import Entity.Player;
+import Goomba.AIenemy;
 import MVCpattern.GameModel;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -16,7 +17,7 @@ import javafx.scene.image.ImageView;
  *
  * @author apple
  */
-public class TiledMap 
+public class GameMap 
 {
     public int map[][];
     public ImageView image;
@@ -26,9 +27,10 @@ public class TiledMap
     public Tile clonedTile;
     public Tile clonedTile1,clonedTile2,clonedTile3;
     public Player player1;
+    public AIenemy enemy1;
     
     //contructor
-    public TiledMap(){
+    public GameMap(){
     }
     public void mapData()
     {
@@ -49,7 +51,7 @@ public class TiledMap
                 {0,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,0},
                 {0,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,0},
                 {0,1,1,1,1,1,1,1,1,1,1,1,1,9,9,1,1,1,1,0},
-                {0,1,10,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,0},
+                {0,1,10,1,1,1,11,1,1,1,1,1,1,1,1,1,1,1,1,0},
                 {0,2,2,2,2,2,2,2,2,2,2,1,1,1,1,1,2,2,2,0},
                 {0,2,2,2,2,2,2,2,2,2,2,6,6,6,6,6,2,2,2,0},
                 {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0}};
@@ -97,6 +99,9 @@ public class TiledMap
                     player1 = new Player((i% 20)*40,(i/20)*40, 40, 40, true, Id.player, gameModel);
                     gameModel.addEntity(player1);
                     break;
+                case 11:
+                    enemy1 = new AIenemy((i% 20)*40,(i/20)*40, 40, 40, true, Id.Goomba, gameModel);
+                    gameModel.addEntity(enemy1);
                 default:
                 
             }

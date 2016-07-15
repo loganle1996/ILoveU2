@@ -42,31 +42,7 @@ public class Player extends Entity {
     public void tick() {
         x+= velX;
         y += velY;
-        
-        System.out.println(velY);
-
-        
-        
-          if (this.isMovingLeft) {
-                this.setVelX(-5.0);
-                this.facing = 0;
-            } else if (this.isMovingRight) {
-                this.setVelX(5);
-                this.facing = 1;
-            } else {
-                this.setVelX(0);
-            }
-          
-          if (this.jumping) {
-              velY += this.getGravity() / 10;
-          }
-        
-        if(velX != 0){
-            this.animate = true;
-        }
-        else{
-            this.animate = false;
-        }
+        System.out.println("hp: "+this.getHp());
         if(x<=0){
             x = 0;
         }
@@ -79,8 +55,72 @@ public class Player extends Entity {
         if(y +height>= 800){
             y = 800 - height;
         }
+          if(hp == 0){
+              this.die();
+          }
+          if (this.isMovingLeft == true && this.isCollidingRight() == false) {
+                this.setVelX(-5.0);
+                this.facing = 0;
+            } 
+           else if (this.isMovingRight == true && this.isCollidingLeft() == false) {
+                this.setVelX(5);
+                this.facing = 1;
+            }
+            else if (this.isJumping() == true && this.isCollidingBottom() == false && this.isCollidingTop() == true && this.isFalling()== false) {
+                 //this.setY(this.getY() + 5);
+            }
+            else if(this.isFalling() == true && this.isCollidingTop() == false&& this.isJumping() == false){
+                setVelY(this.getVelY() - this.getGravity());
+            }
+            else {
+                this.setVelY(0);
+                this.setVelX(0);
+            }
+        
+        if(velX != 0){
+            this.animate = true;
+        }
+        else{
+            this.animate = false;
+        }
         //Check if the player collides with tiles
         tileCollidingChecking();
+        for(Entity e : gameModel.getEntity()){
+            if(e.getId() == Id.Goomba){
+                if(this.intersectsTopEntity(e)){
+                    //y = e.getY() - height;
+                    //y = e.getY() - height;
+                    this.setCollidingTop(true);
+                    this.setFalling(false);
+                    System.out.println("player collides top object");
+                }    
+                else if(this.intersectsBottomEntity(e)){                       
+                    //y = e.getY() + height;
+                   // y = e.getY() + height;
+                    this.setCollidingBottom(true);
+                    this.setJumping(false);
+                    System.out.println("player collides bottom object");
+                }
+                else if(this.intersectsRightEntity(e)){
+                   // x = e.getX()+e.width;
+                   this.setHp(this.getHp() - 10);
+                   this.setCollidingRight(true);
+                   System.out.println("player collides right object");
+                }
+                else if(this.intersectsLeftEntity(e)){
+                    //x = e.getX()-e.width;
+                    this.setHp(this.getHp() - 10);
+                    this.setCollidingLeft(true);
+                    System.out.println("player collides left object");
+                }
+                else{
+                    this.setCollidingTop(false);
+                    this.setCollidingBottom(false);
+                    this.setCollidingRight(false);
+                    this.setCollidingLeft(false);
+                }
+            }
+        }
         //check if the player collides with enemies
         if(animate == true){
             frameDelay++;
@@ -102,28 +142,29 @@ public class Player extends Entity {
             else{
                 if(t.getId() == Id.wall){
                     if(this.intersectsTopObject(t)){
-                        y = t.getY() - height;
-                        this.setVelY(10);
-                        this.setJumping(false);
+//                        y = t.getY() - height;
+//                        this.setVelY(10);
+//                        this.setJumping(false);
+                          this.setCollidingTop(true);
                     }    
                     if(this.intersectsBottomobject(t)){                       
-                        setVelY(0);
-                        y = t.getY() + height;
+//                        setVelY(0);
+//                        y = t.getY() + height;
+                          this.setCollidingBottom(true);
                     }
                     if(this.intersectsRightObject(t)){
-                        setVelX(0);
-                        x = t.getX()+t.width;
+//                        setVelX(0);
+//                        x = t.getX()+t.width;
+                          this.setCollidingRight(true);
                     }
                     if(this.intersectsLeftObject(t)){
-                        setVelX(0);
-                        x = t.getX()-t.width;                       
+//                        setVelX(0);
+//                        x = t.getX()-t.width; 
+                          this.setCollidingLeft(true);
+                          
                     }
                 }
-            }
-           
-            
-            
-          
+            }          
         }
     }
     public void enemyCollidingChecking(){

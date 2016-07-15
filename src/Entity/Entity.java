@@ -21,12 +21,14 @@ public abstract class Entity {
     public int width = 40 , height = 40;
     
     public boolean solid;
-    public final double gravity= 10;
-    public double velX,velY;
+    public double gravity= 10;
+    public double velX = 0,velY =0;
     public Id id;
-    GameModel gameModel;
-    public boolean isMovingLeft = false, isMovingRight = false, jumping = false;
+    public GameModel gameModel;
+    public boolean isMovingLeft = false, isMovingRight = false, jumping = false, falling = false;
     public int facing = 0; //0 is left; 1 is right
+    public double hp;
+    public boolean collidingLeft = false,collidingRight = false,collidingTop = false,collidingBottom =false ;
     //public boolean falling = true;
     
     public Entity(int x, int y, int width, int height, boolean solid,Id id,GameModel gameModel) {
@@ -38,6 +40,7 @@ public abstract class Entity {
         this.id = id;
         this.gameModel = gameModel;
         velY += gravity;
+        hp = 1000;
     }
 
     public abstract void render(GraphicsContext g);
@@ -49,7 +52,7 @@ public abstract class Entity {
         return x;
     }
 
-    public void setX(int x) {
+    public void setX(double x) {
         this.x = x;
     }
 
@@ -57,7 +60,7 @@ public abstract class Entity {
         return y;
     }
 
-    public void setY(int y) {
+    public void setY(double y) {
         this.y = y;
     }
 
@@ -103,7 +106,19 @@ public abstract class Entity {
     public Rectangle2D getBoundary(){
         return new Rectangle2D(getX(), getY(), width, height);
     }
-    //is intersected ?
+    public Rectangle2D getTopBoundary(){
+        return new Rectangle2D(getX(),getY(),width -20,5);
+    }
+    public Rectangle2D getBottomBoundary(){
+        return new Rectangle2D(getX(),getY()+ height -5,width - 20,5);
+    }
+    public Rectangle2D getLeftBoundary(){
+        return new Rectangle2D(getX(), getY() + 10,5,height -20);
+    }
+    public Rectangle2D getRightBoundary(){
+        return new Rectangle2D(getX() + width - 5, getY() + 10,5,height -20);
+    }
+    //is intersected tile ?
     public boolean intersectsEntity(Entity en){
         return en.getBoundary().intersects(this.getBoundary());
     }
@@ -121,6 +136,19 @@ public abstract class Entity {
     }
     public boolean intersectsBottomobject(Tile ti){
         return ti.getBottomBoundary().intersects(this.getBoundary());
+    }
+    //is intersected entity?
+    public boolean intersectsTopEntity(Entity en){
+        return en.getTopBoundary().intersects(this.getBoundary());
+    }
+    public boolean intersectsLeftEntity(Entity en){
+        return en.getLeftBoundary().intersects(this.getBoundary());
+    }
+    public boolean intersectsRightEntity(Entity en){
+        return en.getRightBoundary().intersects(this.getBoundary());
+    }
+    public boolean intersectsBottomEntity(Entity en){
+        return en.getBottomBoundary().intersects(this.getBoundary());
     }
 
     public boolean isIsMovingLeft() {
@@ -157,4 +185,66 @@ public abstract class Entity {
     public void die(){
         gameModel.removeEntity(this);
     }
+
+    public double getHp() {
+        return hp;
+    }
+
+    public void setHp(double hp) {
+        this.hp = hp;
+    }
+
+    public int getFacing() {
+        return facing;
+    }
+
+    public void setFacing(int facing) {
+        this.facing = facing;
+    }
+
+    public boolean isCollidingLeft() {
+        return collidingLeft;
+    }
+
+    public void setCollidingLeft(boolean collidingLeft) {
+        this.collidingLeft = collidingLeft;
+    }
+
+    public boolean isCollidingRight() {
+        return collidingRight;
+    }
+
+    public void setCollidingRight(boolean collidingRight) {
+        this.collidingRight = collidingRight;
+    }
+
+    public boolean isCollidingTop() {
+        return collidingTop;
+    }
+
+    public void setCollidingTop(boolean collidingTop) {
+        this.collidingTop = collidingTop;
+    }
+
+    public boolean isCollidingBottom() {
+        return collidingBottom;
+    }
+
+    public void setCollidingBottom(boolean collidingBottom) {
+        this.collidingBottom = collidingBottom;
+    }
+
+    public void setGravity(double gravity) {
+        this.gravity = gravity;
+    }
+
+    public boolean isFalling() {
+        return falling;
+    }
+
+    public void setFalling(boolean falling) {
+        this.falling = falling;
+    }
+    
+    
 }

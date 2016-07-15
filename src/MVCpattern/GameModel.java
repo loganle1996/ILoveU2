@@ -6,6 +6,7 @@
 package MVCpattern;
 
 import Entity.Entity;
+import Entity.Id;
 import Entity.Player;
 import Graphics.Sprite;
 import Graphics.SpriteSheet;
@@ -24,7 +25,7 @@ import javafx.stage.Stage;
 import prepareKeyEvent.prepareKeyEvent;
 import tile.Tile;
 import tile.TileCache;
-import tile.TiledMap;
+import tile.GameMap;
 
 /**
  *
@@ -39,7 +40,7 @@ public class GameModel extends Application{
     private Stage mainStage;
     public static SpriteSheet sheet;
     public static Sprite playerSprite [] = new Sprite[6];
-    public static TiledMap tiledMap = new TiledMap();
+    public static GameMap tiledMap = new GameMap();
     public LinkedList<Entity> entity = new LinkedList<Entity>();;
     public LinkedList<Tile> tile = new LinkedList<Tile>();;
     public TileCache tileCache = new TileCache();
@@ -162,20 +163,24 @@ public class GameModel extends Application{
             public void handle(KeyEvent event)
             {
                 //currentlyActiveKeys.add(event.getCode().toString());
-                for(Entity en: getEntity()){   
-                    if(event.getCode() == KeyCode.SPACE){
-                        if(en.isJumping() == false){
-                            en.setJumping(true);
-                            en.setVelY(-15);
-                            System.out.println("space pressed");
+                for(Entity en: getEntity()){
+                    if(en.getId() == Id.player){
+                        if(event.getCode() == KeyCode.SPACE){
+                            if(en.isJumping() == false){
+                                en.setJumping(true);
+                                en.setFalling(false);
+//                                en.setVelY(-15);
+                                System.out.println("space pressed");
+                            }
+                        }
+                        if(event.getCode() == KeyCode.A){
+                              en.setIsMovingLeft(true);
+                        }
+                        if(event.getCode() == KeyCode.D){
+                            en.setIsMovingRight(true);
                         }
                     }
-                    if(event.getCode() == KeyCode.A){
-                          en.setIsMovingLeft(true);
-                    }
-                    if(event.getCode() == KeyCode.D){
-                        en.setIsMovingRight(true);
-                    }
+                    
                 }
             }
         });
@@ -185,15 +190,18 @@ public class GameModel extends Application{
             public void handle(KeyEvent event)
             {
                 for(Entity en: getEntity()){   
-                    if(event.getCode() == KeyCode.SPACE){
-                       
-                        System.out.println("space realeased");
-                    }
-                    if(event.getCode() == KeyCode.A){
-                        en.setIsMovingLeft(false);
-                    }
-                    if(event.getCode() == KeyCode.D){
-                        en.setIsMovingRight(false);
+                    if(en.getId() == Id.player){
+                        if(event.getCode() == KeyCode.SPACE){
+                            en.setJumping(false);
+                            en.setFalling(true);
+                            System.out.println("space realeased");
+                        }
+                        if(event.getCode() == KeyCode.A){
+                            en.setIsMovingLeft(false);
+                        }
+                        if(event.getCode() == KeyCode.D){
+                            en.setIsMovingRight(false);
+                        }
                     }
                 }
             }
