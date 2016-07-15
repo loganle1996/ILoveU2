@@ -27,6 +27,8 @@ public abstract class Entity {
     GameModel gameModel;
     public boolean isMovingLeft = false, isMovingRight = false, jumping = false;
     public int facing = 0; //0 is left; 1 is right
+    public double hp = 1000;
+    public boolean isCollidingLeft = false, isCollidingRight = false,collidingTop = false, collidingBottom = false;
     //public boolean falling = true;
     
     public Entity(int x, int y, int width, int height, boolean solid,Id id,GameModel gameModel) {
@@ -103,10 +105,19 @@ public abstract class Entity {
     public Rectangle2D getBoundary(){
         return new Rectangle2D(getX(), getY(), width, height);
     }
-    //is intersected ?
-    public boolean intersectsEntity(Entity en){
-        return en.getBoundary().intersects(this.getBoundary());
+    public Rectangle2D getTopBoundary(){
+        return new Rectangle2D(getX() + 10,getY(),width-20,5);
     }
+    public Rectangle2D getBottomBoundary(){
+        return new Rectangle2D(getX() + 10,getY()+ height - 5,width-20,5);
+    }
+    public Rectangle2D getLeftBoundary(){
+        return new Rectangle2D(getX(), getY()+ 10,5,height-20);
+    }
+    public Rectangle2D getRightBoundary(){
+        return new Rectangle2D(getX() + width - 5, getY() + 10,5, height - 20);
+    }
+    //is intersected ?
     public boolean intersectsObject(Tile ti){
         return ti.getBoundary().intersects(this.getBoundary());
     }
@@ -121,6 +132,22 @@ public abstract class Entity {
     }
     public boolean intersectsBottomobject(Tile ti){
         return ti.getBottomBoundary().intersects(this.getBoundary());
+    }
+    // is intersected Entity
+    public boolean intersectsEntity(Entity en){
+        return en.getBoundary().intersects(this.getBoundary());
+    }
+    public boolean intersectsTopEntity(Entity en){
+        return en.getTopBoundary().intersects(this.getBoundary());
+    }
+    public boolean intersectsLeftEntity(Entity en){
+        return en.getLeftBoundary().intersects(this.getBoundary());
+    }
+    public boolean intersectsRightEntity(Entity en){
+        return en.getRightBoundary().intersects(this.getBoundary());
+    }
+    public boolean intersectsBottomEntity(Entity en){
+        return en.getBottomBoundary().intersects(this.getBoundary());
     }
 
     public boolean isIsMovingLeft() {
@@ -157,4 +184,53 @@ public abstract class Entity {
     public void die(){
         gameModel.removeEntity(this);
     }
+
+    public double getHp() {
+        return hp;
+    }
+
+    public void setHp(double hp) {
+        this.hp = hp;
+    }
+
+    public boolean isIsCollidingLeft() {
+        return isCollidingLeft;
+    }
+
+    public void setIsCollidingLeft(boolean isCollidingLeft) {
+        this.isCollidingLeft = isCollidingLeft;
+    }
+
+    public boolean isIsCollidingRight() {
+        return isCollidingRight;
+    }
+
+    public void setIsCollidingRight(boolean isCollidingRight) {
+        this.isCollidingRight = isCollidingRight;
+    }
+
+    public boolean isCollidingTop() {
+        return collidingTop;
+    }
+
+    public void setCollidingTop(boolean collidingTop) {
+        this.collidingTop = collidingTop;
+    }
+
+    public boolean isCollidingBottom() {
+        return collidingBottom;
+    }
+
+    public void setCollidingBottom(boolean collidingBottom) {
+        this.collidingBottom = collidingBottom;
+    }
+
+    public int getFacing() {
+        return facing;
+    }
+
+    public void setFacing(int facing) {
+        this.facing = facing;
+    }
+    
 }

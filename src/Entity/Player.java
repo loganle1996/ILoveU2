@@ -8,6 +8,9 @@ package Entity;
 import Graphics.Sprite;
 import MVCpattern.GameModel;
 import MVCpattern.GameView;
+import java.util.concurrent.TimeUnit;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javafx.scene.canvas.GraphicsContext;
 import tile.Tile;
 //import jdk.internal.org.objectweb.asm.Handle;
@@ -42,31 +45,7 @@ public class Player extends Entity {
     public void tick() {
         x+= velX;
         y += velY;
-        
-        System.out.println(velY);
-
-        
-        
-          if (this.isMovingLeft) {
-                this.setVelX(-5.0);
-                this.facing = 0;
-            } else if (this.isMovingRight) {
-                this.setVelX(5);
-                this.facing = 1;
-            } else {
-                this.setVelX(0);
-            }
-          
-          if (this.jumping) {
-              velY += this.getGravity() / 10;
-          }
-        
-        if(velX != 0){
-            this.animate = true;
-        }
-        else{
-            this.animate = false;
-        }
+        System.out.println("HP: "+ hp);
         if(x<=0){
             x = 0;
         }
@@ -79,9 +58,63 @@ public class Player extends Entity {
         if(y +height>= 800){
             y = 800 - height;
         }
+        if(this.getHp() <= 0){
+            this.die();
+        }
+        if (this.jumping) {
+              velY += this.getGravity() / 10;
+              System.out.println("Count: ");
+        }
+        if(this.isMovingLeft == true){
+            this.setVelX(-5.0);
+            this.facing = 0;
+        }
+        else if(this.isMovingRight){
+            this.setVelX(5);
+            this.facing = 1;
+        }
+        else {
+            this.setVelX(0);
+        }
+//        if ( isCollidingRight == true) {
+//                this.facing = 0;
+//                this.setVelX(7);   
+//            }
+//        else if (isCollidingLeft == true) {
+//                this.facing = 1;
+//                this.setVelX(-7);   
+//        } 
+//        else if(this.isCollidingTop() == true){
+//            if(this.facing == 0){
+//                this.setVelX(7);
+////                this.setVelY(0);
+//            }
+//            else if(this.facing == 1){
+//                this.setVelX(-7);
+////                this.setVelY(0);
+//            }
+//        }
+//        else if(this.isCollidingBottom()== true){
+//            if(this.facing == 0){
+//                this.setVelX(20);
+//                //this.setVelY(15);
+//            }
+//            else if(this.facing == 1){
+//                this.setVelX(-20);
+//                //this.setVelY(15);
+//            }
+//        }
+        
+        if(velX != 0){
+            this.animate = true;
+        }
+        else{
+            this.animate = false;
+        }
+        //check if the player collides with enemies
+        enemyCollidingChecking();
         //Check if the player collides with tiles
         tileCollidingChecking();
-        //check if the player collides with enemies
         if(animate == true){
             frameDelay++;
             if(frameDelay >=3){
@@ -119,14 +152,46 @@ public class Player extends Entity {
                         x = t.getX()-t.width;                       
                     }
                 }
-            }
-           
-            
-            
-          
+            }     
         }
     }
     public void enemyCollidingChecking(){
-        
+        for(Entity en : gameModel.getEntity()){
+            if(en.getId() == Id.Goomba){
+                    if(this.intersectsTopEntity(en)){
+                        y = en.getY() - height;
+                        this.setVelY(10);
+                        this.setJumping(false);
+//                        this.setCollidingTop(true);
+                        this.setHp(this.getHp() - 10);
+                    }    
+                    else if(this.intersectsBottomEntity(en)){                       
+                        setVelY(0);
+//                        this.setCollidingBottom(true);
+                        y = en.getY() + height;
+                       this.setHp(this.getHp() - 10);
+                    }
+                    else if(this.intersectsRightEntity(en)){
+//                        this.setIsCollidingRight(true);
+//                        this.setIsMovingLeft(false);
+                        setVelX(0);
+                        x = en.getX()+en.width;
+                        this.setHp(this.getHp() - 10); 
+                    }
+                    else if(this.intersectsLeftEntity(en)){
+//                        this.setIsCollidingLeft(true);
+//                        this.setIsMovingRight(false);
+                        setVelX(0);
+                        x = en.getX()-en.width;   
+                        this.setHp(this.getHp() - 10);
+                    }
+//                    else{
+//                        this.setIsCollidingLeft(false);
+//                        this.setIsCollidingRight(false);
+//                        this.setCollidingTop(false);
+//                        this.setCollidingBottom(false);
+//                    }
+            }
+        }
     }
 }
