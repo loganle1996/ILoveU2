@@ -5,6 +5,7 @@ dist/
 nbdist/
 nbactions.xml
 .nb-gradle/
+nbproject/
 
 .idea/workspace.xml
 .idea/tasks.xml
