@@ -19,36 +19,16 @@ import tile.Tile;
 public abstract class Entity {
     public double x, y;
     public int width = 40 , height = 40;
-<<<<<<< Updated upstream
     
     public boolean solid;
-    public double gravity= 10;
-    public double velX = 0,velY =0;
+    public final double gravity= 10;
+    public double velX,velY;
     public Id id;
-=======
-<<<<<<< HEAD
-    public Id id;
-    double velX,velY;
     GameModel gameModel;
-    int facing = 0; //0 is left; 1 is right
-    private boolean solid;
-    private boolean movingLeft, movingRight, jumping, falling = false;
-=======
-    
-    public boolean solid;
-    public double gravity= 10;
-    public double velX = 0,velY =0;
-    public Id id;
->>>>>>> Stashed changes
-    public GameModel gameModel;
-    public boolean isMovingLeft = false, isMovingRight = false, jumping = false, falling = false;
+    public boolean isMovingLeft = false, isMovingRight = false, jumping = false;
     public int facing = 0; //0 is left; 1 is right
-    public double hp;
-    public boolean collidingLeft = false,collidingRight = false,collidingTop = false,collidingBottom =false ;
-<<<<<<< Updated upstream
-=======
->>>>>>> ai-enemy
->>>>>>> Stashed changes
+    public double hp = 1000;
+    public boolean isCollidingLeft = false, isCollidingRight = false,collidingTop = false, collidingBottom = false;
     //public boolean falling = true;
     
     public Entity(int x, int y, int width, int height, boolean solid,Id id,GameModel gameModel) {
@@ -60,18 +40,6 @@ public abstract class Entity {
         this.id = id;
         this.gameModel = gameModel;
         velY += gravity;
-        hp = 1000;
-<<<<<<< Updated upstream
-=======
-    }
-
-    public boolean isFalling() {
-        return falling;
-    }
-
-    public void setFalling(boolean falling) {
-        this.falling = falling;
->>>>>>> Stashed changes
     }
 
     public abstract void render(GraphicsContext g);
@@ -83,7 +51,7 @@ public abstract class Entity {
         return x;
     }
 
-    public void setX(double x) {
+    public void setX(int x) {
         this.x = x;
     }
 
@@ -91,7 +59,7 @@ public abstract class Entity {
         return y;
     }
 
-    public void setY(double y) {
+    public void setY(int y) {
         this.y = y;
     }
 
@@ -138,21 +106,18 @@ public abstract class Entity {
         return new Rectangle2D(getX(), getY(), width, height);
     }
     public Rectangle2D getTopBoundary(){
-        return new Rectangle2D(getX(),getY(),width -20,5);
+        return new Rectangle2D(getX() + 10,getY(),width-20,5);
     }
     public Rectangle2D getBottomBoundary(){
-        return new Rectangle2D(getX(),getY()+ height -5,width - 20,5);
+        return new Rectangle2D(getX() + 10,getY()+ height - 5,width-20,5);
     }
     public Rectangle2D getLeftBoundary(){
-        return new Rectangle2D(getX(), getY() + 10,5,height -20);
+        return new Rectangle2D(getX(), getY()+ 10,5,height-20);
     }
     public Rectangle2D getRightBoundary(){
-        return new Rectangle2D(getX() + width - 5, getY() + 10,5,height -20);
+        return new Rectangle2D(getX() + width - 5, getY() + 10,5, height - 20);
     }
-    //is intersected tile ?
-    public boolean intersectsEntity(Entity en){
-        return en.getBoundary().intersects(this.getBoundary());
-    }
+    //is intersected ?
     public boolean intersectsObject(Tile ti){
         return ti.getBoundary().intersects(this.getBoundary());
     }
@@ -168,7 +133,10 @@ public abstract class Entity {
     public boolean intersectsBottomobject(Tile ti){
         return ti.getBottomBoundary().intersects(this.getBoundary());
     }
-    //is intersected entity?
+    // is intersected Entity
+    public boolean intersectsEntity(Entity en){
+        return en.getBoundary().intersects(this.getBoundary());
+    }
     public boolean intersectsTopEntity(Entity en){
         return en.getTopBoundary().intersects(this.getBoundary());
     }
@@ -181,7 +149,6 @@ public abstract class Entity {
     public boolean intersectsBottomEntity(Entity en){
         return en.getBottomBoundary().intersects(this.getBoundary());
     }
-<<<<<<< Updated upstream
 
     public boolean isIsMovingLeft() {
         return isMovingLeft;
@@ -198,8 +165,6 @@ public abstract class Entity {
     public void setIsMovingRight(boolean isMovingRight) {
         this.isMovingRight = isMovingRight;
     }
-=======
->>>>>>> Stashed changes
 
     public int getWidth() {
         return width;
@@ -228,28 +193,20 @@ public abstract class Entity {
         this.hp = hp;
     }
 
-    public int getFacing() {
-        return facing;
+    public boolean isIsCollidingLeft() {
+        return isCollidingLeft;
     }
 
-    public void setFacing(int facing) {
-        this.facing = facing;
+    public void setIsCollidingLeft(boolean isCollidingLeft) {
+        this.isCollidingLeft = isCollidingLeft;
     }
 
-    public boolean isCollidingLeft() {
-        return collidingLeft;
+    public boolean isIsCollidingRight() {
+        return isCollidingRight;
     }
 
-    public void setCollidingLeft(boolean collidingLeft) {
-        this.collidingLeft = collidingLeft;
-    }
-
-    public boolean isCollidingRight() {
-        return collidingRight;
-    }
-
-    public void setCollidingRight(boolean collidingRight) {
-        this.collidingRight = collidingRight;
+    public void setIsCollidingRight(boolean isCollidingRight) {
+        this.isCollidingRight = isCollidingRight;
     }
 
     public boolean isCollidingTop() {
@@ -268,17 +225,12 @@ public abstract class Entity {
         this.collidingBottom = collidingBottom;
     }
 
-    public void setGravity(double gravity) {
-        this.gravity = gravity;
+    public int getFacing() {
+        return facing;
     }
 
-    public boolean isFalling() {
-        return falling;
+    public void setFacing(int facing) {
+        this.facing = facing;
     }
-
-    public void setFalling(boolean falling) {
-        this.falling = falling;
-    }
-    
     
 }
