@@ -37,6 +37,12 @@ public class GameModel extends Application{
     static int HEIGHT = 800;
     static Image image1,image2,image3,playerImage;
     private Stage mainStage;
+
+    // Test frame rate
+    final long[] frameTimes = new long[100];
+    private int frameTimeIndex = 0;
+    private boolean arrayFilled = false;
+
     public static SpriteSheet sheet;
     public static Sprite playerSprite [] = new Sprite[6];
     public static TiledMap tiledMap = new TiledMap();
@@ -122,13 +128,43 @@ public class GameModel extends Application{
         loadGraphics();
         // main scene listens for keyevent
         prepareKeyEvent(mainScene);
+        final long startNanotime = System.nanoTime();
+
+
         new AnimationTimer()
         {
             @Override
             public void handle(long currentNanoTime)
             {
 
+                // Record the last frame time
+                long oldFrameTime = frameTimes[frameTimeIndex];
+
+                // Set the current frame time
+                frameTimes[frameTimeIndex] = currentNanoTime;
+
+                // Get a rounded frame time index
+                frameTimeIndex = (frameTimeIndex + 1) % frameTimes.length;
+
+                // If it comes back to 0, that is, the array is filled
+                if (frameTimeIndex == 0) {
+                    arrayFilled = true;
+                }
+
+                if (arrayFilled) {
+                    long elapsedNanos = currentNanoTime - oldFrameTime;
+                    long elapsedNanosPerFrame = elapsedNanos / frameTimes.length;
+
+                    // FPS = frames per second = frame/second ==> 1 / second / frame ==> 1,000,000 nanoseconds / frame
+                    double frameRate = 1000000000.0 / elapsedNanosPerFrame ;
+                    System.out.println("Current frame rate: " + frameRate);
+
+//                    System.out.println("Current frame index: " + frameTimeIndex);
+                }
+
+//                System.out.println((currentNanoTime - startNanotime) / 1000000000.0);
                 tickAndRenderModel();
+
             }
         }.start();
         primaryStage.show();
