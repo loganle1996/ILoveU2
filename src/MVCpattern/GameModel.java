@@ -11,6 +11,7 @@ import Entity.Id;
 import Entity.Player;
 import Graphics.Sprite;
 import Graphics.SpriteSheet;
+import java.util.ArrayList;
 import java.util.LinkedList;
 import javafx.animation.AnimationTimer;
 import javafx.application.Application;
@@ -48,6 +49,7 @@ public class GameModel extends Application{
     public LinkedList<Entity> aiEntity = new LinkedList<Entity>();
     public LinkedList<Bullet> bullets = new LinkedList<Bullet>();
     public TileCache tileCache = new TileCache();
+    public LinkedList<Bullet> copiedBullets;
     
     public GameModel(){
     }
@@ -114,7 +116,8 @@ public class GameModel extends Application{
         for(Entity en: aiEntity){
             en.tick();
         }
-        for(Bullet bullet : bullets){
+        copiedBullets = new LinkedList<Bullet>(bullets);
+        for(Bullet bullet : copiedBullets){
             bullet.tick();
         }
     }
@@ -141,7 +144,8 @@ public class GameModel extends Application{
         }
     }
     public void renderBulletOfPlayer(Image imageleft,Image imageRight){
-        for(Bullet bullet: bullets){
+        copiedBullets = new LinkedList<Bullet>(bullets);
+        for(Bullet bullet: copiedBullets){
             for(Entity en : entity){
                 if(en.getId()== Id.player){
                     bullet.renderBullet(gc, en,imageleft,imageRight);

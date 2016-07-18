@@ -50,6 +50,7 @@ public class FireBall extends Bullet{
             else{
                 if(t.getId() == Id.wall){
                     if(this.intersectsObject(t)){
+                        //gameModel.copiedBullets.add(this);
                         this.disappear();
                     }    
                 }
