@@ -5,6 +5,7 @@ dist/
 nbdist/
 nbactions.xml
 .nb-gradle/
+nbproject/
 
 .idea/workspace.xml
 .idea/tasks.xml
@@ -46,7 +47,6 @@ com_crashlytics_export_strings.xml
 crashlytics.properties
 crashlytics-build.properties
 fabric.properties
-*.xml
 
 *.properties
 
