@@ -46,6 +46,8 @@ public abstract class Entity {
         
     public abstract void tick();
 
+    public abstract void shootFireBall(GraphicsContext gc);
+    
 
     public double getX() {
         return x;
@@ -101,7 +103,6 @@ public abstract class Entity {
     public double getGravity() {
         return gravity;
     }
-//    }
     public Rectangle2D getBoundary(){
         return new Rectangle2D(getX(), getY(), width, height);
     }

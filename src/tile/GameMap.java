@@ -6,6 +6,7 @@
 package tile;
 
 
+import Bullet.FireBall;
 import Entity.AIenemy;
 import Entity.Id;
 import Entity.Player;
@@ -53,7 +54,7 @@ public class GameMap
                 {0,1,1,1,1,1,1,1,1,1,1,1,1,9,9,1,1,1,1,0},
                 {0,1,10,1,1,1,1,1,11,1,1,1,1,1,1,1,1,1,1,0},
                 {0,2,2,2,2,2,2,2,2,2,2,1,1,1,1,1,2,2,2,0},
-                {0,2,2,2,2,2,2,2,2,2,2,6,6,6,6,6,2,2,2,0},
+                {0,2,2,2,2,2,2,2,2,2,2,6,6,6,11,6,2,2,2,0},
                 {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0}};
     }
     
@@ -101,7 +102,7 @@ public class GameMap
                     break;
                 case 11:
                     aienemy = new AIenemy((i%20) * 40, (i/20) * 40, 40, 40, true, Id.Goomba, gameModel);
-                    gameModel.addEntity(aienemy);
+                    gameModel.addAiEntity(aienemy);
                 default:
                 
             }

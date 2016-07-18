@@ -5,9 +5,13 @@
  */
 package Entity;
 
+import Bullet.Bullet;
+import Bullet.FireBall;
+import Bullet.bulletType;
 import Graphics.Sprite;
 import MVCpattern.GameModel;
 import MVCpattern.GameView;
+import State.PlayerState;
 import java.util.concurrent.TimeUnit;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -20,11 +24,21 @@ import tile.Tile;
  * @author owne
  */
 public class Player extends Entity {
+    private PlayerState state;
     private int frame = 0;
     private int frameDelay = 0;
     private boolean animate = false;
     public Player(int x, int y, int width, int height, boolean solid,Id id,GameModel gameModel) {
         super(x, y, width, height, solid,id,gameModel);
+        this.state = PlayerState.big;
+    }
+
+    public PlayerState getState() {
+        return state;
+    }
+
+    public void setState(PlayerState state) {
+        this.state = state;
     }
 
     @Override
@@ -35,6 +49,32 @@ public class Player extends Entity {
          else if(this.facing == 1){
              g.drawImage(GameModel.playerSprite[frame].getImage(), x, y, width, height);
          }
+    }
+    @Override
+    public void shootFireBall(GraphicsContext gc) {
+        if(facing == 0){
+            gameModel.bullets.add(new FireBall(this.getX(), this.getY() + 5, gameModel,true));
+            System.out.println("Added fireball to linkedlist");
+        }
+        else if(facing == 1){
+            gameModel.bullets.add(new FireBall(this.getX() + this.getWidth(), this.getY() + 5, gameModel,false));
+            System.out.println("Added fireball to linkedlist");
+        }
+        
+        for(Bullet bullet : gameModel.bullets){
+            System.out.println("111111111");
+            if(bullet.getId() == bulletType.fireBall){
+                System.out.println("222222222222");
+                if(bullet.isFlyingLeft() == true){
+                    bullet.setVelX(-6);
+                    System.out.println("Set bullet VelX");
+                }
+                else if(bullet.isFlyingLeft() == false){
+                    bullet.setVelX(6);
+                    System.out.println("Set bullet VelX");
+                }
+            }
+        }
     }
     
     public void jump() {
@@ -61,6 +101,18 @@ public class Player extends Entity {
         if(this.getHp() <= 0){
             this.die();
         }
+        if(this.getHp() <= 1000){
+            this.setState(PlayerState.big);
+        }
+        else if(this.getHp() < 700){
+            this.setState(PlayerState.medium);
+        }
+        else if(this.getHp() < 400){
+            this.setState(PlayerState.small);
+        }
+        else if (this.getHp()<= 0){
+            this.die();
+        }
         if (this.jumping) {
               velY += this.getGravity() / 10;
               System.out.println("Count: ");
@@ -76,34 +128,6 @@ public class Player extends Entity {
         else {
             this.setVelX(0);
         }
-//        if ( isCollidingRight == true) {
-//                this.facing = 0;
-//                this.setVelX(7);   
-//            }
-//        else if (isCollidingLeft == true) {
-//                this.facing = 1;
-//                this.setVelX(-7);   
-//        } 
-//        else if(this.isCollidingTop() == true){
-//            if(this.facing == 0){
-//                this.setVelX(7);
-////                this.setVelY(0);
-//            }
-//            else if(this.facing == 1){
-//                this.setVelX(-7);
-////                this.setVelY(0);
-//            }
-//        }
-//        else if(this.isCollidingBottom()== true){
-//            if(this.facing == 0){
-//                this.setVelX(20);
-//                //this.setVelY(15);
-//            }
-//            else if(this.facing == 1){
-//                this.setVelX(-20);
-//                //this.setVelY(15);
-//            }
-//        }
         
         if(velX != 0){
             this.animate = true;
@@ -156,7 +180,7 @@ public class Player extends Entity {
         }
     }
     public void enemyCollidingChecking(){
-        for(Entity en : gameModel.getEntity()){
+        for(Entity en : gameModel.getAiEntity()){
             if(en.getId() == Id.Goomba){
                     if(this.intersectsTopEntity(en)){
                         y = en.getY() - height;

@@ -26,6 +26,10 @@ public class AIenemy extends Entity {
         g.setFill(Color.BLUE);
         g.fillRect(this.getX(), this.getY(), width, height);
     }
+    @Override
+    public void shootFireBall(GraphicsContext gc) {
+        
+    }
 
     @Override
     public void tick() {
@@ -64,13 +68,11 @@ public void tileCollidingChecking(){
                         y = t.getY() + height;
                     }
                     if(this.intersectsRightObject(t)){
-                        //x = t.getX()+t.width;
                         this.setIsMovingRight(true);
                         this.setIsMovingLeft(false);
                         System.out.println("intersected right object");
                     }
                     if(this.intersectsLeftObject(t)){
-                        //x = t.getX()-t.width;
                         this.setIsMovingLeft(true);
                         this.setIsMovingRight(false);
                         System.out.println(" intersected left object");
@@ -94,27 +96,20 @@ public void tileCollidingChecking(){
                        this.setHp(this.getHp() - 10);
                     }
                     else if(this.intersectsRightEntity(en)){
-//                        this.setIsCollidingRight(true);
-//                        this.setIsMovingLeft(false);
                         System.out.println("X: "+this.getVelX());
-//                        x = en.getX()+en.width;
                         this.setIsMovingLeft(false);
                         this.setHp(this.getHp() - 10); 
                     }
                     else if(this.intersectsLeftEntity(en)){
-//                        this.setIsCollidingLeft(true);
-//                        this.setIsMovingRight(false);
                         this.setIsMovingRight(false);
                         System.out.println("X: "+this.getVelX());
-//                        x = en.getX()-en.width;   
                         this.setHp(this.getHp() - 10);
                     }
-//                    else{
-//                      this.setIsMovingRight(true);
-//                    }
             }
         }
     }
+
+
     
 }
 

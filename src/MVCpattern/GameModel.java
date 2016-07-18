@@ -5,6 +5,7 @@
  */
 package MVCpattern;
 
+import Bullet.Bullet;
 import Entity.Entity;
 import Entity.Id;
 import Entity.Player;
@@ -41,29 +42,52 @@ public class GameModel extends Application{
     public static SpriteSheet sheet;
     public static Sprite playerSprite [] = new Sprite[6];
     public static GameMap tiledMap = new GameMap();
+    public Image imageLeft,imageRight;
     public LinkedList<Entity> entity = new LinkedList<Entity>();;
     public LinkedList<Tile> tile = new LinkedList<Tile>();;
+    public LinkedList<Entity> aiEntity = new LinkedList<Entity>();
+    public LinkedList<Bullet> bullets = new LinkedList<Bullet>();
     public TileCache tileCache = new TileCache();
     
     public GameModel(){
     }
-    
+    //add objects to Linkedlist
     public void addEntity(Entity en){
         entity.add(en);
     }
     public void removeEntity(Entity en){
         entity.remove(en);
     }
+    public void addAiEntity(Entity en){
+        aiEntity.add(en);
+    }
+    public void removeAiEntity(Entity en ){
+        aiEntity.remove(en);
+    }
     public void addTile(Tile ti){
         tile.add(ti);
     }
-
+    public void addBullets(Bullet bullet){
+        bullets.add(bullet);
+    }
+    public void removeBullets(Bullet bullet){
+        bullets.remove(bullet);
+    }
+    //Accessors and mutators
     public LinkedList<Entity> getEntity() {
         return entity;
     }
 
     public void setEntity(LinkedList<Entity> entity) {
         this.entity = entity;
+    }
+
+    public LinkedList<Entity> getAiEntity() {
+        return aiEntity;
+    }
+
+    public void setAiEntity(LinkedList<Entity> aiEntity) {
+        this.aiEntity = aiEntity;
     }
 
     public LinkedList<Tile> getTile() {
@@ -87,6 +111,12 @@ public class GameModel extends Application{
         for(Tile ti: tile){
             ti.tick();
         }
+        for(Entity en: aiEntity){
+            en.tick();
+        }
+        for(Bullet bullet : bullets){
+            bullet.tick();
+        }
     }
     
     public void renderTile(GraphicsContext g){
@@ -105,6 +135,18 @@ public class GameModel extends Application{
         }
         for(Tile ti: tile){
             ti.render(g);
+        }
+        for(Entity en: aiEntity){
+            en.render(g);
+        }
+    }
+    public void renderBulletOfPlayer(Image imageleft,Image imageRight){
+        for(Bullet bullet: bullets){
+            for(Entity en : entity){
+                if(en.getId()== Id.player){
+                    bullet.renderBullet(gc, en,imageleft,imageRight);
+                }
+            }
         }
     }
     @Override
@@ -139,6 +181,8 @@ public class GameModel extends Application{
     }
     private void loadGraphics()
     {
+            imageLeft = new Image("fireBall.jpeg");
+            imageRight = new Image("fireball.jpeg");
             tiledMap.mapData();
             tileCache.loadCache(this);
             sheet = new SpriteSheet("gameSheet5.png");
@@ -155,6 +199,7 @@ public class GameModel extends Application{
          gc.clearRect(0, 0, WIDTH, HEIGHT);
          this.TickModelGame();
          this.renderModelGame(gc);
+         this.renderBulletOfPlayer(imageLeft, imageRight);
     }
     public void prepareKeyEvent(Scene mainScene) {
         mainScene.setOnKeyPressed(new EventHandler<KeyEvent>()
@@ -171,6 +216,10 @@ public class GameModel extends Application{
                                 en.setVelY(-15);
                                 System.out.println("space pressed");
                             }
+                        }
+                        if(event.getCode() == KeyCode.R){
+                            en.shootFireBall(gc);
+                            System.out.println("player shooted");
                         }
                             if(event.getCode() == KeyCode.A){
                               en.setIsMovingLeft(true);
