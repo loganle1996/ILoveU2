@@ -181,7 +181,7 @@ public class GameModel extends Application{
     }
     private void loadGraphics()
     {
-            imageLeft = new Image("fireBall.jpeg");
+            imageLeft = new Image("fireball.jpeg");
             imageRight = new Image("fireball.jpeg");
             tiledMap.mapData();
             tileCache.loadCache(this);
