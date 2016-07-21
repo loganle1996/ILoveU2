@@ -6,7 +6,6 @@
 package tile;
 
 
-import Camera.Camera;
 import Entity.AIenemy;
 import Entity.Entity;
 import Entity.Id;
@@ -30,7 +29,6 @@ public class GameMap
     public Tile clonedTile1,clonedTile2,clonedTile3;
     public Player player1;
     public AIenemy aienemy;
-    public Camera camera;
     
     //contructor
     public GameMap(){
@@ -133,13 +131,7 @@ public class GameMap
         
    }
 
-    public Camera getCamera() {
-        return camera;
-    }
 
-    public void setCamera(Camera camera) {
-        this.camera = camera;
-    }
     public Entity returnPlayer1(){
         return player1;
     }

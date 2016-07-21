@@ -5,7 +5,6 @@
  */
 package Entity;
 
-import Camera.Camera;
 import MVCpattern.GameModel;
 import javafx.geometry.Rectangle2D;
 import javafx.scene.canvas.GraphicsContext;
