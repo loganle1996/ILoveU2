@@ -5,11 +5,10 @@
  */
 package Entity;
 
-import Graphics.Sprite;
+import Camera.Camera;
 import MVCpattern.GameModel;
 import javafx.geometry.Rectangle2D;
 import javafx.scene.canvas.GraphicsContext;
-import javafx.scene.image.Image;
 import tile.Tile;
 
 /**
@@ -232,6 +231,14 @@ public abstract class Entity {
 
     public void setFacing(int facing) {
         this.facing = facing;
+    }
+
+    public GameModel getGameModel() {
+        return gameModel;
+    }
+
+    public void setGameModel(GameModel gameModel) {
+        this.gameModel = gameModel;
     }
     
 }

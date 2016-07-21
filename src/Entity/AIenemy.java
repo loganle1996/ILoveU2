@@ -70,12 +70,10 @@ public void tileCollidingChecking(){
                     if(this.intersectsRightObject(t)){
                         this.setIsMovingRight(true);
                         this.setIsMovingLeft(false);
-                        System.out.println("intersected right object");
                     }
                     if(this.intersectsLeftObject(t)){
                         this.setIsMovingLeft(true);
                         this.setIsMovingRight(false);
-                        System.out.println(" intersected left object");
                     }
                 }
             }

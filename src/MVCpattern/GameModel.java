@@ -8,15 +8,14 @@ package MVCpattern;
 import Bullet.Bullet;
 import Entity.Entity;
 import Entity.Id;
-import Entity.Player;
 import Graphics.Sprite;
 import Graphics.SpriteSheet;
-import java.util.ArrayList;
 import java.util.LinkedList;
 import javafx.animation.AnimationTimer;
 import javafx.application.Application;
 import javafx.event.EventHandler;
 import javafx.scene.Group;
+import javafx.scene.PerspectiveCamera;
 import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
@@ -24,7 +23,6 @@ import javafx.scene.image.Image;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.stage.Stage;
-import prepareKeyEvent.prepareKeyEvent;
 import tile.Tile;
 import tile.TileCache;
 import tile.GameMap;
@@ -36,13 +34,13 @@ import tile.GameMap;
 public class GameModel extends Application{
     static Scene mainScene;
     static GraphicsContext gc;
-    static int WIDTH = 800;
-    static int HEIGHT = 800;
+    public static int WIDTH =1600;
+    public static int HEIGHT = 1600;
     static Image image1,image2,image3,playerImage;
     private Stage mainStage;
     public static SpriteSheet sheet;
     public static Sprite playerSprite [] = new Sprite[6];
-    public static GameMap tiledMap = new GameMap();
+    public static GameMap gameMap = new GameMap();
     public Image imageLeft,imageRight;
     public LinkedList<Entity> entity = new LinkedList<Entity>();;
     public LinkedList<Tile> tile = new LinkedList<Tile>();;
@@ -50,6 +48,9 @@ public class GameModel extends Application{
     public LinkedList<Bullet> bullets = new LinkedList<Bullet>();
     public TileCache tileCache = new TileCache();
     public LinkedList<Bullet> copiedBullets;
+//    public LinkedList<Camera> cameraList = new LinkedList<Camera>();
+    public Entity player1;
+    private PerspectiveCamera camera;
     
     public GameModel(){
     }
@@ -120,6 +121,9 @@ public class GameModel extends Application{
         for(Bullet bullet : copiedBullets){
             bullet.tick();
         }
+//        for(Camera camera : cameraList){
+//            camera.tick();
+//        }
     }
     
     public void renderTile(GraphicsContext g){
@@ -155,18 +159,30 @@ public class GameModel extends Application{
     }
     @Override
     public void start(Stage primaryStage) throws Exception {
+        
+        //Create a camera
+        this.camera = new PerspectiveCamera(true);
+
         primaryStage.setTitle("ArcaneArena");
         Group root = new Group();
         mainScene = new Scene(root);
         primaryStage.setScene(mainScene);
+        mainScene.setCamera(camera);
+        camera.setNearClip(0.1);
+        camera.setFarClip(1500);
+        camera.setTranslateX(800);
+        camera.setTranslateY(800);
+        camera.setTranslateZ(-1000);
 
         Canvas canvas = new Canvas(WIDTH, HEIGHT);
         root.getChildren().add(canvas);
+        root.getChildren().add(camera);
         //Associate gc to the canvas to draw.
         gc = canvas.getGraphicsContext2D();
         //Get all images from all resources.
         loadGraphics();
-        // main scene listens for keyevent
+        player1 = gameMap.returnPlayer1();
+// main scene listens for keyevent
         prepareKeyEvent(mainScene);
         final long startNanoTime = System.nanoTime();
         new AnimationTimer()
@@ -179,6 +195,9 @@ public class GameModel extends Application{
                 double x = 232 + 128 * Math.cos(t);
                 double y = 232 + 128 * Math.sin(t);
                 tickAndRenderModel();
+                camera.setTranslateX(player1.getX());
+                camera.setTranslateY(player1.getY());
+                
             }
         }.start();
         primaryStage.show();
@@ -187,14 +206,14 @@ public class GameModel extends Application{
     {
             imageLeft = new Image("fireball.jpeg");
             imageRight = new Image("fireball.jpeg");
-            tiledMap.mapData();
+            gameMap.mapData();
             tileCache.loadCache(this);
             sheet = new SpriteSheet("gameSheet5.png");
             for(int i = 0; i< playerSprite.length;i++){
                 playerSprite[i] = new Sprite(sheet,i+1,1);
             }
             
-            tiledMap.addAllObjectsToGameModel(this,tileCache);
+            gameMap.addAllObjectsToGameModel(this,tileCache);
     }
     public static void main(String[] args) {
         launch(args);
@@ -218,12 +237,10 @@ public class GameModel extends Application{
                             if(en.isJumping() == false){
                                 en.setJumping(true);
                                 en.setVelY(-15);
-                                System.out.println("space pressed");
                             }
                         }
                         if(event.getCode() == KeyCode.R){
                             en.shootFireBall(gc);
-                            System.out.println("player shooted");
                         }
                             if(event.getCode() == KeyCode.A){
                               en.setIsMovingLeft(true);

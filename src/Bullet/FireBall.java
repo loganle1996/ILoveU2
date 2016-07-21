@@ -36,8 +36,6 @@ public class FireBall extends Bullet{
     public void tick() {
         this.setX(this.getX() + this.getVelX());
         this.setY(this.getY() + this.getVelY());
-        System.out.println("VelX:"+ this.getVelX());
-        System.out.println("X:"+ this.getX());
         //check if fireball collides tiles
         tileCollidingChecking();
         

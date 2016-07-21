@@ -8,16 +8,10 @@ package Entity;
 import Bullet.Bullet;
 import Bullet.FireBall;
 import Bullet.bulletType;
-import Graphics.Sprite;
 import MVCpattern.GameModel;
-import MVCpattern.GameView;
 import State.PlayerState;
-import java.util.concurrent.TimeUnit;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javafx.scene.canvas.GraphicsContext;
 import tile.Tile;
-//import jdk.internal.org.objectweb.asm.Handle;
 
 /**
  *
@@ -54,24 +48,18 @@ public class Player extends Entity {
     public void shootFireBall(GraphicsContext gc) {
         if(facing == 0){
             gameModel.bullets.add(new FireBall(this.getX(), this.getY() + 5, gameModel,true));
-            System.out.println("Added fireball to linkedlist");
         }
         else if(facing == 1){
             gameModel.bullets.add(new FireBall(this.getX() + this.getWidth(), this.getY() + 5, gameModel,false));
-            System.out.println("Added fireball to linkedlist");
         }
         
         for(Bullet bullet : gameModel.bullets){
-            System.out.println("111111111");
             if(bullet.getId() == bulletType.fireBall){
-                System.out.println("222222222222");
                 if(bullet.isFlyingLeft() == true){
-                    bullet.setVelX(-6);
-                    System.out.println("Set bullet VelX");
+                    bullet.setVelX(-15);
                 }
                 else if(bullet.isFlyingLeft() == false){
-                    bullet.setVelX(6);
-                    System.out.println("Set bullet VelX");
+                    bullet.setVelX(15);
                 }
             }
         }
@@ -85,19 +73,7 @@ public class Player extends Entity {
     public void tick() {
         x+= velX;
         y += velY;
-        System.out.println("HP: "+ hp);
-        if(x<=0){
-            x = 0;
-        }
-        if( y <= 0 ){
-            y = 0;
-        }
-        if(x + width>= 800){
-            x = 800 - width;
-        }
-        if(y +height>= 800){
-            y = 800 - height;
-        }
+
         if(this.getHp() <= 0){
             this.die();
         }
@@ -115,7 +91,6 @@ public class Player extends Entity {
         }
         if (this.jumping) {
               velY += this.getGravity() / 10;
-              System.out.println("Count: ");
         }
         if(this.isMovingLeft == true){
             this.setVelX(-5.0);
@@ -135,9 +110,7 @@ public class Player extends Entity {
         else{
             this.animate = false;
         }
-        //check if the player collides with enemies
         enemyCollidingChecking();
-        //Check if the player collides with tiles
         tileCollidingChecking();
         if(animate == true){
             frameDelay++;
@@ -186,36 +159,26 @@ public class Player extends Entity {
                         y = en.getY() - height;
                         this.setVelY(10);
                         this.setJumping(false);
-//                        this.setCollidingTop(true);
                         this.setHp(this.getHp() - 10);
                     }    
                     else if(this.intersectsBottomEntity(en)){                       
                         setVelY(0);
-//                        this.setCollidingBottom(true);
                         y = en.getY() + height;
                        this.setHp(this.getHp() - 10);
                     }
                     else if(this.intersectsRightEntity(en)){
-//                        this.setIsCollidingRight(true);
-//                        this.setIsMovingLeft(false);
                         setVelX(0);
                         x = en.getX()+en.width;
                         this.setHp(this.getHp() - 10); 
                     }
                     else if(this.intersectsLeftEntity(en)){
-//                        this.setIsCollidingLeft(true);
-//                        this.setIsMovingRight(false);
+
                         setVelX(0);
                         x = en.getX()-en.width;   
                         this.setHp(this.getHp() - 10);
                     }
-//                    else{
-//                        this.setIsCollidingLeft(false);
-//                        this.setIsCollidingRight(false);
-//                        this.setCollidingTop(false);
-//                        this.setCollidingBottom(false);
-//                    }
             }
         }
     }
+
 }
