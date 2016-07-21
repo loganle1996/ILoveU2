@@ -5,6 +5,8 @@
  */
 package Entity;
 
+import Bullet.Bullet;
+import Bullet.bulletType;
 import MVCpattern.GameModel;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.paint.Color;
@@ -46,11 +48,12 @@ public class AIenemy extends Entity {
         else{
             this.setVelX(0);
         }
+        if(this.getHp() <= 0){
+            this.die();
+        }
 
         //check if this collides tiles
         tileCollidingChecking();
-        //check if this collides player
-   //     playerCollidingChecking();
     }
 public void tileCollidingChecking(){
         for(Tile t: gameModel.getTileList()){
@@ -79,35 +82,6 @@ public void tileCollidingChecking(){
             }
         }
 }
-    public void playerCollidingChecking(){
-        for(Entity en : gameModel.getEntity()){
-            if(en.getId() == Id.player){
-                    if(this.intersectsTopEntity(en)){
-                        y = en.getY() - height;
-                        this.setVelY(10);
-                        this.setJumping(false);
-                        this.setHp(this.getHp() - 10);
-                    }    
-                    else if(this.intersectsBottomEntity(en)){                       
-                        setVelY(0);
-                        y = en.getY() + height;
-                       this.setHp(this.getHp() - 10);
-                    }
-                    else if(this.intersectsRightEntity(en)){
-                        System.out.println("X: "+this.getVelX());
-                        this.setIsMovingLeft(false);
-                        this.setHp(this.getHp() - 10); 
-                    }
-                    else if(this.intersectsLeftEntity(en)){
-                        this.setIsMovingRight(false);
-                        System.out.println("X: "+this.getVelX());
-                        this.setHp(this.getHp() - 10);
-                    }
-            }
-        }
-    }
-
-
     
 }
 

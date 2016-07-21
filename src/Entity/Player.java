@@ -153,7 +153,7 @@ public class Player extends Entity {
         }
     }
     public void enemyCollidingChecking(){
-        for(Entity en : gameModel.getAiEntity()){
+        for(Entity en : gameModel.getEntity()){
             if(en.getId() == Id.Goomba){
                     if(this.intersectsTopEntity(en)){
                         y = en.getY() - height;

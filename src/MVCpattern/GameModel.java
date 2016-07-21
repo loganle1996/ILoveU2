@@ -42,9 +42,10 @@ public class GameModel extends Application{
     public static Sprite playerSprite [] = new Sprite[6];
     public static GameMap gameMap = new GameMap();
     public Image imageLeft,imageRight;
-    public LinkedList<Entity> entity = new LinkedList<Entity>();;
+    public LinkedList<Entity> entity = new LinkedList<Entity>();
+    public LinkedList<Entity> copiedEntity;
     public LinkedList<Tile> tile = new LinkedList<Tile>();;
-    public LinkedList<Entity> aiEntity = new LinkedList<Entity>();
+//    public LinkedList<Entity> aiEntity = new LinkedList<Entity>();
     public LinkedList<Bullet> bullets = new LinkedList<Bullet>();
     public TileCache tileCache = new TileCache();
     public LinkedList<Bullet> copiedBullets;
@@ -61,12 +62,12 @@ public class GameModel extends Application{
     public void removeEntity(Entity en){
         entity.remove(en);
     }
-    public void addAiEntity(Entity en){
-        aiEntity.add(en);
-    }
-    public void removeAiEntity(Entity en ){
-        aiEntity.remove(en);
-    }
+//    public void addAiEntity(Entity en){
+//        aiEntity.add(en);
+//    }
+//    public void removeAiEntity(Entity en ){
+//        aiEntity.remove(en);
+//    }
     public void addTile(Tile ti){
         tile.add(ti);
     }
@@ -77,6 +78,15 @@ public class GameModel extends Application{
         bullets.remove(bullet);
     }
     //Accessors and mutators
+
+    public LinkedList<Bullet> getBullets() {
+        return bullets;
+    }
+
+    public void setBullets(LinkedList<Bullet> bullets) {
+        this.bullets = bullets;
+    }
+    
     public LinkedList<Entity> getEntity() {
         return entity;
     }
@@ -85,13 +95,13 @@ public class GameModel extends Application{
         this.entity = entity;
     }
 
-    public LinkedList<Entity> getAiEntity() {
-        return aiEntity;
-    }
+//    public LinkedList<Entity> getAiEntity() {
+//        return aiEntity;
+//    }
 
-    public void setAiEntity(LinkedList<Entity> aiEntity) {
-        this.aiEntity = aiEntity;
-    }
+//    public void setAiEntity(LinkedList<Entity> aiEntity) {
+//        this.aiEntity = aiEntity;
+//    }
 
     public LinkedList<Tile> getTile() {
         return tile;
@@ -108,22 +118,17 @@ public class GameModel extends Application{
         return tile;
     }
     public void TickModelGame(){
-        for(Entity en: entity){
+        copiedEntity = new LinkedList<Entity>(entity);
+        for(Entity en: copiedEntity){
             en.tick();
         }
         for(Tile ti: tile){
             ti.tick();
         }
-        for(Entity en: aiEntity){
-            en.tick();
-        }
         copiedBullets = new LinkedList<Bullet>(bullets);
         for(Bullet bullet : copiedBullets){
             bullet.tick();
         }
-//        for(Camera camera : cameraList){
-//            camera.tick();
-//        }
     }
     
     public void renderTile(GraphicsContext g){
@@ -142,9 +147,6 @@ public class GameModel extends Application{
         }
         for(Tile ti: tile){
             ti.render(g);
-        }
-        for(Entity en: aiEntity){
-            en.render(g);
         }
     }
     public void renderBulletOfPlayer(Image imageleft,Image imageRight){

@@ -38,6 +38,8 @@ public class FireBall extends Bullet{
         this.setY(this.getY() + this.getVelY());
         //check if fireball collides tiles
         tileCollidingChecking();
+        //check if this collides entities
+        entityCollidingChecking();
         
     }
     public void tileCollidingChecking(){
@@ -53,6 +55,17 @@ public class FireBall extends Bullet{
                     }    
                 }
             }     
+        }
+    }
+    public void entityCollidingChecking(){
+        for(Entity en : gameModel.getEntity()){
+            if(en.getId() != Id.player){
+                if(this.intersectsEntity(en)){
+                    en.setHp(en.getHp()-200);
+                    this.disappear();
+                    System.out.println("Ai lost 200hp");
+                }
+            }
         }
     }
     

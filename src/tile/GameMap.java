@@ -123,7 +123,7 @@ public class GameMap
                     break;
                 case 11:
                     aienemy = new AIenemy((i%40) * 40, (i/40) * 40, 40, 40, true, Id.Goomba, gameModel);
-                    gameModel.addAiEntity(aienemy);
+                    gameModel.addEntity(aienemy);
                 default:
                 
             }
