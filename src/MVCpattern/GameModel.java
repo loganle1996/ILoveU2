@@ -45,13 +45,12 @@ public class GameModel extends Application{
     public LinkedList<Entity> entity = new LinkedList<Entity>();
     public LinkedList<Entity> copiedEntity;
     public LinkedList<Tile> tile = new LinkedList<Tile>();;
-//    public LinkedList<Entity> aiEntity = new LinkedList<Entity>();
     public LinkedList<Bullet> bullets = new LinkedList<Bullet>();
     public TileCache tileCache = new TileCache();
     public LinkedList<Bullet> copiedBullets;
-//    public LinkedList<Camera> cameraList = new LinkedList<Camera>();
     public Entity player1;
     private PerspectiveCamera camera;
+    private Image skyBackground;
     
     public GameModel(){
     }
@@ -62,12 +61,7 @@ public class GameModel extends Application{
     public void removeEntity(Entity en){
         entity.remove(en);
     }
-//    public void addAiEntity(Entity en){
-//        aiEntity.add(en);
-//    }
-//    public void removeAiEntity(Entity en ){
-//        aiEntity.remove(en);
-//    }
+
     public void addTile(Tile ti){
         tile.add(ti);
     }
@@ -94,14 +88,6 @@ public class GameModel extends Application{
     public void setEntity(LinkedList<Entity> entity) {
         this.entity = entity;
     }
-
-//    public LinkedList<Entity> getAiEntity() {
-//        return aiEntity;
-//    }
-
-//    public void setAiEntity(LinkedList<Entity> aiEntity) {
-//        this.aiEntity = aiEntity;
-//    }
 
     public LinkedList<Tile> getTile() {
         return tile;
@@ -174,7 +160,7 @@ public class GameModel extends Application{
         camera.setFarClip(1500);
         camera.setTranslateX(800);
         camera.setTranslateY(800);
-        camera.setTranslateZ(-1000);
+        camera.setTranslateZ(-950);
 
         Canvas canvas = new Canvas(WIDTH, HEIGHT);
         root.getChildren().add(canvas);
@@ -184,7 +170,7 @@ public class GameModel extends Application{
         //Get all images from all resources.
         loadGraphics();
         player1 = gameMap.returnPlayer1();
-// main scene listens for keyevent
+        // main scene listens for keyevent
         prepareKeyEvent(mainScene);
         final long startNanoTime = System.nanoTime();
         new AnimationTimer()
@@ -206,6 +192,7 @@ public class GameModel extends Application{
     }
     private void loadGraphics()
     {
+            skyBackground = new Image("blueskyBackground.png");
             imageLeft = new Image("fireball.jpeg");
             imageRight = new Image("fireball.jpeg");
             gameMap.mapData();
@@ -214,14 +201,14 @@ public class GameModel extends Application{
             for(int i = 0; i< playerSprite.length;i++){
                 playerSprite[i] = new Sprite(sheet,i+1,1);
             }
-            
-            gameMap.addAllObjectsToGameModel(this,tileCache);
+            gameMap.addAllObjectsToGameModel(this,tileCache,gc);
     }
     public static void main(String[] args) {
         launch(args);
     }
     public void tickAndRenderModel(){
          gc.clearRect(0, 0, WIDTH, HEIGHT);
+         gc.drawImage(skyBackground, 0, 0, WIDTH, HEIGHT);
          this.TickModelGame();
          this.renderModelGame(gc);
          this.renderBulletOfPlayer(imageLeft, imageRight);

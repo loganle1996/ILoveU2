@@ -63,7 +63,6 @@ public class FireBall extends Bullet{
                 if(this.intersectsEntity(en)){
                     en.setHp(en.getHp()-200);
                     this.disappear();
-                    System.out.println("Ai lost 200hp");
                 }
             }
         }
