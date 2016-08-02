@@ -10,11 +10,15 @@ import Entity.Entity;
 import Entity.Id;
 import Graphics.Sprite;
 import Graphics.SpriteSheet;
-import java.util.LinkedList;
 import javafx.animation.AnimationTimer;
 import javafx.application.Application;
+import javafx.application.Platform;
+import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
+import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.scene.Group;
+import javafx.scene.Parent;
 import javafx.scene.PerspectiveCamera;
 import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
@@ -23,21 +27,25 @@ import javafx.scene.image.Image;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.stage.Stage;
+import javafx.stage.WindowEvent;
+import tile.GameMap;
 import tile.Tile;
 import tile.TileCache;
-import tile.GameMap;
+
+import java.util.LinkedList;
 
 /**
  *
  * @author owne
  */
-public class GameModel extends Application{
+public class GameModel extends Application {
+
     static Scene mainScene;
     static GraphicsContext gc;
-    public static int WIDTH =1600;
+    public static int WIDTH = 1600;
     public static int HEIGHT = 1600;
     static Image image1,image2,image3,playerImage;
-    private Stage mainStage;
+    private static Stage mainStage;
     public static SpriteSheet sheet;
     public static Sprite playerSprite [] = new Sprite[6];
     public static GameMap gameMap = new GameMap();
@@ -145,16 +153,41 @@ public class GameModel extends Application{
             }
         }
     }
+
     @Override
-    public void start(Stage primaryStage) throws Exception {
-        
+    public void start(Stage stage) throws Exception {
+
+        mainStage = new Stage();
+
+        Parent root = FXMLLoader.load(getClass().getResource("MenuScene.fxml"));
+        mainScene = new Scene(root);
+
+        Platform.setImplicitExit(false);
+//        scene.getStylesheets().add(getClass().getResource("WouldYouKindly.css").toExternalForm());
+        mainStage.setScene(mainScene);
+        mainStage.setTitle("Arcane Arena");
+        mainStage.show();
+
+        mainStage.setOnCloseRequest(e -> {
+            Platform.exit();
+            System.exit(0);
+        });
+
+    }
+
+    @FXML
+    private void loadGame(ActionEvent event) throws Exception {
+
+        mainStage.close();
+
         //Create a camera
+        Stage gameStage = new Stage();
+
         this.camera = new PerspectiveCamera(true);
 
-        primaryStage.setTitle("ArcaneArena");
         Group root = new Group();
         mainScene = new Scene(root);
-        primaryStage.setScene(mainScene);
+        gameStage.setScene(mainScene);
         mainScene.setCamera(camera);
         camera.setNearClip(0.1);
         camera.setFarClip(1500);
@@ -173,23 +206,27 @@ public class GameModel extends Application{
         // main scene listens for keyevent
         prepareKeyEvent(mainScene);
         final long startNanoTime = System.nanoTime();
+
         new AnimationTimer()
         {
             @Override
             public void handle(long currentNanoTime)
             {
-                double t = (currentNanoTime - startNanoTime) / 1000000000.0; 
+                double t = (currentNanoTime - startNanoTime) / 1000000000.0;
 
                 double x = 232 + 128 * Math.cos(t);
                 double y = 232 + 128 * Math.sin(t);
                 tickAndRenderModel();
                 camera.setTranslateX(player1.getX());
                 camera.setTranslateY(player1.getY());
-                
+
             }
         }.start();
-        primaryStage.show();
+        gameStage.show();
     }
+
+
+
     private void loadGraphics()
     {
             skyBackground = new Image("blueskyBackground.png");
@@ -205,6 +242,7 @@ public class GameModel extends Application{
     }
     public static void main(String[] args) {
         launch(args);
+        mainStage = new Stage();
     }
     public void tickAndRenderModel(){
          gc.clearRect(0, 0, WIDTH, HEIGHT);

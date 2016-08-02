@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.*?>
+<?import javafx.scene.text.*?>
+<?import javafx.scene.effect.*?>
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<Pane fx:id="menuScenePane" maxHeight="768.0" maxWidth="1024.0" minHeight="-Infinity" minWidth="-Infinity" prefHeight="768.0" prefWidth="1024.0" style="-fx-background-color: black;" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="MVCpattern.GameModel">
+   <children>
+      <Label fx:id="wouldYouKindlyTitle" layoutX="374.0" layoutY="83.0" text="Arcane Arena" textAlignment="CENTER" textFill="WHITE">
+         <effect>
+            <Glow level="0.45" />
+         </effect>
+         <font>
+            <Font size="45.0" />
+         </font>
+      </Label>
+      <VBox fx:id="menuVbox" alignment="CENTER" layoutX="370.0" layoutY="238.0" prefHeight="372.0" prefWidth="285.0">
+         <children>
+            <Button fx:id="startButton" layoutX="482.0" layoutY="207.0" mnemonicParsing="false" onAction="#loadGame" style="-fx-background-color: transparent;" text="Start" textFill="WHITE">
+               <font>
+                  <Font size="30.0" />
+               </font>
+               <effect>
+                  <Glow level="0.4" />
+               </effect>
+            </Button>
+            <Button fx:id="howToPlayButton" layoutX="450.0" layoutY="280.0" mnemonicParsing="false" style="-fx-background-color: transparent;" text="How to Play" textFill="WHITE">
+               <font>
+                  <Font size="30.0" />
+               </font>
+               <effect>
+                  <Glow level="0.4" />
+               </effect>
+            </Button>
+            <Button fx:id="highScoresButton" layoutX="443.0" layoutY="342.0" mnemonicParsing="false" style="-fx-background-color: transparent;" text="High Scores" textFill="WHITE">
+               <font>
+                  <Font size="30.0" />
+               </font>
+               <effect>
+                  <Glow level="0.4" />
+               </effect>
+            </Button>
+            <Button fx:id="quitButton" layoutX="489.0" layoutY="415.0" mnemonicParsing="false" style="-fx-background-color: transparent;" text="Quit" textFill="WHITE">
+               <font>
+                  <Font size="30.0" />
+               </font>
+               <effect>
+                  <Glow level="0.4" />
+               </effect>
+            </Button>
+         </children>
+      </VBox>
+      <Label fx:id="authorTitle" layoutX="434.0" layoutY="136.0" text="A game by Dzung Le" textAlignment="CENTER" textFill="WHITE">
+         <font>
+            <Font size="16.0" />
+         </font>
+      </Label>
+   </children>
+</Pane>
