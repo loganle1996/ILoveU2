@@ -5,6 +5,7 @@
  */
 package tile;
 
+import java.util.ArrayList;
 import java.util.LinkedList;
 import javafx.scene.canvas.GraphicsContext;
 
@@ -15,6 +16,7 @@ import javafx.scene.canvas.GraphicsContext;
 public class TileHandler {
     public LinkedList<Tile> tile = new LinkedList<Tile>();
     public LinkedList<Tile> copiedTile;
+        
     private static TileHandler tileHandler = new TileHandler();
     
     //private constructor

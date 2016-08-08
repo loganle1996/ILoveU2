@@ -11,7 +11,6 @@ import Bullet.bulletType;
 import GraphicsforAnimation.Sprite;
 import GraphicsforAnimation.SpriteSheet;
 import MVCpattern.GameModel;
-import State.PlayerState;
 import javafx.scene.canvas.GraphicsContext;
 import tile.Tile;
 
@@ -20,7 +19,6 @@ import tile.Tile;
  * @author owne
  */
 public class Player extends Entity {
-    private PlayerState state;
     private int frame = 0;
     private int frameDelay = 0;
     private boolean animate = false;
@@ -28,16 +26,8 @@ public class Player extends Entity {
 
     private Player(int width, int height, boolean solid, Id id, EntityHandler entityHandler) {
         super(width, height, solid, id, entityHandler);
-        this.state = PlayerState.big;
     }
     
-    PlayerState getState() {
-        return state;
-    }
-
-    public void setState(PlayerState state) {
-        this.state = state;
-    }
     public static Player getInstance(){
         return player;
     }
@@ -82,18 +72,6 @@ public class Player extends Entity {
         y += velY;
 
         if(this.getHp() <= 0){
-            this.die();
-        }
-        if(this.getHp() <= 1000){
-            this.setState(PlayerState.big);
-        }
-        else if(this.getHp() < 700){
-            this.setState(PlayerState.medium);
-        }
-        else if(this.getHp() < 400){
-            this.setState(PlayerState.small);
-        }
-        else if (this.getHp()<= 0){
             this.die();
         }
         if (this.jumping) {

@@ -3,14 +3,12 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package State;
-
-import javax.xml.bind.helpers.AbstractMarshallerImpl;
+package GameState;
 
 /**
  *
  * @author khoinguyen
  */
-public enum PlayerState {
-    big,medium,small,
+public class Originator {
+    
 }
