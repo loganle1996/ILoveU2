@@ -5,13 +5,13 @@
  */
 package MVCpattern;
 
-import Bullet.Bullet;
 import Bullet.BulletHandler;
 import Entity.Entity;
 import Entity.EntityHandler;
 import Entity.Id;
 import GraphicsforAnimation.Sprite;
 import GraphicsforAnimation.SpriteSheet;
+
 
 import javafx.animation.AnimationTimer;
 import javafx.application.Application;
@@ -30,12 +30,13 @@ import javafx.scene.image.Image;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.stage.Stage;
-import javafx.stage.WindowEvent;
-import tile.GameMap;
 import tile.Tile;
 import tile.TileCache;
+
 import tile.GameMap;
 import tile.TileHandler;
+
+
 
 /**
  *

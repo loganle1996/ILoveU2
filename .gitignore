@@ -54,8 +54,12 @@ fabric.properties
 
 *.mf
 <<<<<<< HEAD
+<<<<<<< HEAD
 
 src/fireball.jpg
+=======
+ILoveU2.iml
+>>>>>>> origin/master
 =======
 ILoveU2.iml
 >>>>>>> origin/master
