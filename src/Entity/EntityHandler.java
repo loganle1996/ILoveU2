@@ -5,6 +5,7 @@
  */
 package Entity;
 
+import GraphicsforAnimation.Sprite;
 import java.util.LinkedList;
 import javafx.scene.canvas.GraphicsContext;
 
@@ -42,9 +43,14 @@ public class EntityHandler {
         }
     }
     //render entities
-    public void renderEntities(GraphicsContext g){
+    public void renderEntities(GraphicsContext g, Sprite[] playerSprite,Sprite[] crocodileSprite){
         for(Entity en: entity){
-            en.render(g);
+            if(en.getId()== Id.player){
+                en.render(g,playerSprite );
+            }
+            else if(en.getId() == Id.Goomba){
+                en.render(g, crocodileSprite);
+            }
         }
     }
     //get instance method

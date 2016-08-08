@@ -8,6 +8,8 @@ package Entity;
 import Bullet.Bullet;
 import Bullet.FireBall;
 import Bullet.bulletType;
+import GraphicsforAnimation.Sprite;
+import GraphicsforAnimation.SpriteSheet;
 import MVCpattern.GameModel;
 import State.PlayerState;
 import javafx.scene.canvas.GraphicsContext;
@@ -41,12 +43,12 @@ public class Player extends Entity {
     }
 
     @Override
-    public void render(GraphicsContext g ) {
+    public void render(GraphicsContext g,Sprite[] playerSprite ) {
          if(this.facing == 0 ){
-             g.drawImage(GameModel.playerSprite[frame+ 3].getImage(), x, y, width, height);
+             g.drawImage(playerSprite[frame+ 3].getImage(), x, y, width, height);
          }
          else if(this.facing == 1){
-             g.drawImage(GameModel.playerSprite[frame].getImage(), x, y, width, height);
+             g.drawImage(playerSprite[frame].getImage(), x, y, width, height);
          }
     }
     @Override
@@ -55,7 +57,7 @@ public class Player extends Entity {
             bulletHandler.getBullets().add(new FireBall(this.getX(), this.getY() + 5, bulletHandler,true));
         }
         else if(facing == 1){
-            bulletHandler.getBullets().add(new FireBall(this.getX() + this.getWidth(), this.getY() + 5, bulletHandler,false));
+            bulletHandler.getBullets().add(new FireBall(this.getX() + this.getWidth()/4, this.getY() + 5, bulletHandler,false));
         }
         
         for(Bullet bullet : bulletHandler.getBullets()){

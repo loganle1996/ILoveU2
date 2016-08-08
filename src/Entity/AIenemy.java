@@ -7,6 +7,7 @@ package Entity;
 
 import Bullet.Bullet;
 import Bullet.bulletType;
+import GraphicsforAnimation.Sprite;
 import MVCpattern.GameModel;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.paint.Color;
@@ -17,16 +18,25 @@ import tile.Tile;
  * @author owne
  */
 public class AIenemy extends Entity {
-
+    private int frame = 0;
+    private int frameDelay = 0;
+    private boolean animate = false;
     public AIenemy(int x, int y, int width, int height, boolean solid, Id id, EntityHandler entityHandler) {
         super(x, y, width, height, solid, id, entityHandler);
         this.setIsMovingLeft(true);
     }
 
     @Override
-    public void render(GraphicsContext g) {
-        g.setFill(Color.BLUE);
-        g.fillRect(this.getX(), this.getY(), width, height);
+    public void render(GraphicsContext g,Sprite[] aiSprite) {
+//        g.setFill(Color.BLUE);
+//        g.fillRect(this.getX(), this.getY(), width, height);
+        if(this.facing == 0 ){
+             g.drawImage(aiSprite[frame+ 3].getImage(), x, y, width, height);
+         }
+         else if(this.facing == 1){
+             g.drawImage(aiSprite[frame].getImage(), x, y, width, height);
+         }
+        
     }
     @Override
     public void shootFireBall(GraphicsContext gc) {
@@ -54,6 +64,24 @@ public class AIenemy extends Entity {
 
         //check if this collides tiles
         tileCollidingChecking();
+        //animation
+        if(velX != 0){
+            this.animate = true;
+        }
+        else{
+            this.animate = false;
+        }
+        if(animate == true){
+            frameDelay++;
+            if(frameDelay >=3){
+                frame++;
+            if(frame >=3){
+                frame = 0;
+            }
+            frameDelay = 0;
+        }
+        }
+        
     }
 public void tileCollidingChecking(){
         for(Tile t: tileHandler.getTile()){

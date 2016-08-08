@@ -24,7 +24,7 @@ public abstract class Tile implements Cloneable{
     public GameModel gameModel;
     TileHandler tileHandler = TileHandler.getInstance();
     public String type;
-    
+    private double hp = 1000;
     public boolean solid;
     public int velX,velY;
     public Id id;
@@ -135,6 +135,14 @@ public abstract class Tile implements Cloneable{
       return clone;
       
    }
+
+    public double getHp() {
+        return hp;
+    }
+
+    public void setHp(double hp) {
+        this.hp = hp;
+    }
 
     public int getWidth() {
         return width;

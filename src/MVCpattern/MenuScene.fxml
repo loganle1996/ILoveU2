@@ -55,7 +55,7 @@
             </Button>
          </children>
       </VBox>
-      <Label fx:id="authorTitle" layoutX="434.0" layoutY="136.0" text="A game by Dzung Le" textAlignment="CENTER" textFill="WHITE">
+      <Label fx:id="authorTitle" layoutX="434.0" layoutY="136.0" text="A game by an effective team" textAlignment="CENTER" textFill="WHITE">
          <font>
             <Font size="16.0" />
          </font>

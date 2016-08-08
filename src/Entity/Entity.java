@@ -6,6 +6,7 @@
 package Entity;
 
 import Bullet.BulletHandler;
+import GraphicsforAnimation.Sprite;
 import MVCpattern.GameModel;
 import javafx.geometry.Rectangle2D;
 import javafx.scene.canvas.GraphicsContext;
@@ -51,7 +52,7 @@ public abstract class Entity {
         this.entityHandler = entityHandler;
         velY += gravity;
     }
-    public abstract void render(GraphicsContext g);
+    public abstract void render(GraphicsContext g, Sprite[] sprite);
         
     public abstract void tick();
 

@@ -16,6 +16,7 @@ import javafx.scene.image.Image;
  * @author owne
  */
 public class Wall3 extends Tile{
+    int count = 1;
     Image image = new Image("bricks_3.png");
     public Wall3(int x, int y, int width, int height, boolean solid, Id id, TileHandler tileHandler, String type) {
         super(x, y, width, height, solid, id, tileHandler, type);
@@ -32,10 +33,12 @@ public class Wall3 extends Tile{
     public void render(GraphicsContext gc) {
         gc.drawImage(image, x, y, width, height);
     }
-
     @Override
     public void tick() {
-        
+        if(this.getHp() <= 0.0){
+            this.die();
+            System.out.println("XCoordinate: "+ this.getX());
+        }
     }
     
 }

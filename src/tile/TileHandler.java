@@ -14,7 +14,9 @@ import javafx.scene.canvas.GraphicsContext;
  */
 public class TileHandler {
     public LinkedList<Tile> tile = new LinkedList<Tile>();
+    public LinkedList<Tile> copiedTile;
     private static TileHandler tileHandler = new TileHandler();
+    
     //private constructor
     private TileHandler(){
         
@@ -24,7 +26,7 @@ public class TileHandler {
         tile.add(ti);
     }
     public void removeTile(Tile ti){
-        tile.remove();
+        tile.remove(ti);
     }
     // Accessors and mutators
     public LinkedList<Tile> getTile() {
@@ -36,13 +38,15 @@ public class TileHandler {
     }
     //tick
     public void tickTiles(){
-        for(Tile ti: tile){
+        copiedTile = new LinkedList<>(tile);
+        for(Tile ti: copiedTile){
             ti.tick();
         }
     }
     //render
     public void renderTiles(GraphicsContext g){
-        for(Tile ti: tile){
+        copiedTile = new LinkedList<>(tile);
+        for(Tile ti: copiedTile){
             ti.render(g);
         }
     }

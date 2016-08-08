@@ -7,7 +7,6 @@ package Bullet;
 
 import Entity.Entity;
 import Entity.Id;
-import MVCpattern.GameModel;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
 import tile.Tile;
@@ -44,17 +43,14 @@ public class FireBall extends Bullet{
     }
     public void tileCollidingChecking(){
         for(Tile t: tileHandler.getTile()){
-            if(t.solid == false){
-                break;
-            }
-            else{
                 if(t.getId() == Id.wall){
-                    if(this.intersectsObject(t)){
-                        //gameModel.copiedBullets.add(this);
+                    if(this.intersectsObject(t) && t.getType().equals("wall3")){
+                        if(t.getType().equalsIgnoreCase("wall3")){
+                            t.setHp(t.getHp()-200);
+                        }
                         this.disappear();
                     }    
-                }
-            }     
+                }  
         }
     }
     public void entityCollidingChecking(){

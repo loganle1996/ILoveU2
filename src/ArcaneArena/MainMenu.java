@@ -32,13 +32,6 @@ import java.util.logging.Logger;
  */
 public class MainMenu implements Initializable {
 
-//    public static void main(String[] args) {
-//        GameModel model = new GameModel();
-//        GameView view = new GameView();
-//        GameController controller = new GameController(view, model);
-//        controller.renderGameScene();
-//    }
-
     @FXML
     private Button startButton;
 
@@ -99,17 +92,11 @@ public class MainMenu implements Initializable {
                 }
 
             }
-
             // Create a new scene with root.
             Scene scene = new Scene(root);
             stage.setScene(scene);
             stage.show();
 
     }
-
-//    @Override
-//    public void start(Stage primaryStage) {
-//
-//    }
 
 }

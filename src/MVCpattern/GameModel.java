@@ -50,8 +50,9 @@ public class GameModel extends Application {
     public static int HEIGHT = 1600;
     static Image image1,image2,image3,playerImage;
     private static Stage mainStage;
-    public static SpriteSheet sheet;
+    public static SpriteSheet sheet,crocodileSheet;
     public static Sprite playerSprite [] = new Sprite[6];
+    public static Sprite crocodileSprite [] = new Sprite[6];
     public static GameMap gameMap = new GameMap();
     public Image imageLeft,imageRight;
     public EntityHandler entityHandler = EntityHandler.getInstance();
@@ -93,7 +94,7 @@ public class GameModel extends Application {
         bulletHandler.tickBullets();
     }
     public void renderModelGame(GraphicsContext g){
-        entityHandler.renderEntities(g);
+        entityHandler.renderEntities(g,playerSprite,crocodileSprite);
         tileHandler.renderTiles(g);
     }
     public void renderBulletOfPlayer(Image imageleft,Image imageRight){
@@ -133,16 +134,16 @@ public class GameModel extends Application {
         Group root = new Group();
         mainScene = new Scene(root);
         gameStage.setScene(mainScene);
-        mainScene.setCamera(camera);
-        camera.setNearClip(0.1);
-        camera.setFarClip(1500);
-        camera.setTranslateX(800);
-        camera.setTranslateY(800);
-        camera.setTranslateZ(-950);
+//        mainScene.setCamera(camera);
+//        camera.setNearClip(0.1);
+//        camera.setFarClip(1500);
+//        camera.setTranslateX(800);
+//        camera.setTranslateY(800);
+//        camera.setTranslateZ(-950);
 
         Canvas canvas = new Canvas(WIDTH, HEIGHT);
         root.getChildren().add(canvas);
-        root.getChildren().add(camera);
+//        root.getChildren().add(camera);
         //Associate gc to the canvas to draw.
         gc = canvas.getGraphicsContext2D();
         //Get all images from all resources.
@@ -162,8 +163,8 @@ public class GameModel extends Application {
                 double x = 232 + 128 * Math.cos(t);
                 double y = 232 + 128 * Math.sin(t);
                 tickAndRenderModel();
-                camera.setTranslateX(player1.getX());
-                camera.setTranslateY(player1.getY());
+//                camera.setTranslateX(player1.getX());
+//                camera.setTranslateY(player1.getY());
 
             }
         }.start();
@@ -180,11 +181,15 @@ public class GameModel extends Application {
             Background = new Image("background.png");
             imageLeft = new Image("fireball.jpeg");
             imageRight = new Image("fireball.jpeg");
-            gameMap.mapData();
+            gameMap.getMapData1();
             tileCache.loadCache(this);
             sheet = new SpriteSheet("gameSheet5.png");
             for(int i = 0; i< playerSprite.length;i++){
                 playerSprite[i] = new Sprite(sheet,i+1,1);
+            }
+            crocodileSheet = new SpriteSheet("crocodileGameSheet.png");
+            for(int i = 0; i< crocodileSprite.length;i++){
+                crocodileSprite[i] = new Sprite(crocodileSheet,i+1,1);
             }
             gameMap.addAllObjectsToGameModel(this,tileCache,gc);
     }
