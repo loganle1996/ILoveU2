@@ -54,28 +54,16 @@ public class GameModel extends Application {
     public static Sprite playerSprite [] = new Sprite[6];
     public static GameMap gameMap = new GameMap();
     public Image imageLeft,imageRight;
-//    public LinkedList<Entity> entity = new LinkedList<Entity>();
-//    public LinkedList<Entity> copiedEntity;
     public EntityHandler entityHandler = EntityHandler.getInstance();
-//    public LinkedList<Tile> tile = new LinkedList<Tile>();
     public TileHandler tileHandler = TileHandler.getInstance();
     public TileCache tileCache = TileCache.getInstance();
     public BulletHandler bulletHandler = BulletHandler.getInstance();
-//    public LinkedList<Bullet> bullets = new LinkedList<Bullet>();
-//    public LinkedList<Bullet> copiedBullets;
     public Entity player1;
     private PerspectiveCamera camera;
     private Image Background;
     public GameModel(){
         
     }
-    //add objects to Linkedlist
-//    public void addEntity(Entity en){
-//        entity.add(en);
-//    }
-//    public void removeEntity(Entity en){
-//        entity.remove(en);
-//    }
 
     public void addTile(Tile ti){
         tileHandler.addTile(ti);
@@ -98,61 +86,13 @@ public class GameModel extends Application {
     public void setTileHandler(TileHandler tileHandler) {
         this.tileHandler = tileHandler;
     }
-    
-//    public LinkedList<Bullet> getBullets() {
-//        return bullets;
-//    }
-//
-//    public void setBullets(LinkedList<Bullet> bullets) {
-//        this.bullets = bullets;
-//    }
-    
-//    public LinkedList<Entity> getEntity() {
-//        return entity;
-//    }
-//
-//    public void setEntity(LinkedList<Entity> entity) {
-//        this.entity = entity;
-//    }
-//    public LinkedList<Tile> getTileList(){
-//        return tile;
-//    }
-//    public LinkedList<Tile> getTile() {
-//        return tile;
-//    }
-//
-//    public void setTile(LinkedList<Tile> tile) {
-//        this.tile = tile;
-//    }
-
-//    public void removeTile(Tile ti) {
-//        tile.remove(ti);
-//    }
 
     public void TickModelGame(){
-//        copiedEntity = new LinkedList<Entity>(entity);
-//        for(Entity en: copiedEntity){
-//            en.tick();
-//        }
         entityHandler.tickEntities();
         tileHandler.tickTiles();
         bulletHandler.tickBullets();
     }
-    
-//    public void renderEntities(GraphicsContext g){
-//        for(Entity en: entity){
-//            en.render(g);
-//        }
-//    }
-//    public void renderTile(GraphicsContext g){
-//        for(Tile ti: tile){
-//            ti.render(g);
-//        }
-//    }
     public void renderModelGame(GraphicsContext g){
-//    for(Entity en: entity){
-//            en.render(g);
-//        }
         entityHandler.renderEntities(g);
         tileHandler.renderTiles(g);
     }
@@ -169,7 +109,6 @@ public class GameModel extends Application {
         mainScene = new Scene(root);
 
         Platform.setImplicitExit(false);
-//        scene.getStylesheets().add(getClass().getResource("WouldYouKindly.css").toExternalForm());
         mainStage.setScene(mainScene);
         mainStage.setTitle("Arcane Arena");
         mainStage.show();
@@ -229,6 +168,12 @@ public class GameModel extends Application {
             }
         }.start();
         gameStage.show();
+        
+        gameStage.setOnCloseRequest(e -> {
+            Platform.exit();
+            System.exit(0);
+        });
+        
     }
     private void loadGraphicsAndObjects()
     {
@@ -303,9 +248,7 @@ public class GameModel extends Application {
             }
         });      
     }
-//    public static GameModel getInstance(){
-//        return singleGameModel;
-//    }
+
     public void display(){
         String[] args = null;
         main(args);

@@ -23,10 +23,6 @@ public class Player extends Entity {
     private int frameDelay = 0;
     private boolean animate = false;
     private static Player player = new Player(40, 40, true, Id.player, entityHandler);
-//    public Player(int x, int y, int width, int height, boolean solid,Id id,EntityHandler entityHandler) {
-//        super(x, y, width, height, solid,id,entityHandler);
-//        this.state = PlayerState.big;
-//    }
 
     private Player(int width, int height, boolean solid, Id id, EntityHandler entityHandler) {
         super(width, height, solid, id, entityHandler);
