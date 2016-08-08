@@ -23,16 +23,16 @@ public class GameController {
         gameModel.TickModelGame();
     }
     public LinkedList getTileList(){
-        return gameModel.getTileList();
+        return gameModel.getTileHandler().getTile();
     }
     public void setTileList(LinkedList tileList){
-        gameModel.setTile(tileList);
+        gameModel.getTileHandler().getTile();
     }
     public LinkedList getEntityList(){
-        return gameModel.getEntity();
+        return gameModel.getEntityHandler().getEntity();
     }
     public void setEntityList(LinkedList entityList){
-        gameModel.setEntity(entityList);
+        gameModel.getEntityHandler().setEntity(entityList);
     }
     public void renderGameScene(){
         //display all game graphics

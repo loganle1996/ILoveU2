@@ -17,8 +17,8 @@ import tile.Tile;
  * @author khoinguyen
  */
 public class FireBall extends Bullet{
-    public FireBall(double x, double y,GameModel gameModel,Boolean flyingLeft) {
-        super(x, y,gameModel,flyingLeft);
+    public FireBall(double x, double y,BulletHandler bulletHandler,Boolean flyingLeft) {
+        super(x, y,bulletHandler,flyingLeft);
         this.setId(bulletType.fireBall);
     }
 
@@ -43,7 +43,7 @@ public class FireBall extends Bullet{
         
     }
     public void tileCollidingChecking(){
-        for(Tile t: gameModel.getTileList()){
+        for(Tile t: tileHandler.getTile()){
             if(t.solid == false){
                 break;
             }
@@ -58,7 +58,7 @@ public class FireBall extends Bullet{
         }
     }
     public void entityCollidingChecking(){
-        for(Entity en : gameModel.getEntity()){
+        for(Entity en : entityHandler.getEntity()){
             if(en.getId() != Id.player){
                 if(this.intersectsEntity(en)){
                     en.setHp(en.getHp()-200);

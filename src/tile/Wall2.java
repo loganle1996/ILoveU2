@@ -18,8 +18,8 @@ import javafx.scene.image.Image;
 public class Wall2 extends Tile{
     Image image = new Image("bricks_2.png");
     
-    public Wall2(int x, int y, int width, int height, boolean solid, Id id, GameModel gameModel, String type) {
-        super(x, y, width, height, solid, id, gameModel, type);
+    public Wall2(int x, int y, int width, int height, boolean solid, Id id, TileHandler tileHandler, String type) {
+        super(x, y, width, height, solid, id, tileHandler, type);
     }
     public Wall2(){
         //GameView.gameModel.addTile(this);

@@ -22,17 +22,26 @@ public class Player extends Entity {
     private int frame = 0;
     private int frameDelay = 0;
     private boolean animate = false;
-    public Player(int x, int y, int width, int height, boolean solid,Id id,GameModel gameModel) {
-        super(x, y, width, height, solid,id,gameModel);
+    private static Player player = new Player(40, 40, true, Id.player, entityHandler);
+//    public Player(int x, int y, int width, int height, boolean solid,Id id,EntityHandler entityHandler) {
+//        super(x, y, width, height, solid,id,entityHandler);
+//        this.state = PlayerState.big;
+//    }
+
+    private Player(int width, int height, boolean solid, Id id, EntityHandler entityHandler) {
+        super(width, height, solid, id, entityHandler);
         this.state = PlayerState.big;
     }
-
-    public PlayerState getState() {
+    
+    PlayerState getState() {
         return state;
     }
 
     public void setState(PlayerState state) {
         this.state = state;
+    }
+    public static Player getInstance(){
+        return player;
     }
 
     @Override
@@ -47,13 +56,13 @@ public class Player extends Entity {
     @Override
     public void shootFireBall(GraphicsContext gc) {
         if(facing == 0){
-            gameModel.bullets.add(new FireBall(this.getX(), this.getY() + 5, gameModel,true));
+            bulletHandler.getBullets().add(new FireBall(this.getX(), this.getY() + 5, bulletHandler,true));
         }
         else if(facing == 1){
-            gameModel.bullets.add(new FireBall(this.getX() + this.getWidth(), this.getY() + 5, gameModel,false));
+            bulletHandler.getBullets().add(new FireBall(this.getX() + this.getWidth(), this.getY() + 5, bulletHandler,false));
         }
         
-        for(Bullet bullet : gameModel.bullets){
+        for(Bullet bullet : bulletHandler.getBullets()){
             if(bullet.getId() == bulletType.fireBall){
                 if(bullet.isFlyingLeft() == true){
                     bullet.setVelX(-15);
@@ -125,7 +134,7 @@ public class Player extends Entity {
  
     }
     public void tileCollidingChecking(){
-        for(Tile t: gameModel.getTileList()){
+        for(Tile t: tileHandler.getTile()){
             if(t.solid == false){
                 break;
             }
@@ -153,7 +162,7 @@ public class Player extends Entity {
         }
     }
     public void enemyCollidingChecking(){
-        for(Entity en : gameModel.getEntity()){
+        for(Entity en : entityHandler.getEntity()){
             if(en.getId() == Id.Goomba){
                     if(this.intersectsTopEntity(en)){
                         y = en.getY() - height;

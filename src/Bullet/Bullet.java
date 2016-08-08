@@ -6,11 +6,13 @@
 package Bullet;
 
 import Entity.Entity;
+import Entity.EntityHandler;
 import MVCpattern.GameModel;
 import javafx.geometry.Rectangle2D;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
 import tile.Tile;
+import tile.TileHandler;
 
 /**
  *
@@ -23,12 +25,15 @@ public abstract class Bullet {
     private int numberOfBullets = 10;
     private bulletType id;
     GameModel gameModel;
+    TileHandler tileHandler = TileHandler.getInstance();
+    EntityHandler entityHandler = EntityHandler.getInstance();
+    BulletHandler bulletHandler = BulletHandler.getInstance();
     private boolean flyingLeft;
 
-    public Bullet(double x, double y,GameModel gameModel,boolean flyingLeft) {
+    public Bullet(double x, double y,BulletHandler bulletHandler,boolean flyingLeft) {
         this.x = x;
         this.y = y;
-        this.gameModel = gameModel;
+        this.bulletHandler = bulletHandler;
         this.flyingLeft = flyingLeft;
     }
     public abstract void renderBullet(GraphicsContext gc,Entity en,Image imageLeft, Image imageRight);
@@ -116,7 +121,7 @@ public abstract class Bullet {
     
     //other methods
     public void disappear(){
-        gameModel.removeBullets(this);
+        bulletHandler.removeBullets(this);
     }
     //BOUNDARY **************************************************************
     //***********************************************************************

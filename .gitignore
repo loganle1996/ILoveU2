@@ -53,3 +53,9 @@ fabric.properties
 *.xml
 
 *.mf
+<<<<<<< HEAD
+
+src/fireball.jpg
+=======
+ILoveU2.iml
+>>>>>>> origin/master

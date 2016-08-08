@@ -5,10 +5,12 @@
  */
 package Entity;
 
+import Bullet.BulletHandler;
 import MVCpattern.GameModel;
 import javafx.geometry.Rectangle2D;
 import javafx.scene.canvas.GraphicsContext;
 import tile.Tile;
+import tile.TileHandler;
 
 /**
  *
@@ -22,24 +24,33 @@ public abstract class Entity {
     public final double gravity= 10;
     public double velX,velY;
     public Id id;
-    GameModel gameModel;
+    public static EntityHandler entityHandler = EntityHandler.getInstance();
+    public TileHandler tileHandler = TileHandler.getInstance();
+    public BulletHandler bulletHandler = BulletHandler.getInstance();
     public boolean isMovingLeft = false, isMovingRight = false, jumping = false;
     public int facing = 0; //0 is left; 1 is right
     public double hp = 1000;
     public boolean isCollidingLeft = false, isCollidingRight = false,collidingTop = false, collidingBottom = false;
     //public boolean falling = true;
     
-    public Entity(int x, int y, int width, int height, boolean solid,Id id,GameModel gameModel) {
+    public Entity(int x, int y, int width, int height, boolean solid,Id id,EntityHandler entityHandler) {
         this.x = x;
         this.y = y;
         this.width = width;
         this.height = height;
         this.solid = solid;
         this.id = id;
-        this.gameModel = gameModel;
+        this.entityHandler = entityHandler;
         velY += gravity;
     }
-
+    public Entity(int width,int height, boolean solid, Id id, EntityHandler entityHandler){
+        this.width = width;
+        this.height = height;
+        this.solid = solid;
+        this.id = id;
+        this.entityHandler = entityHandler;
+        velY += gravity;
+    }
     public abstract void render(GraphicsContext g);
         
     public abstract void tick();
@@ -181,7 +192,7 @@ public abstract class Entity {
         this.height = height;
     }
     public void die(){
-        gameModel.removeEntity(this);
+        entityHandler.removeEntity(this);
     }
 
     public double getHp() {
@@ -232,12 +243,14 @@ public abstract class Entity {
         this.facing = facing;
     }
 
-    public GameModel getGameModel() {
-        return gameModel;
+    public EntityHandler getEntityHandler() {
+        return entityHandler;
     }
 
-    public void setGameModel(GameModel gameModel) {
-        this.gameModel = gameModel;
+    public void setEntityHandler(EntityHandler entityHandler) {
+        this.entityHandler = entityHandler;
     }
+
+    
     
 }

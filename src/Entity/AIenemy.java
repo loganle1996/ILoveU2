@@ -18,8 +18,8 @@ import tile.Tile;
  */
 public class AIenemy extends Entity {
 
-    public AIenemy(int x, int y, int width, int height, boolean solid, Id id, GameModel gameModel) {
-        super(x, y, width, height, solid, id, gameModel);
+    public AIenemy(int x, int y, int width, int height, boolean solid, Id id, EntityHandler entityHandler) {
+        super(x, y, width, height, solid, id, entityHandler);
         this.setIsMovingLeft(true);
     }
 
@@ -56,7 +56,7 @@ public class AIenemy extends Entity {
         tileCollidingChecking();
     }
 public void tileCollidingChecking(){
-        for(Tile t: gameModel.getTileList()){
+        for(Tile t: tileHandler.getTile()){
             if(t.solid == false){
                 break;
             }

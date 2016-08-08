@@ -22,6 +22,7 @@ public abstract class Tile implements Cloneable{
     public int x, y;
     public int width = 40, height = 40;
     public GameModel gameModel;
+    TileHandler tileHandler = TileHandler.getInstance();
     public String type;
     
     public boolean solid;
@@ -30,14 +31,14 @@ public abstract class Tile implements Cloneable{
     public boolean isAddedGameModel = true;
 //    public Image image; //= new Image(imagePath);
     
-    public Tile(int x, int y, int width, int height, boolean solid,Id id,GameModel gameModel,String type) {
+    public Tile(int x, int y, int width, int height, boolean solid,Id id,TileHandler tileHandler,String type) {
         this.x = x;
         this.y = y;
         this.width = width;
         this.height = height;
         this.solid = solid;
         this.id = id;
-        this.gameModel = gameModel;
+        this.tileHandler = tileHandler;
         this.type = type;
     }
     public Tile(boolean solid,Id id){
@@ -51,7 +52,7 @@ public abstract class Tile implements Cloneable{
         
     public abstract void tick();
     public void die(){
-        gameModel.removeTile(this);
+        tileHandler.removeTile(this);
     }
     public void setId(Id id){
         this.id = id;
