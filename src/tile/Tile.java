@@ -113,6 +113,22 @@ public abstract class Tile implements Cloneable{
     public Rectangle2D getRightBoundary(){
         return new Rectangle2D(getX() + width - 5, getY() + 10,5, height - 20);
     }
+    //is intersected
+       public boolean intersectsTile(Tile ti){
+        return ti.getBoundary().intersects(this.getBoundary());
+    }
+    public boolean intersectsTopTile(Tile ti){
+        return ti.getTopBoundary().intersects(this.getBoundary());
+    }
+    public boolean intersectsLeftTile(Tile ti){
+        return ti.getLeftBoundary().intersects(this.getBoundary());
+    }
+    public boolean intersectsRightTile(Tile ti){
+        return ti.getRightBoundary().intersects(this.getBoundary());
+    }
+    public boolean intersectsBottomTile(Tile ti){
+        return ti.getBottomBoundary().intersects(this.getBoundary());
+    }
 
     public String getType() {
         return type;

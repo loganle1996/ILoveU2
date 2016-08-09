@@ -19,9 +19,6 @@ import tile.Tile;
  * @author owne
  */
 public class Player extends Entity {
-    private int frame = 0;
-    private int frameDelay = 0;
-    private boolean animate = false;
     private static Player player = new Player(40, 40, true, Id.player, entityHandler);
 
     private Player(int width, int height, boolean solid, Id id, EntityHandler entityHandler) {
@@ -112,24 +109,23 @@ public class Player extends Entity {
     public void tileCollidingChecking(){
         for(Tile t: tileHandler.getTile()){
             if(t.solid == false){
-                break;
             }
             else{
                 if(t.getId() == Id.wall){
-                    if(this.intersectsTopObject(t)){
+                    if(this.intersectsTopTile(t)){
                         y = t.getY() - height;
                         this.setVelY(10);
                         this.setJumping(false);
                     }    
-                    if(this.intersectsBottomobject(t)){                       
+                    if(this.intersectsBottomTile(t)){                       
                         setVelY(0);
                         y = t.getY() + height;
                     }
-                    if(this.intersectsRightObject(t)){
+                    if(this.intersectsRightTile(t)){
                         setVelX(0);
                         x = t.getX()+t.width;
                     }
-                    if(this.intersectsLeftObject(t)){
+                    if(this.intersectsLeftTile(t)){
                         setVelX(0);
                         x = t.getX()-t.width;                       
                     }

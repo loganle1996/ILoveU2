@@ -7,6 +7,7 @@ package Bullet;
 
 import Entity.Entity;
 import Entity.Id;
+import java.util.LinkedList;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
 import tile.Tile;
@@ -16,6 +17,8 @@ import tile.Tile;
  * @author khoinguyen
  */
 public class FireBall extends Bullet{
+    private LinkedList<Tile> copiedTiles;
+    private LinkedList<Entity> copiedEntity;
     public FireBall(double x, double y,BulletHandler bulletHandler,Boolean flyingLeft) {
         super(x, y,bulletHandler,flyingLeft);
         this.setId(bulletType.fireBall);
@@ -42,19 +45,23 @@ public class FireBall extends Bullet{
         
     }
     public void tileCollidingChecking(){
-        for(Tile t: tileHandler.getTile()){
-                if(t.getId() == Id.wall){
-                    if(this.intersectsObject(t) && t.getType().equals("wall3")){
-                        if(t.getType().equalsIgnoreCase("wall3")){
-                            t.setHp(t.getHp()-200);
-                        }
-                        this.disappear();
-                    }    
-                }  
+        copiedTiles = new LinkedList<>(tileHandler.getTile());
+        for(Tile t: tileHandler.getTile())  {
+            if(t.solid == false){
+            }
+            else if(t.getId() == Id.wall){
+                if(this.intersectsObject(t)){
+                    if(t.getType().equalsIgnoreCase("wall3")){
+                        t.setHp(t.getHp()-200);
+                    }
+                    this.disappear();
+                }    
+            }  
         }
     }
     public void entityCollidingChecking(){
-        for(Entity en : entityHandler.getEntity()){
+        copiedEntity = new LinkedList<Entity>(entityHandler.getEntity());
+        for(Entity en : copiedEntity){
             if(en.getId() != Id.player){
                 if(this.intersectsEntity(en)){
                     en.setHp(en.getHp()-200);

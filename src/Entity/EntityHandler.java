@@ -13,7 +13,7 @@ import javafx.scene.canvas.GraphicsContext;
  *
  * @author khoinguyen
  */
-public class EntityHandler {
+public class EntityHandler implements Cloneable{
     public LinkedList<Entity> entity = new LinkedList<Entity>();
     public LinkedList<Entity> copiedEntity;
     private static EntityHandler entityHandler = new EntityHandler();
@@ -26,7 +26,20 @@ public class EntityHandler {
     public void removeEntity(Entity en){
         entity.remove(en);
     }
-    
+    //clone
+    @Override
+    public Object clone(){
+      Object clone = null;
+      
+      try {
+         clone = super.clone();
+         
+      } catch (CloneNotSupportedException e) {
+         e.printStackTrace();
+      }
+      
+      return clone;
+    }
     //Acessors and mutators
     public LinkedList<Entity> getEntity() {
         return entity;
@@ -52,6 +65,9 @@ public class EntityHandler {
                 en.render(g, crocodileSprite);
             }
         }
+    }
+    public void editInstance(EntityHandler entityHandler){
+        this.entityHandler = entityHandler;
     }
     //get instance method
     public static EntityHandler getInstance(){

@@ -32,6 +32,9 @@ public abstract class Entity {
     public int facing = 0; //0 is left; 1 is right
     public double hp = 1000;
     public boolean isCollidingLeft = false, isCollidingRight = false,collidingTop = false, collidingBottom = false;
+    public int frame = 0;
+    public int frameDelay = 0;
+    public boolean animate = false;
     //public boolean falling = true;
     
     public Entity(int x, int y, int width, int height, boolean solid,Id id,EntityHandler entityHandler) {
@@ -129,19 +132,19 @@ public abstract class Entity {
         return new Rectangle2D(getX() + width - 5, getY() + 10,5, height - 20);
     }
     //is intersected ?
-    public boolean intersectsObject(Tile ti){
+    public boolean intersectsTile(Tile ti){
         return ti.getBoundary().intersects(this.getBoundary());
     }
-    public boolean intersectsTopObject(Tile ti){
+    public boolean intersectsTopTile(Tile ti){
         return ti.getTopBoundary().intersects(this.getBoundary());
     }
-    public boolean intersectsLeftObject(Tile ti){
+    public boolean intersectsLeftTile(Tile ti){
         return ti.getLeftBoundary().intersects(this.getBoundary());
     }
-    public boolean intersectsRightObject(Tile ti){
+    public boolean intersectsRightTile(Tile ti){
         return ti.getRightBoundary().intersects(this.getBoundary());
     }
-    public boolean intersectsBottomobject(Tile ti){
+    public boolean intersectsBottomTile(Tile ti){
         return ti.getBottomBoundary().intersects(this.getBoundary());
     }
     // is intersected Entity

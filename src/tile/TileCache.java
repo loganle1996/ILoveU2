@@ -9,7 +9,7 @@ import Entity.Id;
 import MVCpattern.GameModel;
 import MVCpattern.GameView;
 import java.util.Hashtable;
-
+//import tile.WoodBridge;
 /**
  *
  * @author owne
@@ -30,19 +30,25 @@ public class TileCache {
     
     public void loadCache(GameModel gameModel){
         Wall1 wall1 = new Wall1(40, 40, 40, 40, true, Id.wall,tileHandler , "wall1");
-        //Wall1 wall1 = new Wall1(true, Id.wall);
         wall1.setType("wall1");
         tileTable.put(wall1.getType(), wall1);
         
         Wall2 wall2 = new Wall2(40, 40, 40, 40, true, Id.wall,tileHandler, "wall2");
-        //Wall2 wall2 = new Wall2(true, Id.wall);
         wall2.setType("wall2");
         tileTable.put(wall2.getType(), wall2);
         
         Wall3 wall3 = new Wall3(40, 40, 40, 40, true, Id.wall, tileHandler, "wall3");
-        //Wall3 wall3 = new Wall3(true, Id.wall);
         wall3.setType("wall3");
         tileTable.put(wall3.getType(), wall3);
+        
+        Trap1 trap1 = new Trap1(40, 40, 40, 40, true, Id.wall, tileHandler, "trap1");
+        tileTable.put(trap1.getType(),trap1);
+        
+        InvisibleWall invisibleWall = new InvisibleWall(40, 40, 40, 40, false, Id.wall, tileHandler, "invisibleWall");
+        tileTable.put(invisibleWall.getType(), invisibleWall);
+        
+        WoodBridge woodBridge = new WoodBridge(true, 40, 40, 40, 40, true, Id.wall, tileHandler, "woodBridge");
+        tileTable.put(woodBridge.getType(),woodBridge);
     }
     public static TileCache getInstance(){
         return tileCache;

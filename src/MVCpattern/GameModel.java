@@ -6,11 +6,17 @@
 package MVCpattern;
 
 import Bullet.BulletHandler;
+import Entity.AIenemy;
 import Entity.Entity;
 import Entity.EntityHandler;
 import Entity.Id;
+import GameState.CareTaker;
+import GameState.Originator;
 import GraphicsforAnimation.Sprite;
 import GraphicsforAnimation.SpriteSheet;
+import Target.AiHouse;
+import Target.HouseHandler;
+import java.util.LinkedList;
 
 
 import javafx.animation.AnimationTimer;
@@ -43,7 +49,6 @@ import tile.TileHandler;
  * @author owne
  */
 public class GameModel extends Application {
-
     static Scene mainScene;
     static GraphicsContext gc;
     public static int WIDTH = 1600;
@@ -59,9 +64,14 @@ public class GameModel extends Application {
     public TileHandler tileHandler = TileHandler.getInstance();
     public TileCache tileCache = TileCache.getInstance();
     public BulletHandler bulletHandler = BulletHandler.getInstance();
+    public HouseHandler houseHandler = HouseHandler.getInstance();
     public Entity player1;
     private PerspectiveCamera camera;
     private Image Background;
+    public Originator originator = new Originator();
+    public CareTaker careTaker = new CareTaker();
+    public LinkedList<Entity> copiedEntity;
+    private long lastSpawnTime = 0;
     public GameModel(){
         
     }
@@ -71,7 +81,6 @@ public class GameModel extends Application {
     }
 
     //Accessors and mutators
-
     public EntityHandler getEntityHandler() {
         return entityHandler;
     }
@@ -88,14 +97,24 @@ public class GameModel extends Application {
         this.tileHandler = tileHandler;
     }
 
+    public HouseHandler getHouseHandler() {
+        return houseHandler;
+    }
+
+    public void setHouseHandler(HouseHandler houseHandler) {
+        this.houseHandler = houseHandler;
+    }
+    
     public void TickModelGame(){
         entityHandler.tickEntities();
         tileHandler.tickTiles();
         bulletHandler.tickBullets();
+        houseHandler.tickHouses();
     }
     public void renderModelGame(GraphicsContext g){
         entityHandler.renderEntities(g,playerSprite,crocodileSprite);
         tileHandler.renderTiles(g);
+        houseHandler.renderHouses(gc);
     }
     public void renderBulletOfPlayer(Image imageleft,Image imageRight){
         bulletHandler.renderBullets(gc, imageleft, imageRight);
@@ -134,16 +153,16 @@ public class GameModel extends Application {
         Group root = new Group();
         mainScene = new Scene(root);
         gameStage.setScene(mainScene);
-//        mainScene.setCamera(camera);
-//        camera.setNearClip(0.1);
-//        camera.setFarClip(1500);
-//        camera.setTranslateX(800);
-//        camera.setTranslateY(800);
-//        camera.setTranslateZ(-950);
+        mainScene.setCamera(camera);
+        camera.setNearClip(0.1);
+        camera.setFarClip(1500);
+        camera.setTranslateX(800);
+        camera.setTranslateY(800);
+        camera.setTranslateZ(-950);
 
         Canvas canvas = new Canvas(WIDTH, HEIGHT);
         root.getChildren().add(canvas);
-//        root.getChildren().add(camera);
+        root.getChildren().add(camera);
         //Associate gc to the canvas to draw.
         gc = canvas.getGraphicsContext2D();
         //Get all images from all resources.
@@ -151,20 +170,29 @@ public class GameModel extends Application {
         player1 = gameMap.returnPlayer1();
         // main scene listens for keyevent
         prepareKeyEvent(mainScene);
-        final long startNanoTime = System.nanoTime();
 
         new AnimationTimer()
         {
             @Override
             public void handle(long currentNanoTime)
             {
-                double t = (currentNanoTime - startNanoTime) / 1000000000.0;
+                if (lastSpawnTime == 0){
+                    lastSpawnTime = currentNanoTime;
+                }
+                else {
+                    if (((currentNanoTime - lastSpawnTime) / 1000000000.0) > 5){
+                        lastSpawnTime = currentNanoTime;
+                        spawnEnemy();
+                    }
+                }
 
-                double x = 232 + 128 * Math.cos(t);
-                double y = 232 + 128 * Math.sin(t);
+//                double x = 232 + 128 * Math.cos(t);
+//                double y = 232 + 128 * Math.sin(t);
                 tickAndRenderModel();
-//                camera.setTranslateX(player1.getX());
-//                camera.setTranslateY(player1.getY());
+                
+                camera.setTranslateX(player1.getX());
+                camera.setTranslateY(player1.getY());
+
 
             }
         }.start();
@@ -204,6 +232,13 @@ public class GameModel extends Application {
          this.renderModelGame(gc);
          this.renderBulletOfPlayer(imageLeft, imageRight);
     }
+    
+    public void spawnEnemy()
+    {
+        for(AiHouse aiHouse: houseHandler.getAiHouses()){
+            entityHandler.addEntity(new AIenemy((int)aiHouse.getX(), (int)aiHouse.getY(), 40, 40, true, Id.Goomba, entityHandler));
+        }
+    }
     public void prepareKeyEvent(Scene mainScene) {
         mainScene.setOnKeyPressed(new EventHandler<KeyEvent>()
         {
@@ -211,7 +246,8 @@ public class GameModel extends Application {
             public void handle(KeyEvent event)
             {
                 //currentlyActiveKeys.add(event.getCode().toString());
-                for(Entity en: entityHandler.getEntity()){
+                copiedEntity = new LinkedList<Entity>(entityHandler.getEntity());
+                for(Entity en: copiedEntity){
                     if(en.getId() == Id.player){
                         if(event.getCode() == KeyCode.SPACE){
                             if(en.isJumping() == false){
@@ -219,6 +255,21 @@ public class GameModel extends Application {
                                 en.setVelY(-15);
                             }
                         }
+//                        if(event.getCode() == KeyCode.H){
+//                            originator.setEntityState((EntityHandler) entityHandler.clone());
+//                            originator.setBulletState((BulletHandler) bulletHandler.clone());
+//                            originator.setTileState((TileHandler) tileHandler.clone());
+//                            careTaker.add(originator.saveStateMemento());
+//                            System.out.println("saving successfully");
+//                            
+//                        }
+//                        if(event.getCode() == KeyCode.J){
+//                            originator.getStateFromMemento(careTaker.get());
+//                            entityHandler.editInstance(originator.getEntityState());
+//                            bulletHandler.editInstance(originator.getBulletState());                            
+//                            tileHandler.editInstance(originator.getTileState());
+//                            System.out.println("undo succesfully");
+//                        }
                         if(event.getCode() == KeyCode.R){
                             en.shootFireBall(gc);
                         }
@@ -238,7 +289,8 @@ public class GameModel extends Application {
             @Override
             public void handle(KeyEvent event)
             {
-                for(Entity en: entityHandler.getEntity()){   
+                copiedEntity = new LinkedList<Entity>(entityHandler.getEntity());
+                for(Entity en: copiedEntity){   
                     if(en.getId() == Id.player){
                         if(event.getCode() == KeyCode.SPACE){
                         }

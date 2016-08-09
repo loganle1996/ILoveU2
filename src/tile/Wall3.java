@@ -16,13 +16,12 @@ import javafx.scene.image.Image;
  * @author owne
  */
 public class Wall3 extends Tile{
-    int count = 1;
     Image image = new Image("bricks_3.png");
     public Wall3(int x, int y, int width, int height, boolean solid, Id id, TileHandler tileHandler, String type) {
         super(x, y, width, height, solid, id, tileHandler, type);
     }
     public Wall3(){
-        //GameView.gameModel.addTile(this);
+        
     }
 
     public Wall3(boolean solid, Id id) {

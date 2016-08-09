@@ -5,20 +5,33 @@
  */
 package GameState;
 
+import Bullet.Bullet;
 import Bullet.BulletHandler;
+import Entity.Entity;
 import Entity.EntityHandler;
+import java.util.LinkedList;
+import tile.Tile;
 import tile.TileHandler;
 
 /**
  *
  * @author khoinguyen
  */
-public class Originator {
+public class Memento{
     private TileHandler tileState;
     private BulletHandler bulletState;
     private EntityHandler entityState;
-    
-    public TileHandler getTileState(){
+
+    //Constructor
+
+    public Memento(TileHandler tileState, BulletHandler bulletState, EntityHandler entityState) {
+        this.tileState = tileState;
+        this.bulletState = bulletState;
+        this.entityState = entityState;
+    }
+
+    //Accessors and mutators
+    public TileHandler getTileState() {
         return tileState;
     }
 
@@ -37,17 +50,11 @@ public class Originator {
     public EntityHandler getEntityState() {
         return entityState;
     }
-    public Memento saveStateMemento(){
-        return new Memento(tileState, bulletState, entityState);
-    }
-    //Accessors and mutators
+
     public void setEntityState(EntityHandler entityState) {
         this.entityState = entityState;
     }
-
-    public void getStateFromMemento(Memento memento) {
-        tileState = memento.getTileState();
-        bulletState = memento.getBulletState();
-        entityState = memento.getEntityState();
-    }
+    
+    
+    
 }

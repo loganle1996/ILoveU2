@@ -16,7 +16,7 @@ import javafx.scene.image.Image;
  *
  * @author khoinguyen
  */
-public class BulletHandler {
+public class BulletHandler implements Cloneable{
     public LinkedList<Bullet> bullets = new LinkedList<Bullet>();
     public LinkedList<Bullet> copiedBullets;
     public EntityHandler entityHandler = EntityHandler.getInstance();
@@ -24,6 +24,19 @@ public class BulletHandler {
     
     private BulletHandler(){
         
+    }
+    @Override
+    public Object clone(){
+    Object clone = null;
+      
+      try {
+         clone = super.clone();
+         
+      } catch (CloneNotSupportedException e) {
+         e.printStackTrace();
+      }
+      
+      return clone;
     }
     //Add and remove bullets
     public void addBullets(Bullet bullet){
@@ -59,6 +72,10 @@ public class BulletHandler {
                 }
             }
         }
+    }
+    //edit instance
+    public void editInstance(BulletHandler bulletHandler){
+        this.bulletHandler = bulletHandler;
     }
     public static BulletHandler getInstance(){
         return bulletHandler;

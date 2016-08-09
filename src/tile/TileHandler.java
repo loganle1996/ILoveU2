@@ -13,12 +13,25 @@ import javafx.scene.canvas.GraphicsContext;
  *
  * @author khoinguyen
  */
-public class TileHandler {
+public class TileHandler implements Cloneable{
     public LinkedList<Tile> tile = new LinkedList<Tile>();
     public LinkedList<Tile> copiedTile;
         
     private static TileHandler tileHandler = new TileHandler();
-    
+    //clone
+    @Override
+    public Object clone(){
+      Object clone = null;
+      
+      try {
+         clone = super.clone();
+         
+      } catch (CloneNotSupportedException e) {
+         e.printStackTrace();
+      }
+      
+      return clone;
+    }
     //private constructor
     private TileHandler(){
         
@@ -51,6 +64,10 @@ public class TileHandler {
         for(Tile ti: copiedTile){
             ti.render(g);
         }
+    }
+    //edit instance
+    public void editInstance(TileHandler tileHandler){
+        this.tileHandler = tileHandler;
     }
     //get instance
     public static TileHandler getInstance(){

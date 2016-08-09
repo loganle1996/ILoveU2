@@ -5,12 +5,8 @@
  */
 package Entity;
 
-import Bullet.Bullet;
-import Bullet.bulletType;
 import GraphicsforAnimation.Sprite;
-import MVCpattern.GameModel;
 import javafx.scene.canvas.GraphicsContext;
-import javafx.scene.paint.Color;
 import tile.Tile;
 
 /**
@@ -18,9 +14,6 @@ import tile.Tile;
  * @author owne
  */
 public class AIenemy extends Entity {
-    private int frame = 0;
-    private int frameDelay = 0;
-    private boolean animate = false;
     public AIenemy(int x, int y, int width, int height, boolean solid, Id id, EntityHandler entityHandler) {
         super(x, y, width, height, solid, id, entityHandler);
         this.setIsMovingLeft(true);
@@ -39,8 +32,7 @@ public class AIenemy extends Entity {
         
     }
     @Override
-    public void shootFireBall(GraphicsContext gc) {
-        
+    public void shootFireBall(GraphicsContext gc) { 
     }
 
     @Override
@@ -85,27 +77,22 @@ public class AIenemy extends Entity {
     }
 public void tileCollidingChecking(){
         for(Tile t: tileHandler.getTile()){
-            if(t.solid == false){
-                break;
-            }
-            else{
-                if(t.getId() == Id.wall){
-                    if(this.intersectsTopObject(t)){
-                        y = t.getY() - height;
-                        this.setVelY(10);
-                        this.setJumping(false);
-                    }    
-                    if(this.intersectsBottomobject(t)){                       
-                        y = t.getY() + height;
-                    }
-                    if(this.intersectsRightObject(t)){
-                        this.setIsMovingRight(true);
-                        this.setIsMovingLeft(false);
-                    }
-                    if(this.intersectsLeftObject(t)){
-                        this.setIsMovingLeft(true);
-                        this.setIsMovingRight(false);
-                    }
+            if(t.getId() == Id.wall){
+                if(this.intersectsTopTile(t)){
+                    y = t.getY() - height;
+                    this.setVelY(10);
+                    this.setJumping(false);
+                }    
+                if(this.intersectsBottomTile(t)){                       
+                    y = t.getY() + height;
+                }
+                if(this.intersectsRightTile(t)){
+                    this.setIsMovingRight(true);
+                    this.setIsMovingLeft(false);
+                }
+                if(this.intersectsLeftTile(t)){
+                    this.setIsMovingLeft(true);
+                    this.setIsMovingRight(false);
                 }
             }
         }
