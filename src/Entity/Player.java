@@ -111,23 +111,35 @@ public class Player extends Entity {
             if(t.solid == false){
             }
             else{
-                if(t.getId() == Id.wall){
+                if(t.getId() == Id.wall || t.getId() == Id.fireTrap){
                     if(this.intersectsTopTile(t)){
                         y = t.getY() - height;
                         this.setVelY(10);
                         this.setJumping(false);
+                        if(t.getId() == Id.fireTrap){
+                            hp -= 10;
+                        }
                     }    
                     if(this.intersectsBottomTile(t)){                       
                         setVelY(0);
                         y = t.getY() + height;
+                        if(t.getId() == Id.fireTrap){
+                            hp -= 10;
+                        }
                     }
                     if(this.intersectsRightTile(t)){
                         setVelX(0);
                         x = t.getX()+t.width;
+                        if(t.getId() == Id.fireTrap){
+                            hp -= 10;
+                        }
                     }
                     if(this.intersectsLeftTile(t)){
                         setVelX(0);
-                        x = t.getX()-t.width;                       
+                        x = t.getX()-t.width;  
+                        if(t.getId() == Id.fireTrap){
+                            hp -= 10;
+                        }
                     }
                 }
             }     

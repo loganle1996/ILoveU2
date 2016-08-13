@@ -25,6 +25,7 @@ public class AiHouse {
     public HouseHandler houseHandler = HouseHandler.getInstance();
     public TileHandler tileHandler = TileHandler.getInstance();
     public EntityHandler entityHandler = EntityHandler.getInstance();
+    public double hp = 4000;
     public AiHouse(double x, double y, Image houseImage) {
         this.x = x;
         this.y = y;
@@ -70,12 +71,23 @@ public class AiHouse {
     public void setId(int id) {
         this.id = id;
     }
+
+    public double getHp() {
+        return hp;
+    }
+
+    public void setHp(double hp) {
+        this.hp = hp;
+    }
     
     //other methods
     public void die(){
         houseHandler.removeHouse(this);
     }
     public void tick(){
+        if(this.getHp()<=0){
+            this.die();
+        }
         tileCollidingCheck();
     }
     public void render(GraphicsContext gc){

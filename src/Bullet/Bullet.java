@@ -8,6 +8,8 @@ package Bullet;
 import Entity.Entity;
 import Entity.EntityHandler;
 import MVCpattern.GameModel;
+import Target.AiHouse;
+import Target.HouseHandler;
 import javafx.geometry.Rectangle2D;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
@@ -28,6 +30,7 @@ public abstract class Bullet {
     TileHandler tileHandler = TileHandler.getInstance();
     EntityHandler entityHandler = EntityHandler.getInstance();
     BulletHandler bulletHandler = BulletHandler.getInstance();
+    HouseHandler houseHandler = HouseHandler.getInstance();
     private boolean flyingLeft;
 
     public Bullet(double x, double y,BulletHandler bulletHandler,boolean flyingLeft) {
@@ -141,20 +144,36 @@ public abstract class Bullet {
         return new Rectangle2D(getX() + width - 5, getY() + 10,5, height - 20);
     }
     //is intersected ?
-    public boolean intersectsObject(Tile ti){
+    public boolean intersectsTile(Tile ti){
         return ti.getBoundary().intersects(this.getBoundary());
     }
-    public boolean intersectsTopObject(Tile ti){
+    public boolean intersectsTopTile(Tile ti){
         return ti.getTopBoundary().intersects(this.getBoundary());
     }
-    public boolean intersectsLeftObject(Tile ti){
+    public boolean intersectsLeftTile(Tile ti){
         return ti.getLeftBoundary().intersects(this.getBoundary());
     }
-    public boolean intersectsRightObject(Tile ti){
+    public boolean intersectsRightTile(Tile ti){
         return ti.getRightBoundary().intersects(this.getBoundary());
     }
-    public boolean intersectsBottomobject(Tile ti){
+    public boolean intersectsBottomTile(Tile ti){
         return ti.getBottomBoundary().intersects(this.getBoundary());
+    }
+    //is intersectedHouse
+    public boolean intersectsHouse(AiHouse ah){
+        return ah.getBoundary().intersects(this.getBoundary());
+    }
+    public boolean intersectsTopHouse(AiHouse ah){
+        return ah.getTopBoundary().intersects(this.getBoundary());
+    }
+    public boolean intersectsLeftHouse(AiHouse ah){
+        return ah.getLeftBoundary().intersects(this.getBoundary());
+    }
+    public boolean intersectsRightHouse(AiHouse ah){
+        return ah.getRightBoundary().intersects(this.getBoundary());
+    }
+    public boolean intersectsBottomHouse(AiHouse ah){
+        return ah.getBottomBoundary().intersects(this.getBoundary());
     }
     // is intersected Entity
     public boolean intersectsEntity(Entity en){
@@ -171,7 +190,5 @@ public abstract class Bullet {
     }
     public boolean intersectsBottomEntity(Entity en){
         return en.getBottomBoundary().intersects(this.getBoundary());
-    }
-    
-    
+    }    
 }

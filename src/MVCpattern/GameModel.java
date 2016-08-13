@@ -207,8 +207,8 @@ public class GameModel extends Application {
     private void loadGraphicsAndObjects()
     {
             Background = new Image("background.png");
-            imageLeft = new Image("fireball.jpeg");
-            imageRight = new Image("fireball.jpeg");
+            imageLeft = new Image("fireball.png");
+            imageRight = new Image("fireball.png");
             gameMap.getMapData1();
             tileCache.loadCache(this);
             sheet = new SpriteSheet("gameSheet5.png");

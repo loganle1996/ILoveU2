@@ -21,8 +21,6 @@ public class AIenemy extends Entity {
 
     @Override
     public void render(GraphicsContext g,Sprite[] aiSprite) {
-//        g.setFill(Color.BLUE);
-//        g.fillRect(this.getX(), this.getY(), width, height);
         if(this.facing == 0 ){
              g.drawImage(aiSprite[frame+ 3].getImage(), x, y, width, height);
          }
@@ -77,22 +75,34 @@ public class AIenemy extends Entity {
     }
 public void tileCollidingChecking(){
         for(Tile t: tileHandler.getTile()){
-            if(t.getId() == Id.wall){
+            if(t.getId() == Id.wall || t.getId() == Id.fireTrap){
                 if(this.intersectsTopTile(t)){
                     y = t.getY() - height;
                     this.setVelY(10);
                     this.setJumping(false);
+                    if(t.getId() == Id.fireTrap){
+                        hp -= 20;
+                    }
                 }    
                 if(this.intersectsBottomTile(t)){                       
                     y = t.getY() + height;
+                    if(t.getId() == Id.fireTrap){
+                        hp -= 20;
+                    }
                 }
                 if(this.intersectsRightTile(t)){
                     this.setIsMovingRight(true);
                     this.setIsMovingLeft(false);
+                    if(t.getId() == Id.fireTrap){
+                        hp -= 20;
+                    }
                 }
                 if(this.intersectsLeftTile(t)){
                     this.setIsMovingLeft(true);
                     this.setIsMovingRight(false);
+                    if(t.getId() == Id.fireTrap){
+                        hp -= 20;
+                    }
                 }
             }
         }

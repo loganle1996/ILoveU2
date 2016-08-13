@@ -7,6 +7,8 @@ package Bullet;
 
 import Entity.Entity;
 import Entity.Id;
+import Target.AiHouse;
+import Target.HouseHandler;
 import java.util.LinkedList;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
@@ -17,8 +19,6 @@ import tile.Tile;
  * @author khoinguyen
  */
 public class FireBall extends Bullet{
-    private LinkedList<Tile> copiedTiles;
-    private LinkedList<Entity> copiedEntity;
     public FireBall(double x, double y,BulletHandler bulletHandler,Boolean flyingLeft) {
         super(x, y,bulletHandler,flyingLeft);
         this.setId(bulletType.fireBall);
@@ -35,33 +35,33 @@ public class FireBall extends Bullet{
     }
 
     @Override
-    public void tick() {
+    public synchronized void tick() {
         this.setX(this.getX() + this.getVelX());
         this.setY(this.getY() + this.getVelY());
         //check if fireball collides tiles
         tileCollidingChecking();
         //check if this collides entities
         entityCollidingChecking();
+        //check if this collides houses
+        houseCollidingCheck();
         
     }
     public void tileCollidingChecking(){
-        copiedTiles = new LinkedList<>(tileHandler.getTile());
         for(Tile t: tileHandler.getTile())  {
             if(t.solid == false){
             }
             else if(t.getId() == Id.wall){
-                if(this.intersectsObject(t)){
+                if(this.intersectsTile(t)){
                     if(t.getType().equalsIgnoreCase("wall3")){
                         t.setHp(t.getHp()-200);
                     }
-                    this.disappear();
+                        this.disappear();
                 }    
             }  
         }
     }
     public void entityCollidingChecking(){
-        copiedEntity = new LinkedList<Entity>(entityHandler.getEntity());
-        for(Entity en : copiedEntity){
+        for(Entity en : entityHandler.getEntity()){
             if(en.getId() != Id.player){
                 if(this.intersectsEntity(en)){
                     en.setHp(en.getHp()-200);
@@ -70,5 +70,13 @@ public class FireBall extends Bullet{
             }
         }
     }
-    
+    public void houseCollidingCheck(){
+        for(AiHouse aiHouse : houseHandler.getAiHouses()){
+            if(this.intersectsHouse(aiHouse)){
+                aiHouse.setHp(aiHouse.getHp()-200);
+                this.disappear();
+            }
+        }
+        
+    }
 }

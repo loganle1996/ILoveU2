@@ -57,10 +57,10 @@ public class BulletHandler implements Cloneable{
     
     //tick
     public void tickBullets(){
-        copiedBullets = new LinkedList<Bullet>(bullets);
-        for(Bullet bullet : copiedBullets){
-            bullet.tick();
-        }
+        copiedBullets = new LinkedList<Bullet>(bullets);    
+            for(Bullet bullet : copiedBullets){
+                bullet.tick();
+            }
     }
     //render
     public void renderBullets(GraphicsContext gc, Image imageLeft, Image imageRight){
@@ -80,4 +80,5 @@ public class BulletHandler implements Cloneable{
     public static BulletHandler getInstance(){
         return bulletHandler;
     }
+    
 }

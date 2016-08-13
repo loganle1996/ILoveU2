@@ -41,7 +41,7 @@ public class TileCache {
         wall3.setType("wall3");
         tileTable.put(wall3.getType(), wall3);
         
-        Trap1 trap1 = new Trap1(40, 40, 40, 40, true, Id.wall, tileHandler, "trap1");
+        Trap1 trap1 = new Trap1(40, 40, 40, 40, true, Id.fireTrap, tileHandler, "trap1");
         tileTable.put(trap1.getType(),trap1);
         
         InvisibleWall invisibleWall = new InvisibleWall(40, 40, 40, 40, false, Id.wall, tileHandler, "invisibleWall");
