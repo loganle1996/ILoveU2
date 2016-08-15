@@ -16,6 +16,7 @@ import GraphicsforAnimation.Sprite;
 import GraphicsforAnimation.SpriteSheet;
 import Target.AiHouse;
 import Target.HouseHandler;
+import java.awt.Color;
 import java.util.LinkedList;
 
 
@@ -32,9 +33,13 @@ import javafx.scene.PerspectiveCamera;
 import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
+import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
+import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.HBox;
+import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 import tile.Tile;
 import tile.TileCache;
@@ -144,7 +149,7 @@ public class GameModel extends Application {
     private void loadGame(ActionEvent event) throws Exception {
 
         mainStage.close();
-
+        
         //Create a camera
         Stage gameStage = new Stage();
 
@@ -159,10 +164,15 @@ public class GameModel extends Application {
         camera.setTranslateX(800);
         camera.setTranslateY(800);
         camera.setTranslateZ(-950);
-
+        
+        // Player's HP HUD
+        Label hpLabel = new Label("1000");
+        hpLabel.setTextFill(javafx.scene.paint.Color.WHITE);
+             
         Canvas canvas = new Canvas(WIDTH, HEIGHT);
         root.getChildren().add(canvas);
         root.getChildren().add(camera);
+        root.getChildren().add(hpLabel);
         //Associate gc to the canvas to draw.
         gc = canvas.getGraphicsContext2D();
         //Get all images from all resources.
@@ -192,6 +202,9 @@ public class GameModel extends Application {
                 
                 camera.setTranslateX(player1.getX());
                 camera.setTranslateY(player1.getY());
+                hpLabel.setText("HP:" + player1.getHp());
+                hpLabel.setTranslateX(player1.getX() - 425);
+                hpLabel.setTranslateY(player1.getY() - 250);
 
 
             }
