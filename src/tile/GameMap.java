@@ -23,6 +23,7 @@ import javafx.scene.paint.Color;
  */
 public class GameMap 
 {
+
     public int map[][];
     public ImageView image;
     public static Image character;

@@ -16,10 +16,6 @@ import GraphicsforAnimation.Sprite;
 import GraphicsforAnimation.SpriteSheet;
 import Target.AiHouse;
 import Target.HouseHandler;
-import java.awt.Color;
-import java.util.LinkedList;
-
-
 import javafx.animation.AnimationTimer;
 import javafx.application.Application;
 import javafx.application.Platform;
@@ -35,18 +31,14 @@ import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
-import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
-import javafx.scene.layout.BorderPane;
-import javafx.scene.layout.HBox;
-import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
+import tile.GameMap;
 import tile.Tile;
 import tile.TileCache;
-
-import tile.GameMap;
 import tile.TileHandler;
 
+import java.util.LinkedList;
 
 
 /**
@@ -63,7 +55,7 @@ public class GameModel extends Application {
     public static SpriteSheet sheet,crocodileSheet;
     public static Sprite playerSprite [] = new Sprite[6];
     public static Sprite crocodileSprite [] = new Sprite[6];
-    public static GameMap gameMap = new GameMap();
+
     public Image imageLeft,imageRight;
     public EntityHandler entityHandler = EntityHandler.getInstance();
     public TileHandler tileHandler = TileHandler.getInstance();
@@ -71,14 +63,16 @@ public class GameModel extends Application {
     public BulletHandler bulletHandler = BulletHandler.getInstance();
     public HouseHandler houseHandler = HouseHandler.getInstance();
     public Entity player1;
+
     private PerspectiveCamera camera;
     private Image Background;
     public Originator originator = new Originator();
     public CareTaker careTaker = new CareTaker();
     public LinkedList<Entity> copiedEntity;
     private long lastSpawnTime = 0;
+    public static GameMap gameMap;
     public GameModel(){
-        
+
     }
 
     public void addTile(Tile ti){
@@ -109,7 +103,7 @@ public class GameModel extends Application {
     public void setHouseHandler(HouseHandler houseHandler) {
         this.houseHandler = houseHandler;
     }
-    
+
     public void TickModelGame(){
         entityHandler.tickEntities();
         tileHandler.tickTiles();
@@ -138,6 +132,8 @@ public class GameModel extends Application {
         mainStage.setTitle("Arcane Arena");
         mainStage.show();
 
+        gameMap = new GameMap();
+
         mainStage.setOnCloseRequest(e -> {
             Platform.exit();
             System.exit(0);
@@ -149,7 +145,7 @@ public class GameModel extends Application {
     private void loadGame(ActionEvent event) throws Exception {
 
         mainStage.close();
-        
+
         //Create a camera
         Stage gameStage = new Stage();
 
@@ -164,11 +160,11 @@ public class GameModel extends Application {
         camera.setTranslateX(800);
         camera.setTranslateY(800);
         camera.setTranslateZ(-950);
-        
+
         // Player's HP HUD
         Label hpLabel = new Label("1000");
         hpLabel.setTextFill(javafx.scene.paint.Color.WHITE);
-             
+
         Canvas canvas = new Canvas(WIDTH, HEIGHT);
         root.getChildren().add(canvas);
         root.getChildren().add(camera);
@@ -199,7 +195,7 @@ public class GameModel extends Application {
 //                double x = 232 + 128 * Math.cos(t);
 //                double y = 232 + 128 * Math.sin(t);
                 tickAndRenderModel();
-                
+
                 camera.setTranslateX(player1.getX());
                 camera.setTranslateY(player1.getY());
                 hpLabel.setText("HP:" + player1.getHp());
@@ -210,42 +206,42 @@ public class GameModel extends Application {
             }
         }.start();
         gameStage.show();
-        
+
         gameStage.setOnCloseRequest(e -> {
             Platform.exit();
             System.exit(0);
         });
-        
+
     }
     private void loadGraphicsAndObjects()
     {
-            Background = new Image("background.png");
-            imageLeft = new Image("fireball.png");
-            imageRight = new Image("fireball.png");
-            gameMap.getMapData1();
-            tileCache.loadCache(this);
-            sheet = new SpriteSheet("gameSheet5.png");
-            for(int i = 0; i< playerSprite.length;i++){
-                playerSprite[i] = new Sprite(sheet,i+1,1);
-            }
-            crocodileSheet = new SpriteSheet("crocodileGameSheet.png");
-            for(int i = 0; i< crocodileSprite.length;i++){
-                crocodileSprite[i] = new Sprite(crocodileSheet,i+1,1);
-            }
-            gameMap.addAllObjectsToGameModel(this,tileCache,gc);
+        Background = new Image("background.png");
+        imageLeft = new Image("fireball.png");
+        imageRight = new Image("fireball.png");
+        gameMap.getMapData1();
+        tileCache.loadCache(this);
+        sheet = new SpriteSheet("gameSheet5.png");
+        for(int i = 0; i< playerSprite.length;i++){
+            playerSprite[i] = new Sprite(sheet,i+1,1);
+        }
+        crocodileSheet = new SpriteSheet("crocodileGameSheet.png");
+        for(int i = 0; i< crocodileSprite.length;i++){
+            crocodileSprite[i] = new Sprite(crocodileSheet,i+1,1);
+        }
+        gameMap.addAllObjectsToGameModel(this,tileCache,gc);
     }
     public static void main(String[] args) {
         launch(args);
         mainStage = new Stage();
     }
     public void tickAndRenderModel(){
-         gc.clearRect(0, 0, WIDTH, HEIGHT);
-         gc.drawImage(Background, 0, 0, WIDTH, HEIGHT);
-         this.TickModelGame();
-         this.renderModelGame(gc);
-         this.renderBulletOfPlayer(imageLeft, imageRight);
+        gc.clearRect(0, 0, WIDTH, HEIGHT);
+        gc.drawImage(Background, 0, 0, WIDTH, HEIGHT);
+        this.TickModelGame();
+        this.renderModelGame(gc);
+        this.renderBulletOfPlayer(imageLeft, imageRight);
     }
-    
+
     public void spawnEnemy()
     {
         for(AiHouse aiHouse: houseHandler.getAiHouses()){
@@ -262,12 +258,15 @@ public class GameModel extends Application {
                 copiedEntity = new LinkedList<Entity>(entityHandler.getEntity());
                 for(Entity en: copiedEntity){
                     if(en.getId() == Id.player){
-                        if(event.getCode() == KeyCode.SPACE){
-                            if(en.isJumping() == false){
-                                en.setJumping(true);
-                                en.setVelY(-15);
-                            }
-                        }
+//                        if(event.getCode() == KeyCode.SPACE){
+                        switch (event.getCode()) {
+                            case SPACE:
+                                if (en.isJumping() == false) {
+                                    en.setJumping(true);
+                                    en.setVelY(-15);
+                                }
+                                break;
+
 //                        if(event.getCode() == KeyCode.H){
 //                            originator.setEntityState((EntityHandler) entityHandler.clone());
 //                            originator.setBulletState((BulletHandler) bulletHandler.clone());
@@ -283,15 +282,16 @@ public class GameModel extends Application {
 //                            tileHandler.editInstance(originator.getTileState());
 //                            System.out.println("undo succesfully");
 //                        }
-                        if(event.getCode() == KeyCode.R){
-                            en.shootFireBall(gc);
-                        }
-                            if(event.getCode() == KeyCode.A){
-                              en.setIsMovingLeft(true);
-                            }
-                            if(event.getCode() == KeyCode.D){
+                            case R:
+                                en.shootFireBall(gc);
+                                break;
+                            case A:
+                                en.setIsMovingLeft(true);
+                                break;
+                            case D:
                                 en.setIsMovingRight(true);
-                            }
+                                break;
+                        }
                     }
 
                 }
@@ -303,20 +303,21 @@ public class GameModel extends Application {
             public void handle(KeyEvent event)
             {
                 copiedEntity = new LinkedList<Entity>(entityHandler.getEntity());
-                for(Entity en: copiedEntity){   
+                for(Entity en: copiedEntity){
                     if(en.getId() == Id.player){
-                        if(event.getCode() == KeyCode.SPACE){
-                        }
-                        if(event.getCode() == KeyCode.A){
-                            en.setIsMovingLeft(false);
-                        }
-                        if(event.getCode() == KeyCode.D){
-                            en.setIsMovingRight(false);
+                        switch (event.getCode()) {
+                            case A:
+                                en.setIsMovingLeft(false);
+                                break;
+
+                            case D:
+                                en.setIsMovingRight(false);
+                                break;
                         }
                     }
                 }
             }
-        });      
+        });
     }
 
     public void display(){
