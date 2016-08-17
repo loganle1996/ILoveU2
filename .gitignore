@@ -51,15 +51,6 @@ fabric.properties
 *.properties
 
 *.xml
-
+*.jpg
+*.class
 *.mf
-<<<<<<< HEAD
-<<<<<<< HEAD
-
-src/fireball.jpg
-=======
-ILoveU2.iml
->>>>>>> origin/master
-=======
-ILoveU2.iml
->>>>>>> origin/master

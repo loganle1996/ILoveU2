@@ -273,12 +273,12 @@ public class GameModel extends Application {
 //                            originator.setTileState((TileHandler) tileHandler.clone());
 //                            careTaker.add(originator.saveStateMemento());
 //                            System.out.println("saving successfully");
-//                            
+//
 //                        }
 //                        if(event.getCode() == KeyCode.J){
 //                            originator.getStateFromMemento(careTaker.get());
 //                            entityHandler.editInstance(originator.getEntityState());
-//                            bulletHandler.editInstance(originator.getBulletState());                            
+//                            bulletHandler.editInstance(originator.getBulletState());
 //                            tileHandler.editInstance(originator.getTileState());
 //                            System.out.println("undo succesfully");
 //                        }
