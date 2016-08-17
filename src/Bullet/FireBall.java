@@ -8,8 +8,6 @@ package Bullet;
 import Entity.Entity;
 import Entity.Id;
 import Target.AiHouse;
-import Target.HouseHandler;
-import java.util.LinkedList;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
 import tile.Tile;

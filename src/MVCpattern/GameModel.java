@@ -10,13 +10,13 @@ import Entity.AIenemy;
 import Entity.Entity;
 import Entity.EntityHandler;
 import Entity.Id;
+import Entity.Player;
 import GameState.CareTaker;
 import GameState.Originator;
 import GraphicsforAnimation.Sprite;
 import GraphicsforAnimation.SpriteSheet;
 import Target.AiHouse;
 import Target.HouseHandler;
-import java.awt.Color;
 import java.util.LinkedList;
 
 
@@ -37,9 +37,6 @@ import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
-import javafx.scene.layout.BorderPane;
-import javafx.scene.layout.HBox;
-import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 import tile.Tile;
 import tile.TileCache;
@@ -70,13 +67,15 @@ public class GameModel extends Application {
     public TileCache tileCache = TileCache.getInstance();
     public BulletHandler bulletHandler = BulletHandler.getInstance();
     public HouseHandler houseHandler = HouseHandler.getInstance();
-    public Entity player1;
+    public Player player1 = Player.getInstance();
     private PerspectiveCamera camera;
     private Image Background;
     public Originator originator = new Originator();
     public CareTaker careTaker = new CareTaker();
     public LinkedList<Entity> copiedEntity;
     private long lastSpawnTime = 0;
+    public Label hpLabel = new Label();
+    public Label fireBallLabel = new Label();
     public GameModel(){
         
     }
@@ -166,18 +165,17 @@ public class GameModel extends Application {
         camera.setTranslateZ(-950);
         
         // Player's HP HUD
-        Label hpLabel = new Label("1000");
         hpLabel.setTextFill(javafx.scene.paint.Color.WHITE);
-             
+        fireBallLabel.setTextFill(javafx.scene.paint.Color.WHITE);
         Canvas canvas = new Canvas(WIDTH, HEIGHT);
         root.getChildren().add(canvas);
         root.getChildren().add(camera);
         root.getChildren().add(hpLabel);
+        root.getChildren().add(fireBallLabel);
         //Associate gc to the canvas to draw.
         gc = canvas.getGraphicsContext2D();
         //Get all images from all resources.
         loadGraphicsAndObjects();
-        player1 = gameMap.returnPlayer1();
         // main scene listens for keyevent
         prepareKeyEvent(mainScene);
 
@@ -205,7 +203,9 @@ public class GameModel extends Application {
                 hpLabel.setText("HP:" + player1.getHp());
                 hpLabel.setTranslateX(player1.getX() - 425);
                 hpLabel.setTranslateY(player1.getY() - 250);
-
+                fireBallLabel.setText("FireBall: " + player1.getNumberFireball());
+                fireBallLabel.setTranslateX(player1.getX()+ 350);
+                fireBallLabel.setTranslateY(player1.getY() - 250);
 
             }
         }.start();

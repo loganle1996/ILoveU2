@@ -19,6 +19,7 @@ import tile.Tile;
  * @author owne
  */
 public class Player extends Entity {
+    public int numberFireball = 50;
     private static Player player = new Player(40, 40, true, Id.player, entityHandler);
 
     private Player(int width, int height, boolean solid, Id id, EntityHandler entityHandler) {
@@ -27,6 +28,14 @@ public class Player extends Entity {
     
     public static Player getInstance(){
         return player;
+    }
+
+    public int getNumberFireball() {
+        return numberFireball;
+    }
+
+    public void setNumberFireball(int numberFireball) {
+        this.numberFireball = numberFireball;
     }
 
     @Override
@@ -41,10 +50,16 @@ public class Player extends Entity {
     @Override
     public void shootFireBall(GraphicsContext gc) {
         if(facing == 0){
-            bulletHandler.getBullets().add(new FireBall(this.getX(), this.getY() + 5, bulletHandler,true));
+            if(numberFireball > 0){  
+                bulletHandler.getBullets().add(new FireBall(this.getX(), this.getY() + 5, bulletHandler,true));
+                numberFireball -= 1;
+            }
         }
         else if(facing == 1){
-            bulletHandler.getBullets().add(new FireBall(this.getX() + this.getWidth()/4, this.getY() + 5, bulletHandler,false));
+            if(numberFireball > 0){
+                bulletHandler.getBullets().add(new FireBall(this.getX() + this.getWidth()/4, this.getY() + 5, bulletHandler,false));
+                numberFireball -= 1;
+            }
         }
         
         for(Bullet bullet : bulletHandler.getBullets()){
