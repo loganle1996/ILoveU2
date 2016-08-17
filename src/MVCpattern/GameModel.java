@@ -15,6 +15,7 @@ import GameState.CareTaker;
 import GameState.Originator;
 import GraphicsforAnimation.Sprite;
 import GraphicsforAnimation.SpriteSheet;
+import Sound.SoundHandler;
 import Target.AiHouse;
 import Target.HouseHandler;
 import javafx.animation.AnimationTimer;
@@ -70,6 +71,7 @@ public class GameModel extends Application {
     public CareTaker careTaker = new CareTaker();
     public LinkedList<Entity> copiedEntity;
     private long lastSpawnTime = 0;
+    private SoundHandler soundHandler = new SoundHandler();
 
     public Label hpLabel = new Label();
     public Label fireBallLabel = new Label();
@@ -224,6 +226,14 @@ public class GameModel extends Application {
         Background = new Image("background.png");
         imageLeft = new Image("fireball.png");
         imageRight = new Image("fireball.png");
+
+        String[] soundArray = new String[] {"fireball"};
+
+        for (String sound: soundArray)
+        {
+        soundHandler.loadSound(sound);
+        }
+
         gameMap.getMapData1();
         tileCache.loadCache(this);
         sheet = new SpriteSheet("gameSheet5.png");
@@ -290,6 +300,7 @@ public class GameModel extends Application {
 //                        }
                             case R:
                                 en.shootFireBall(gc);
+                                soundHandler.playSound("fireball");
                                 break;
                             case A:
                                 en.setIsMovingLeft(true);

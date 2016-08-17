@@ -9,8 +9,6 @@ import Bullet.Bullet;
 import Bullet.FireBall;
 import Bullet.bulletType;
 import GraphicsforAnimation.Sprite;
-import GraphicsforAnimation.SpriteSheet;
-import MVCpattern.GameModel;
 import javafx.scene.canvas.GraphicsContext;
 import tile.Tile;
 
@@ -72,6 +70,7 @@ public class Player extends Entity {
                 }
             }
         }
+
     }
     
     public void jump() {
