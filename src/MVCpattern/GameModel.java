@@ -226,9 +226,8 @@ public class GameModel extends Application {
     private void loadGraphicsAndObjects()
     {
         Background = new Image("background.png");
-<<<<<<< Updated upstream
-        imageLeft = new Image("fireball.png");
-        imageRight = new Image("fireball.png");
+
+
 
         String[] soundArray = new String[] {"fireball"};
 
@@ -236,8 +235,6 @@ public class GameModel extends Application {
         {
         soundHandler.loadSound(sound);
         }
-=======
->>>>>>> Stashed changes
 
         gameMap.getMapData1();
         tileCache.loadCache(this);

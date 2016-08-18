@@ -21,7 +21,7 @@ public class FireBall extends Bullet{
         super(x, y,bulletHandler,flyingLeft);
         this.setId(bulletType.fireBall);
     }
-
+    
     public FireBall(BulletHandler bulletHandler, bulletType id) {
         super(bulletHandler, id);
     }
