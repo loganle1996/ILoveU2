@@ -5,6 +5,7 @@
  */
 package MVCpattern;
 
+import Bullet.BulletCache;
 import Bullet.BulletHandler;
 import Entity.AIenemy;
 import Entity.Entity;
@@ -58,7 +59,7 @@ public class GameModel extends Application {
     public static Sprite playerSprite [] = new Sprite[6];
     public static Sprite crocodileSprite [] = new Sprite[6];
 
-    public Image imageLeft,imageRight;
+    public Image imageLeft,imageRight,iceBallImage;
     public EntityHandler entityHandler = EntityHandler.getInstance();
     public TileHandler tileHandler = TileHandler.getInstance();
     public TileCache tileCache = TileCache.getInstance();
@@ -76,6 +77,7 @@ public class GameModel extends Application {
     public Label hpLabel = new Label();
     public Label fireBallLabel = new Label();
     public static GameMap gameMap;
+    public BulletCache bulletCache = BulletCache.getInstance();
 
     public GameModel(){
 
@@ -121,8 +123,8 @@ public class GameModel extends Application {
         tileHandler.renderTiles(g);
         houseHandler.renderHouses(gc);
     }
-    public void renderBulletOfPlayer(Image imageleft,Image imageRight){
-        bulletHandler.renderBullets(gc, imageleft, imageRight);
+    public void renderBulletOfPlayer(){
+        bulletHandler.renderBullets(gc);
     }
 
     @Override
@@ -224,6 +226,7 @@ public class GameModel extends Application {
     private void loadGraphicsAndObjects()
     {
         Background = new Image("background.png");
+<<<<<<< Updated upstream
         imageLeft = new Image("fireball.png");
         imageRight = new Image("fireball.png");
 
@@ -233,6 +236,8 @@ public class GameModel extends Application {
         {
         soundHandler.loadSound(sound);
         }
+=======
+>>>>>>> Stashed changes
 
         gameMap.getMapData1();
         tileCache.loadCache(this);
@@ -244,6 +249,7 @@ public class GameModel extends Application {
         for(int i = 0; i< crocodileSprite.length;i++){
             crocodileSprite[i] = new Sprite(crocodileSheet,i+1,1);
         }
+        bulletCache.loadBulletCache();
         gameMap.addAllObjectsToGameModel(this,tileCache,gc);
     }
     public static void main(String[] args) {
@@ -255,7 +261,7 @@ public class GameModel extends Application {
         gc.drawImage(Background, 0, 0, WIDTH, HEIGHT);
         this.TickModelGame();
         this.renderModelGame(gc);
-        this.renderBulletOfPlayer(imageLeft, imageRight);
+        this.renderBulletOfPlayer();
     }
 
     public void spawnEnemy()
@@ -298,6 +304,9 @@ public class GameModel extends Application {
 //                            tileHandler.editInstance(originator.getTileState());
 //                            System.out.println("undo succesfully");
 //                        }
+                            case I:
+                                en.shootIceBall(gc);
+                                break;
                             case R:
                                 en.shootFireBall(gc);
                                 soundHandler.playSound("fireball");
@@ -329,7 +338,7 @@ public class GameModel extends Application {
 
                             case D:
                                 en.setIsMovingRight(false);
-                                break;
+                                break;    
                         }
                     }
                 }

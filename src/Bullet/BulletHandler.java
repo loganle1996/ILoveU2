@@ -21,7 +21,10 @@ public class BulletHandler implements Cloneable{
     public LinkedList<Bullet> copiedBullets;
     public EntityHandler entityHandler = EntityHandler.getInstance();
     private static BulletHandler bulletHandler = new BulletHandler();
-    
+    Image imageLeft = new Image("fireball.png");
+    Image imageRight = new Image("fireball.png");
+    Image iceBallLeft = new Image("leftIceBall.png");
+    Image iceBallRight = new Image("rightIceBall.png");
     private BulletHandler(){
         
     }
@@ -63,12 +66,17 @@ public class BulletHandler implements Cloneable{
             }
     }
     //render
-    public void renderBullets(GraphicsContext gc, Image imageLeft, Image imageRight){
+    public void renderBullets(GraphicsContext gc){
         copiedBullets = new LinkedList<Bullet>(bullets);
         for(Bullet bullet: copiedBullets){
             for(Entity en : entityHandler.getEntity()){
                 if(en.getId()== Id.player){
-                    bullet.renderBullet(gc, en,imageLeft,imageRight);
+                    if(bullet.getId() == bulletType.fireBall){                        
+                        bullet.renderBullet(gc, en,imageLeft,imageRight);
+                    }
+                    else if(bullet.getId() == bulletType.snowBall){
+                        bullet.renderBullet(gc, en, iceBallLeft, iceBallRight);
+                    }
                 }
             }
         }

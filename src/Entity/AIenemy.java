@@ -32,20 +32,24 @@ public class AIenemy extends Entity {
     @Override
     public void shootFireBall(GraphicsContext gc) { 
     }
+    @Override
+    public void shootIceBall(GraphicsContext gc){
+        
+    }
 
     @Override
     public void tick() {
         x += velX;
         y += velY;
-        if(this.isMovingLeft == true){
+        if(this.isMovingLeft == true && this.isFreeze() == false){
             this.facing = 0;
             this.setVelX(-3);
         }
-        else if(this.isMovingRight == true){
+        else if(this.isMovingRight == true && this.isFreeze() == false){
             this.facing = 1;
             this.setVelX(3);
         }
-        else{
+        else if(freeze == true || (isMovingLeft == false && isMovingRight == false)) {
             this.setVelX(0);
         }
         if(this.getHp() <= 0){

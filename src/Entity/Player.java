@@ -6,7 +6,9 @@
 package Entity;
 
 import Bullet.Bullet;
+import Bullet.BulletCache;
 import Bullet.FireBall;
+import Bullet.IceBall;
 import Bullet.bulletType;
 import GraphicsforAnimation.Sprite;
 import javafx.scene.canvas.GraphicsContext;
@@ -17,9 +19,9 @@ import tile.Tile;
  * @author owne
  */
 public class Player extends Entity {
-    public int numberFireball = 50;
+    public int numberFireball = 50,numberIceBall = 10;
     private static Player player = new Player(40, 40, true, Id.player, entityHandler);
-
+    private BulletCache bulletCache = BulletCache.getInstance();
     private Player(int width, int height, boolean solid, Id id, EntityHandler entityHandler) {
         super(width, height, solid, id, entityHandler);
     }
@@ -49,13 +51,23 @@ public class Player extends Entity {
     public void shootFireBall(GraphicsContext gc) {
         if(facing == 0){
             if(numberFireball > 0){  
-                bulletHandler.getBullets().add(new FireBall(this.getX(), this.getY() + 5, bulletHandler,true));
+//              bulletHandler.getBullets().add(new FireBall(this.getX(), this.getY(), bulletHandler,true));
+                FireBall fireBall = (FireBall) bulletCache.getBullet(bulletType.fireBall);
+                fireBall.setX(this.getX());
+                fireBall.setY(this.getY());
+                fireBall.setFlyingLeft(true);
+                bulletHandler.getBullets().add(fireBall);   
                 numberFireball -= 1;
             }
         }
         else if(facing == 1){
             if(numberFireball > 0){
-                bulletHandler.getBullets().add(new FireBall(this.getX() + this.getWidth()/4, this.getY() + 5, bulletHandler,false));
+//                bulletHandler.getBullets().add(new FireBall(this.getX() + this.getWidth()/4, this.getY() + 5, bulletHandler,false));
+                FireBall fireBall = (FireBall) bulletCache.getBullet(bulletType.fireBall);
+                fireBall.setX(this.getX()+this.getWidth()/4);
+                fireBall.setY(this.getY());
+                fireBall.setFlyingLeft(false);
+                bulletHandler.getBullets().add(fireBall);
                 numberFireball -= 1;
             }
         }
@@ -72,7 +84,41 @@ public class Player extends Entity {
         }
 
     }
-    
+    @Override
+    public void shootIceBall(GraphicsContext gc){
+        if(facing == 0){
+            if(numberIceBall > 0){  
+//              bulletHandler.getBullets().add(new FireBall(this.getX(), this.getY(), bulletHandler,true));
+                IceBall iceBall = (IceBall) bulletCache.getBullet(bulletType.snowBall);
+                iceBall.setX(this.getX());
+                iceBall.setY(this.getY());
+                iceBall.setFlyingLeft(true);
+                bulletHandler.getBullets().add(iceBall);   
+                numberIceBall -= 1;
+            }
+        }
+        else if(facing == 1){
+            if(numberIceBall > 0){
+//                bulletHandler.getBullets().add(new FireBall(this.getX() + this.getWidth()/4, this.getY() + 5, bulletHandler,false));
+                IceBall iceBall = (IceBall) bulletCache.getBullet(bulletType.snowBall);
+                iceBall.setX(this.getX()+this.getWidth()/4);
+                iceBall.setY(this.getY());
+                iceBall.setFlyingLeft(false);
+                bulletHandler.getBullets().add(iceBall);
+                numberIceBall -= 1;
+            }
+        }
+        for(Bullet bullet : bulletHandler.getBullets()){
+            if(bullet.getId() == bulletType.snowBall){
+                if(bullet.isFlyingLeft() == true){
+                    bullet.setVelX(-15);
+                }
+                else if(bullet.isFlyingLeft() == false){
+                    bullet.setVelX(15);
+                }
+            }
+        }
+    }
     public void jump() {
         this.setVelY(-15);
     }
@@ -96,7 +142,7 @@ public class Player extends Entity {
             this.setVelX(5);
             this.facing = 1;
         }
-        else {
+        else if(freeze == true || (isMovingLeft == false && isMovingRight == false)) {
             this.setVelX(0);
         }
         

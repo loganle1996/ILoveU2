@@ -35,6 +35,7 @@ public abstract class Entity {
     public int frame = 0;
     public int frameDelay = 0;
     public boolean animate = false;
+    public boolean freeze = false;
     //public boolean falling = true;
     
     public Entity(int x, int y, int width, int height, boolean solid,Id id,EntityHandler entityHandler) {
@@ -60,7 +61,7 @@ public abstract class Entity {
     public abstract void tick();
 
     public abstract void shootFireBall(GraphicsContext gc);
-    
+    public abstract void shootIceBall(GraphicsContext gc);
 
     public double getX() {
         return x;
@@ -103,6 +104,14 @@ public abstract class Entity {
     }
     public Id getId(){
         return id;
+    }
+
+    public boolean isFreeze() {
+        return freeze;
+    }
+
+    public void setFreeze(boolean freeze) {
+        this.freeze = freeze;
     }
 
     public boolean isJumping() {

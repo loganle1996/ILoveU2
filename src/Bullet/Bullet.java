@@ -20,7 +20,7 @@ import tile.TileHandler;
  *
  * @author khoinguyen
  */
-public abstract class Bullet {
+public abstract class Bullet implements Cloneable{
     private double x,y,velX,velY;
     private int width = 20,height =20;
     private double damage;
@@ -39,9 +39,25 @@ public abstract class Bullet {
         this.bulletHandler = bulletHandler;
         this.flyingLeft = flyingLeft;
     }
+    public Bullet(BulletHandler bulletHandler,bulletType id){
+        this.bulletHandler = bulletHandler;
+        this.id = id;
+    }
     public abstract void renderBullet(GraphicsContext gc,Entity en,Image imageLeft, Image imageRight);
     public abstract void tick();
+    @Override
+    public Object clone(){
+        Object clone = null;
 
+        try {
+           clone = super.clone();
+
+        } catch (CloneNotSupportedException e) {
+           e.printStackTrace();
+        }
+
+        return clone;        
+    }
     public double getX() {
         return x;
     }
