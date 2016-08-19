@@ -76,6 +76,8 @@ public class GameModel extends Application {
 
     public Label hpLabel = new Label();
     public Label fireBallLabel = new Label();
+    public Label iceBallLabel = new Label();
+
     public static GameMap gameMap;
     public BulletCache bulletCache = BulletCache.getInstance();
 
@@ -206,9 +208,12 @@ public class GameModel extends Application {
                 hpLabel.setText("HP:" + player1.getHp());
                 hpLabel.setTranslateX(player1.getX() - 425);
                 hpLabel.setTranslateY(player1.getY() - 250);
-                fireBallLabel.setText("FireBall: " + player1.getNumberFireball());
+                fireBallLabel.setText("Fireballs left: " + player1.getNumberFireball());
                 fireBallLabel.setTranslateX(player1.getX()+ 350);
                 fireBallLabel.setTranslateY(player1.getY() - 250);
+//                iceBallLabel.setText("Ice Shards left: "+ player1.get);
+//                iceBallLabel.setTranslateX(player1.getX()+ 350);
+//                iceBallLabel.setTranslateY(player1.getY() - 200);
 
             }
         }.start();
@@ -227,10 +232,7 @@ public class GameModel extends Application {
     private void loadGraphicsAndObjects()
     {
         Background = new Image("background.png");
-
-
-
-        String[] soundArray = new String[] {"fireball"};
+        String[] soundArray = new String[] {"fireball", "iceball", "footstep"};
 
         for (String sound: soundArray)
         {
@@ -299,17 +301,27 @@ public class GameModel extends Application {
 //                            System.out.println("undo succesfully");
 //                        }
                             case I:
-                                en.shootIceBall(gc);
+                                if (bulletHandler.getBullets().size() < 1)
+                                {
+                                    en.shootIceBall(gc);
+                                    soundHandler.playSound("iceball");
+                                }
                                 break;
+
                             case R:
-                                en.shootFireBall(gc);
-                                soundHandler.playSound("fireball");
+                                if (bulletHandler.getBullets().size() < 1)
+                                {
+                                    en.shootFireBall(gc);
+                                    soundHandler.playSound("fireball");
+                                }
                                 break;
                             case A:
                                 en.setIsMovingLeft(true);
+                                soundHandler.playSound("footstep");
                                 break;
                             case D:
                                 en.setIsMovingRight(true);
+                                soundHandler.playSound("footstep");
                                 break;
                         }
                     }
@@ -329,7 +341,6 @@ public class GameModel extends Application {
                             case A:
                                 en.setIsMovingLeft(false);
                                 break;
-
                             case D:
                                 en.setIsMovingRight(false);
                                 break;    
