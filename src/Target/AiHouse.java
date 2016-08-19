@@ -7,6 +7,7 @@ package Target;
 
 import Entity.EntityHandler;
 import Entity.Id;
+import Map.GameMap;
 import javafx.geometry.Rectangle2D;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
@@ -26,6 +27,7 @@ public class AiHouse {
     public TileHandler tileHandler = TileHandler.getInstance();
     public EntityHandler entityHandler = EntityHandler.getInstance();
     public double hp = 4000;
+    public GameMap gameMap = GameMap.getInstance();
     public AiHouse(double x, double y, Image houseImage) {
         this.x = x;
         this.y = y;
@@ -87,6 +89,7 @@ public class AiHouse {
     public void tick(){
         if(this.getHp()<=0){
             this.die();
+            gameMap.changeMap();
         }
         tileCollidingCheck();
     }

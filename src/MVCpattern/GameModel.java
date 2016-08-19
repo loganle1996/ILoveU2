@@ -36,7 +36,7 @@ import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.input.KeyEvent;
 import javafx.stage.Stage;
-import tile.GameMap;
+import Map.GameMap;
 import tile.Tile;
 import tile.TileCache;
 import tile.TileHandler;
@@ -122,8 +122,6 @@ public class GameModel extends Application {
         entityHandler.renderEntities(g,playerSprite,crocodileSprite);
         tileHandler.renderTiles(g);
         houseHandler.renderHouses(gc);
-    }
-    public void renderBulletOfPlayer(){
         bulletHandler.renderBullets(gc);
     }
 
@@ -140,7 +138,7 @@ public class GameModel extends Application {
         mainStage.setTitle("Arcane Arena");
         mainStage.show();
 
-        gameMap = new GameMap();
+        gameMap = GameMap.getInstance();
 
         mainStage.setOnCloseRequest(e -> {
             Platform.exit();
@@ -180,6 +178,8 @@ public class GameModel extends Application {
         root.getChildren().add(fireBallLabel);
         //Associate gc to the canvas to draw.
         gc = canvas.getGraphicsContext2D();
+        //getMapAndObjects
+        getMapAndObjects();
         //Get all images from all resources.
         loadGraphicsAndObjects();
         // main scene listens for keyevent
@@ -199,9 +199,6 @@ public class GameModel extends Application {
                         spawnEnemy();
                     }
                 }
-
-//                double x = 232 + 128 * Math.cos(t);
-//                double y = 232 + 128 * Math.sin(t);
                 tickAndRenderModel();
 
                 camera.setTranslateX(player1.getX());
@@ -223,6 +220,10 @@ public class GameModel extends Application {
         });
 
     }
+    public void getMapAndObjects(){
+        gameMap.getMapData1();
+        gameMap.addAllObjectsToGameModel();
+    }
     private void loadGraphicsAndObjects()
     {
         Background = new Image("background.png");
@@ -236,8 +237,6 @@ public class GameModel extends Application {
         soundHandler.loadSound(sound);
         }
 
-        gameMap.getMapData1();
-        tileCache.loadCache(this);
         sheet = new SpriteSheet("gameSheet5.png");
         for(int i = 0; i< playerSprite.length;i++){
             playerSprite[i] = new Sprite(sheet,i+1,1);
@@ -247,7 +246,6 @@ public class GameModel extends Application {
             crocodileSprite[i] = new Sprite(crocodileSheet,i+1,1);
         }
         bulletCache.loadBulletCache();
-        gameMap.addAllObjectsToGameModel(this,tileCache,gc);
     }
     public static void main(String[] args) {
         launch(args);
@@ -258,7 +256,6 @@ public class GameModel extends Application {
         gc.drawImage(Background, 0, 0, WIDTH, HEIGHT);
         this.TickModelGame();
         this.renderModelGame(gc);
-        this.renderBulletOfPlayer();
     }
 
     public void spawnEnemy()

@@ -60,6 +60,13 @@ public class TileHandler implements Cloneable{
             ti.tick();
         }
     }
+    public void emptyHandler(){
+        copiedTile = new LinkedList<>(tile);
+        for(Tile ti: copiedTile){
+            tile.remove(ti);
+        }
+
+    }
     //render
     public void renderTiles(GraphicsContext g){
         copiedTile = new LinkedList<>(tile);

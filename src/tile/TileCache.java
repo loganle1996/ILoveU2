@@ -28,7 +28,7 @@ public class TileCache {
         return(Tile) cachedTile.clone();
     }
     
-    public void loadCache(GameModel gameModel){
+    public void loadCache(){
         Wall1 wall1 = new Wall1(40, 40, 40, 40, true, Id.wall,tileHandler , "wall1");
         wall1.setType("wall1");
         tileTable.put(wall1.getType(), wall1);
