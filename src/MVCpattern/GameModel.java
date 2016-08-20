@@ -167,7 +167,7 @@ public class GameModel extends Application {
         camera.setFarClip(1500);
         camera.setTranslateX(800);
         camera.setTranslateY(800);
-        camera.setTranslateZ(-950);
+        camera.setTranslateZ(-1500);
 
         // Player's HP HUD
         hpLabel.setTextFill(javafx.scene.paint.Color.WHITE);
@@ -276,10 +276,9 @@ public class GameModel extends Application {
                 copiedEntity = new LinkedList<Entity>(entityHandler.getEntity());
                 for(Entity en: copiedEntity){
                     if(en.getId() == Id.player){
-//                        if(event.getCode() == KeyCode.SPACE){
                         switch (event.getCode()) {
                             case SPACE:
-                                if (en.isJumping() == false) {
+                                if (en.isJumping() == false){
                                     en.setJumping(true);
                                     en.setVelY(-15);
                                 }

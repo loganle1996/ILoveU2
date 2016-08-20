@@ -5,6 +5,7 @@
  */
 package Entity;
 
+import Entity.Folow.WalkingFollow;
 import GraphicsforAnimation.Sprite;
 import javafx.scene.canvas.GraphicsContext;
 import tile.Tile;
@@ -13,10 +14,11 @@ import tile.Tile;
  *
  * @author owne
  */
-public class AIenemy extends Entity {
+public class AIenemy extends Entity{
     public AIenemy(int x, int y, int width, int height, boolean solid, Id id, EntityHandler entityHandler) {
         super(x, y, width, height, solid, id, entityHandler);
-        this.setIsMovingLeft(true);
+//        this.setIsMovingLeft(true);
+        this.setFollowSkill(new WalkingFollow());
     }
 
     @Override
@@ -41,6 +43,14 @@ public class AIenemy extends Entity {
     public void tick() {
         x += velX;
         y += velY;
+        this.watchingAround();
+        for(Entity en: entityHandler.getEntity()){
+            if(en.getId() == Id.player){
+                if(this.foundObject(en)){
+                    this.follow(en);
+                }
+            }
+        }
         if(this.isMovingLeft == true && this.isFreeze() == false){
             this.facing = 0;
             this.setVelX(-3);
@@ -97,6 +107,7 @@ public void tileCollidingChecking(){
                 if(this.intersectsRightTile(t)){
                     this.setIsMovingRight(true);
                     this.setIsMovingLeft(false);
+                    x = t.getX()+t.width;
                     if(t.getId() == Id.fireTrap){
                         hp -= 20;
                     }
@@ -104,13 +115,13 @@ public void tileCollidingChecking(){
                 if(this.intersectsLeftTile(t)){
                     this.setIsMovingLeft(true);
                     this.setIsMovingRight(false);
+                    x = t.getX()-t.width;
                     if(t.getId() == Id.fireTrap){
                         hp -= 20;
                     }
                 }
             }
         }
-}
-    
+}    
 }
 

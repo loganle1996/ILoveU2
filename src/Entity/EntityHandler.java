@@ -69,7 +69,10 @@ public class EntityHandler implements Cloneable{
     //empty handler without the player
     public void emptyHandler(){
         copiedEntity = new LinkedList<Entity>(entity);
-        for(Entity en: copiedEntity){                
+        for(Entity en: copiedEntity){
+                if(en.getId() == Id.player){
+                    en.healAndRefill();
+                }
                 entityHandler.removeEntity(en);
         }
     }

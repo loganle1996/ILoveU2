@@ -19,7 +19,6 @@ import tile.Tile;
  * @author owne
  */
 public class Player extends Entity {
-    public int numberFireball = 50,numberIceBall = 10;
     private static Player player = new Player(40, 40, true, Id.player, entityHandler);
     private BulletCache bulletCache = BulletCache.getInstance();
     private Player(int width, int height, boolean solid, Id id, EntityHandler entityHandler) {
@@ -28,14 +27,6 @@ public class Player extends Entity {
     
     public static Player getInstance(){
         return player;
-    }
-
-    public int getNumberFireball() {
-        return numberFireball;
-    }
-
-    public void setNumberFireball(int numberFireball) {
-        this.numberFireball = numberFireball;
     }
 
     @Override
@@ -119,15 +110,13 @@ public class Player extends Entity {
             }
         }
     }
-    public void jump() {
-        this.setVelY(-15);
-    }
-
+//    public void jump() {
+//        this.setVelY(-15);
+//    }
     @Override
     public void tick() {
         x+= velX;
         y += velY;
-
         if(this.getHp() <= 0){
             this.die();
         }
@@ -142,7 +131,7 @@ public class Player extends Entity {
             this.setVelX(5);
             this.facing = 1;
         }
-        else if(freeze == true || (isMovingLeft == false && isMovingRight == false)) {
+        else if(freeze == true ||(isMovingLeft == false && isMovingRight == false)) {
             this.setVelX(0);
         }
         
@@ -181,21 +170,18 @@ public class Player extends Entity {
                         }
                     }    
                     if(this.intersectsBottomTile(t)){                       
-                        setVelY(0);
                         y = t.getY() + height;
                         if(t.getId() == Id.fireTrap){
                             hp -= 10;
                         }
                     }
                     if(this.intersectsRightTile(t)){
-                        setVelX(0);
                         x = t.getX()+t.width;
                         if(t.getId() == Id.fireTrap){
                             hp -= 10;
                         }
                     }
                     if(this.intersectsLeftTile(t)){
-                        setVelX(0);
                         x = t.getX()-t.width;  
                         if(t.getId() == Id.fireTrap){
                             hp -= 10;
@@ -233,5 +219,5 @@ public class Player extends Entity {
             }
         }
     }
-
+    
 }

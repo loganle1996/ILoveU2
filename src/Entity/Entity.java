@@ -6,6 +6,7 @@
 package Entity;
 
 import Bullet.BulletHandler;
+import Entity.Folow.Follow;
 import GraphicsforAnimation.Sprite;
 import MVCpattern.GameModel;
 import javafx.geometry.Rectangle2D;
@@ -17,7 +18,7 @@ import tile.TileHandler;
  *
  * @author owne
  */
-public abstract class Entity {
+public abstract class Entity{
     public double x, y;
     public int width = 40 , height = 40;
     
@@ -36,6 +37,9 @@ public abstract class Entity {
     public int frameDelay = 0;
     public boolean animate = false;
     public boolean freeze = false;
+    public int numberFireball = 50,numberIceBall = 10;
+    public Rectangle2D bigRectangle2D;
+    private Follow followskill;
     //public boolean falling = true;
     
     public Entity(int x, int y, int width, int height, boolean solid,Id id,EntityHandler entityHandler) {
@@ -62,7 +66,17 @@ public abstract class Entity {
 
     public abstract void shootFireBall(GraphicsContext gc);
     public abstract void shootIceBall(GraphicsContext gc);
-
+    public void healAndRefill(){
+        this.numberFireball = 50;
+        this.numberIceBall = 10;
+        this.setHp(1000);
+    }
+    public void setFollowSkill(Follow followSkill){
+        this.followskill = followSkill;
+    }
+    public void follow(Entity player){
+        followskill.following(this,player);
+    }
     public double getX() {
         return x;
     }
@@ -125,9 +139,10 @@ public abstract class Entity {
     public double getGravity() {
         return gravity;
     }
+    
     public Rectangle2D getBoundary(){
         return new Rectangle2D(getX(), getY(), width, height);
-    }
+    }  
     public Rectangle2D getTopBoundary(){
         return new Rectangle2D(getX() + 10,getY(),width-20,5);
     }
@@ -188,7 +203,13 @@ public abstract class Entity {
     public void setIsMovingRight(boolean isMovingRight) {
         this.isMovingRight = isMovingRight;
     }
+    public int getNumberFireball() {
+        return numberFireball;
+    }
 
+    public void setNumberFireball(int numberFireball) {
+        this.numberFireball = numberFireball;
+    }
     public int getWidth() {
         return width;
     }
@@ -263,7 +284,12 @@ public abstract class Entity {
     public void setEntityHandler(EntityHandler entityHandler) {
         this.entityHandler = entityHandler;
     }
-
     
+    public void watchingAround(){
+        bigRectangle2D =  new Rectangle2D(this.getX()-200, this.getY()-200, 800, 400);
+    }
     
+    public boolean foundObject(Entity en){
+        return bigRectangle2D.intersects(en.getBoundary());
+    }
 }
