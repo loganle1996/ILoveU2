@@ -173,12 +173,15 @@ public class GameModel extends Application {
         // Player's HP HUD
         hpLabel.setTextFill(javafx.scene.paint.Color.WHITE);
         fireBallLabel.setTextFill(javafx.scene.paint.Color.WHITE);
+        iceBallLabel.setTextFill(javafx.scene.paint.Color.WHITE);
 
         Canvas canvas = new Canvas(WIDTH, HEIGHT);
-        root.getChildren().add(canvas);
-        root.getChildren().add(camera);
-        root.getChildren().add(hpLabel);
-        root.getChildren().add(fireBallLabel);
+        root.getChildren().addAll(canvas, camera, hpLabel, fireBallLabel, iceBallLabel);
+//        root.getChildren().add(camera);
+//        root.getChildren().add(hpLabel);
+//        root.getChildren().add(fireBallLabel);
+
+            
         //Associate gc to the canvas to draw.
         gc = canvas.getGraphicsContext2D();
         //getMapAndObjects
@@ -208,11 +211,16 @@ public class GameModel extends Application {
                 camera.setTranslateX(player1.getX());
                 camera.setTranslateY(player1.getY());
                 hpLabel.setText("HP:" + player1.getHp());
-                hpLabel.setTranslateX(player1.getX() - 425);
-                hpLabel.setTranslateY(player1.getY() - 250);
+                hpLabel.setTranslateX(player1.getX() - 350);
+                hpLabel.setTranslateY(player1.getY() - 210);
                 fireBallLabel.setText("Fireballs left: " + player1.getNumberFireball());
-                fireBallLabel.setTranslateX(player1.getX()+ 350);
-                fireBallLabel.setTranslateY(player1.getY() - 250);
+                fireBallLabel.setTranslateX(player1.getX() + 220);
+                fireBallLabel.setTranslateY(player1.getY() - 210);
+                
+                iceBallLabel.setText("Ice Shards left: " + player1.getNumberIceBall());
+                iceBallLabel.setTranslateX(player1.getX() + 220);
+                iceBallLabel.setTranslateY(player1.getY() - 190);
+
 
             }
         }.start();
@@ -276,6 +284,7 @@ public class GameModel extends Application {
     public void prepareKeyEvent(Scene mainScene) {
         mainScene.setOnKeyPressed(new EventHandler<KeyEvent>()
         {
+            // To Do (Dzung Le): Find a way to handle multiple key inputs
             @Override
             public void handle(KeyEvent event)
             {
