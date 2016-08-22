@@ -68,20 +68,6 @@ public class BulletBox extends Item{
     }
     public void entitiesCollidingCheck(){
         for(Entity en : entityHandler.getEntity()){
-            if(en.getId() == Id.Goomba){
-                    if(this.intersectsTopEntity(en)){
-                        y = en.getY() - height;
-                    }    
-                    if (this.intersectsBottomEntity(en)){                       
-                        y = en.getY() + height;
-                    }
-                    if(this.intersectsRightEntity(en)){
-                        x = en.getX()+en.width;
-                    }
-                    if(this.intersectsLeftEntity(en)){
-                        x = en.getX()-en.width;   
-                    }
-            }
             if(this.intersectsEntity(en)){
                 if(en.getId() == Id.player){
                     en.setNumberFireball(en.getNumberFireball() + 10);
