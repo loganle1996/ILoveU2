@@ -47,11 +47,7 @@ import tile.TileCache;
 import tile.TileHandler;
 
 import java.util.LinkedList;
-<<<<<<< HEAD
-import javax.swing.plaf.synth.SynthRootPaneUI;
-=======
 import java.util.Random;
->>>>>>> master
 
 
 /**
@@ -347,7 +343,6 @@ public class GameModel extends Application {
                                 }
                                 break;
                                 
-<<<<<<< HEAD
                             case T:
                                 if (en.shootable == true)
                                 {
@@ -355,9 +350,6 @@ public class GameModel extends Application {
                                     en.setShootable(false);
                                 }
                                 break;
-                                
-=======
->>>>>>> master
                             case A:
                                 en.setIsMovingLeft(true);
                                 soundHandler.playSound("footstep");
