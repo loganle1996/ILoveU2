@@ -149,7 +149,7 @@ public class AIenemy extends Entity{
         }
 }
     public void jump(){
-        if(this.jumping == false){
+        if(this.jumping == false && this.isFreeze() == false){
             this.setVelY(-15);
             this.setJumping(true); // error from this boolean
         }
