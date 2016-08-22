@@ -7,6 +7,7 @@ package MVCpattern;
 
 import Bullet.BulletCache;
 import Bullet.BulletHandler;
+import Bullet.bulletType;
 import Entity.AIenemy;
 import Entity.Entity;
 import Entity.EntityHandler;
@@ -16,6 +17,10 @@ import GameState.CareTaker;
 import GameState.Originator;
 import GraphicsforAnimation.Sprite;
 import GraphicsforAnimation.SpriteSheet;
+import Items.BulletBox;
+import Items.Item;
+import Items.ItemCache;
+import Items.ItemHandler;
 import Sound.SoundHandler;
 import Target.AiHouse;
 import Target.HouseHandler;
@@ -42,7 +47,11 @@ import tile.TileCache;
 import tile.TileHandler;
 
 import java.util.LinkedList;
+<<<<<<< HEAD
 import javax.swing.plaf.synth.SynthRootPaneUI;
+=======
+import java.util.Random;
+>>>>>>> origin/master
 
 
 /**
@@ -67,13 +76,14 @@ public class GameModel extends Application {
     public TileCache tileCache = TileCache.getInstance();
     public BulletHandler bulletHandler = BulletHandler.getInstance();
     public HouseHandler houseHandler = HouseHandler.getInstance();
+    public ItemHandler itemHandler = ItemHandler.getInstance();
     public Player player1 = Player.getInstance();
     private PerspectiveCamera camera;
     private Image Background;
     public Originator originator = new Originator();
     public CareTaker careTaker = new CareTaker();
     public LinkedList<Entity> copiedEntity;
-    private long lastSpawnTime = 0;
+    private long lastSpawnTime = 0,bulletBoxLastSpTime = 0;
     private SoundHandler soundHandler = new SoundHandler();
 
     public Label hpLabel = new Label();
@@ -82,6 +92,7 @@ public class GameModel extends Application {
 
     public static GameMap gameMap;
     public BulletCache bulletCache = BulletCache.getInstance();
+    public ItemCache itemCache = ItemCache.getInstance();
 
     public GameModel(){
 
@@ -121,12 +132,14 @@ public class GameModel extends Application {
         tileHandler.tickTiles();
         bulletHandler.tickBullets(currentime);
         houseHandler.tickHouses();
+        itemHandler.tickItems(currentime);
     }
     public void renderModelGame(GraphicsContext g){
         entityHandler.renderEntities(g,playerSprite,crocodileSprite, crocodileFrozen);
         tileHandler.renderTiles(g);
-        houseHandler.renderHouses(gc);
-        bulletHandler.renderBullets(gc);
+        houseHandler.renderHouses(g);
+        bulletHandler.renderBullets(g);
+        itemHandler.renderItems(g);
     }
 
     @Override
@@ -177,10 +190,7 @@ public class GameModel extends Application {
         iceBallLabel.setTextFill(javafx.scene.paint.Color.WHITE);
 
         Canvas canvas = new Canvas(WIDTH, HEIGHT);
-        root.getChildren().addAll(canvas, camera, hpLabel, fireBallLabel, iceBallLabel);
-//        root.getChildren().add(camera);
-//        root.getChildren().add(hpLabel);
-//        root.getChildren().add(fireBallLabel);
+        root.getChildren().addAll(canvas, hpLabel, fireBallLabel, iceBallLabel);
 
             
         //Associate gc to the canvas to draw.
@@ -197,13 +207,18 @@ public class GameModel extends Application {
             @Override
             public void handle(long currentNanoTime)
             {
-                if (lastSpawnTime == 0){
+                if (lastSpawnTime == 0 || bulletBoxLastSpTime == 0){
                     lastSpawnTime = currentNanoTime;
+                    bulletBoxLastSpTime = currentNanoTime;
                 }
                 else {
                     if (((currentNanoTime - lastSpawnTime) / 1000000000.0) > 5){
                         lastSpawnTime = currentNanoTime;
                         spawnEnemy();
+                    }
+                    if (((currentNanoTime - bulletBoxLastSpTime) / 1000000000.0) > 6){
+                        bulletBoxLastSpTime = currentNanoTime;
+                        spawnItems();
                     }
 
                 }
@@ -263,7 +278,8 @@ public class GameModel extends Application {
             crocodileFrozen[i] = new Sprite(crocodileSheetFrozen, i + 1, 1);
         }
 
-            bulletCache.loadBulletCache();
+        bulletCache.loadBulletCache();
+        itemCache.loadCache();
     }
     public static void main(String[] args) {
         launch(args);
@@ -274,6 +290,7 @@ public class GameModel extends Application {
         gc.drawImage(Background, 0, 0, WIDTH, HEIGHT);
         this.TickModelGame(currentime);
         this.renderModelGame(gc);
+        
     }
 
     public void spawnEnemy()
@@ -281,6 +298,16 @@ public class GameModel extends Application {
         for(AiHouse aiHouse: houseHandler.getAiHouses()){
             entityHandler.addEntity(new AIenemy((int)aiHouse.getX(), (int)aiHouse.getY(), 40, 40, true, Id.Goomba, entityHandler));
         }
+    }
+    public void spawnItems(){
+        Random random = new Random();
+        double x = (((random.nextDouble() * 1550) % 1550) + 50);
+        double y = (((random.nextDouble() * 1550) % 1550) + 50);
+        BulletBox randomBulletBox = (BulletBox)itemCache.getItem("bulletBox");
+        System.out.println("X is " + x + "" + "Y is " + y);
+        randomBulletBox.setX(x);
+        randomBulletBox.setY(y);
+        itemHandler.addItem(randomBulletBox);
     }
     public void prepareKeyEvent(Scene mainScene) {
         mainScene.setOnKeyPressed(new EventHandler<KeyEvent>()
@@ -294,7 +321,7 @@ public class GameModel extends Application {
                 for(Entity en: copiedEntity){
                     if(en.getId() == Id.player){
 
-                        // TODO (Dzung Le): Add a key buffer
+                        // TODO (Dzung Le): Sound 
 
                         switch (event.getCode()) {
                             case SPACE:
@@ -320,6 +347,7 @@ public class GameModel extends Application {
                                 }
                                 break;
                                 
+<<<<<<< HEAD
                             case T:
                                 if (en.shootable == true)
                                 {
@@ -328,10 +356,13 @@ public class GameModel extends Application {
                                 }
                                 break;
                                 
+=======
+>>>>>>> origin/master
                             case A:
                                 en.setIsMovingLeft(true);
                                 soundHandler.playSound("footstep");
                                 break;
+                                
                             case D:
                                 en.setIsMovingRight(true);
                                 soundHandler.playSound("footstep");

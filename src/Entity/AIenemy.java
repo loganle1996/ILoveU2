@@ -20,7 +20,7 @@ public class AIenemy extends Entity
 {   
     public AIenemy(int x, int y, int width, int height, boolean solid, Id id, EntityHandler entityHandler) {
         super(x, y, width, height, solid, id, entityHandler);
-//        this.setIsMovingLeft(true);
+        this.setIsMovingLeft(true);
         this.setFollowSkill(new WalkingFollow());
     }
 
@@ -144,13 +144,15 @@ public class AIenemy extends Entity
 //                    this.setJumping(false);
                     y = t.getY() - height;
                     if(t.getId() == Id.fireTrap){
-                        hp -= 20;
+                        hp -= 200;
+                        this.jump();
                     }
                 }
                 if(this.intersectsBottomTile(t)){
                     y = t.getY() + height;
                     if(t.getId() == Id.fireTrap){
-                        hp -= 20;
+                        hp -= 200;
+                        this.jump();
                     }
                 }
                 if(this.intersectsRightTile(t)){
@@ -158,7 +160,8 @@ public class AIenemy extends Entity
                     this.setIsMovingLeft(false);
                     x = t.getX()+t.width;
                     if(t.getId() == Id.fireTrap){
-                        hp -= 20;
+                        hp -= 200;
+                        jump();
                     }
                 }
                 if(this.intersectsLeftTile(t)){
@@ -166,7 +169,8 @@ public class AIenemy extends Entity
                     this.setIsMovingRight(false);
                     x = t.getX()-t.width;
                     if(t.getId() == Id.fireTrap){
-                        hp -= 20;
+                        hp -= 200;
+                        jump();
                     }
                 }
             }
