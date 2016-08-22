@@ -296,8 +296,16 @@ public abstract class Entity{
     }
     
     public void watchingAround(){
-        bigRectangle2D =  new Rectangle2D(this.getX()-200, this.getY()-200, 800, 400);
-        smallRectangle2D = new Rectangle2D(this.getX()-100,this.getY(), 200, 40);
+        
+        if(facing == 0){
+            bigRectangle2D =  new Rectangle2D(this.getX()-200, this.getY()-200, 200, 400);
+            smallRectangle2D = new Rectangle2D(this.getX()-100,this.getY(), 100, 40);
+        }
+        else if(facing == 1){
+            bigRectangle2D =  new Rectangle2D(this.getX(), this.getY()-200, 200, 400);
+            smallRectangle2D = new Rectangle2D(this.getX(),this.getY(), 140, 40);
+        }
+        
     }
     public boolean foundDanger(Bullet bullet){
         return smallRectangle2D.intersects(bullet.getBoundary());
