@@ -31,14 +31,15 @@ public class AIenemy extends Entity{
          else if(this.facing == 1){
              g.drawImage(aiSprite[frame].getImage(), x, y, width, height);
          }
-        
+
+
     }
     @Override
-    public void shootFireBall(GraphicsContext gc) { 
+    public void shootFireBall(GraphicsContext gc) {
     }
     @Override
     public void shootIceBall(GraphicsContext gc){
-        
+
     }
 
     @Override
@@ -60,14 +61,14 @@ public class AIenemy extends Entity{
                 }
             }
         }
-        if(this.isJumping() == true){            
+        if(this.isJumping() == true){
             if (lasttime == 0){
                 lasttime = currentime;
             }
             else {
                 if (((currentime - lasttime) / 1000000000.0) > 0.2){
                     lasttime = currentime;
-                    
+
                 }
                 if(velY <10){
                     velY += 1;
@@ -87,6 +88,7 @@ public class AIenemy extends Entity{
         }
         else if(freeze == true || (isMovingLeft == false && isMovingRight == false)) {
             this.setVelX(0);
+
         }
         if(this.getHp() <= 0){
             this.die();
@@ -111,7 +113,7 @@ public class AIenemy extends Entity{
             frameDelay = 0;
         }
         }
-        
+
     }
     public void tileCollidingChecking(){
         for(Tile t: tileHandler.getTile()){
@@ -123,7 +125,7 @@ public class AIenemy extends Entity{
                         hp -= 20;
                     }
                 }
-                if(this.intersectsBottomTile(t)){                       
+                if(this.intersectsBottomTile(t)){
                     y = t.getY() + height;
                     if(t.getId() == Id.fireTrap){
                         hp -= 20;
@@ -155,4 +157,3 @@ public class AIenemy extends Entity{
         }
     }
 }
-
