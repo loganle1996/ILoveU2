@@ -58,6 +58,7 @@ public class IceBall extends Bullet{
                 if(this.intersectsEntity(en)){
                     en.setFreeze(true);
                     this.disappear();
+                    
                 }
             }
         }

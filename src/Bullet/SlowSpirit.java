@@ -56,7 +56,7 @@ public class SlowSpirit extends Bullet
         else {
             if (((currenttime - lastTime) / 1000000000.0) > 3){
                 lastTime = currenttime;
-                this.disappear();
+                outOfEffect = true;
             }
         }
     }
@@ -76,25 +76,27 @@ public class SlowSpirit extends Bullet
     }
     public void entityCollidingChecking(){
         for(Entity en : entityHandler.getEntity()){
-            if(en.getId() == Id.Goomba){
-                if(this.intersectsEntity(en) && en.facing == 1 && outOfEffect == false)
+            if(en.getId() == Id.Goomba)
+            {
+                if(this.intersectsEntity(en))
                 {
-                    en.setHp(en.getHp()-1);
-                    en.setIsOnSlow(true);
+                    if((en.facing == 1 || en.facing == 0) && outOfEffect == false)
+                    {
+                        en.setHp(en.getHp()-1);
+                        en.setIsOnSlow(true);
+                        System.out.println("Intersect");
+                    }
                 }
                 else
                 {
                     en.setIsOnSlow(false);
+                    System.out.println("Not interesect");
                 }
                 
-                if(this.intersectsEntity(en) && en.facing == 0 && outOfEffect == false)
-                {
-                    en.setHp(en.getHp()-1);
-                    en.setIsOnSlow(true);
-                }
-                else
+                if (outOfEffect == true)
                 {
                     en.setIsOnSlow(false);
+                    this.disappear();
                 }
             }
         }

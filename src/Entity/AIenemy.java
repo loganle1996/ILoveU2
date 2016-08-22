@@ -36,7 +36,9 @@ public class AIenemy extends Entity
 
     }
     @Override
-    public void shootFireBall(GraphicsContext gc) {
+    public void shootFireBall(GraphicsContext gc) 
+    {
+        
     }
     @Override
     public void shootIceBall(GraphicsContext gc){
@@ -79,7 +81,8 @@ public class AIenemy extends Entity
                 }
             }
         }
-        if(this.isMovingLeft == true && this.isFreeze() == false){
+        if(this.isMovingLeft == true && this.isFreeze() == false)
+        {
             this.facing = 0;
             if(this.isOnSlow() == true)
             {
@@ -88,9 +91,11 @@ public class AIenemy extends Entity
             else
             {
                 this.setVelX(-3);
+                this.setIsOnSlow(false);
             }
         }
-        else if(this.isMovingRight == true && this.isFreeze() == false){
+        else if(this.isMovingRight == true && this.isFreeze() == false)
+        {
             this.facing = 1;
             if(this.isOnSlow() == true)
             {
@@ -99,11 +104,12 @@ public class AIenemy extends Entity
             else
             {
                 this.setVelX(3);
+                this.setIsOnSlow(false);
             }
         }
-        else if(freeze == true || (isMovingLeft == false && isMovingRight == false)) {
+        else if(freeze == true || (isMovingLeft == false && isMovingRight == false)) 
+        {
             this.setVelX(0);
-
         }
         
         if(this.getHp() <= 0){
@@ -167,17 +173,22 @@ public class AIenemy extends Entity
         }
 }
     public void jump(){
-        if(this.jumping == false && this.isFreeze() == false)
-        
-        if (this.isOnSlow() == true)
+        if((this.jumping == false || this.jumping == true) && this.isFreeze() == false && this.isOnSlow() == true)
         {
             this.setVelY(-3);
             this.setJumping(true);
         }
         else
         {
+            this.setIsOnSlow(false);
             this.setVelY(-15);
             this.setJumping(true);
+        }
+        
+        if (isFreeze() == true)
+        {
+            this.setJumping(true);
+            this.setVelY(0);
         }
     }
 
