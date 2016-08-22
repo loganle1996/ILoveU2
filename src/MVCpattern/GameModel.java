@@ -79,7 +79,7 @@ public class GameModel extends Application {
     public Originator originator = new Originator();
     public CareTaker careTaker = new CareTaker();
     public LinkedList<Entity> copiedEntity;
-    private long lastSpawnTime = 0;
+    private long lastSpawnTime = 0,bulletBoxLastSpTime = 0;
     private SoundHandler soundHandler = new SoundHandler();
 
     public Label hpLabel = new Label();
@@ -203,16 +203,17 @@ public class GameModel extends Application {
             @Override
             public void handle(long currentNanoTime)
             {
-                if (lastSpawnTime == 0){
+                if (lastSpawnTime == 0 || bulletBoxLastSpTime == 0){
                     lastSpawnTime = currentNanoTime;
+                    bulletBoxLastSpTime = currentNanoTime;
                 }
                 else {
                     if (((currentNanoTime - lastSpawnTime) / 1000000000.0) > 5){
                         lastSpawnTime = currentNanoTime;
                         spawnEnemy();
                     }
-                    if (((currentNanoTime - lastSpawnTime) / 1000000000.0) > 1){
-                        lastSpawnTime = currentNanoTime;
+                    if (((currentNanoTime - bulletBoxLastSpTime) / 1000000000.0) > 6){
+                        bulletBoxLastSpTime = currentNanoTime;
                         spawnItems();
                     }
 
