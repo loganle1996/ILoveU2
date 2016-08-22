@@ -25,6 +25,8 @@ public class BulletHandler implements Cloneable{
     Image imageRight = new Image("fireball.png");
     Image iceBallLeft = new Image("leftIceBall.png");
     Image iceBallRight = new Image("rightIceBall.png");
+    Image slowSpiriteLeft = new Image("Crystall.png");
+    Image slowSpiriteRight = new Image("Crystall.png");
     private BulletHandler(){
         
     }
@@ -59,10 +61,10 @@ public class BulletHandler implements Cloneable{
     }
     
     //tick
-    public void tickBullets(){
+    public void tickBullets(long currenttime){
         copiedBullets = new LinkedList<Bullet>(bullets);    
             for(Bullet bullet : copiedBullets){
-                bullet.tick();
+                bullet.tick(currenttime);
             }
     }
     //render
@@ -76,6 +78,10 @@ public class BulletHandler implements Cloneable{
                     }
                     else if(bullet.getId() == bulletType.snowBall){
                         bullet.renderBullet(gc, en, iceBallLeft, iceBallRight);
+                    }
+                    else if(bullet.getId() == bulletType.SlowSpirit)
+                    {
+                        bullet.renderBullet(gc, en, slowSpiriteLeft, slowSpiriteRight);
                     }
                 }
             }

@@ -16,7 +16,8 @@ import tile.Tile;
  *
  * @author owne
  */
-public class AIenemy extends Entity{
+public class AIenemy extends Entity
+{   
     public AIenemy(int x, int y, int width, int height, boolean solid, Id id, EntityHandler entityHandler) {
         super(x, y, width, height, solid, id, entityHandler);
 //        this.setIsMovingLeft(true);
@@ -80,16 +81,31 @@ public class AIenemy extends Entity{
         }
         if(this.isMovingLeft == true && this.isFreeze() == false){
             this.facing = 0;
-            this.setVelX(-3);
+            if(this.isOnSlow() == true)
+            {
+                this.setVelX(-0.5);
+            }
+            else
+            {
+                this.setVelX(-3);
+            }
         }
         else if(this.isMovingRight == true && this.isFreeze() == false){
             this.facing = 1;
-            this.setVelX(3);
+            if(this.isOnSlow() == true)
+            {
+                this.setVelX(0.5);
+            }
+            else
+            {
+                this.setVelX(3);
+            }
         }
         else if(freeze == true || (isMovingLeft == false && isMovingRight == false)) {
             this.setVelX(0);
 
         }
+        
         if(this.getHp() <= 0){
             this.die();
         }
@@ -151,9 +167,22 @@ public class AIenemy extends Entity{
         }
 }
     public void jump(){
-        if(this.jumping == false && this.isFreeze() == false){
-            this.setVelY(-15);
-            this.setJumping(true); // error from this boolean
+        if(this.jumping == false && this.isFreeze() == false)
+        
+        if (this.isOnSlow() == true)
+        {
+            this.setVelY(-3);
+            this.setJumping(true);
         }
+        else
+        {
+            this.setVelY(-15);
+            this.setJumping(true);
+        }
+    }
+
+    @Override
+    public void placeSlowSpirit(GraphicsContext gc) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 }

@@ -33,7 +33,7 @@ public class IceBall extends Bullet{
     }
 
     @Override
-    public void tick() {
+    public void tick(long currenttime) {
         this.setX(this.getVelX()+this.getX());
         this.setY(this.getY()+ this.getVelY());
         //tileCollidingCheck

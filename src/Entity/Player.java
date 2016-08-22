@@ -9,6 +9,7 @@ import Bullet.Bullet;
 import Bullet.BulletCache;
 import Bullet.FireBall;
 import Bullet.IceBall;
+import Bullet.SlowSpirit;
 import Bullet.bulletType;
 import GraphicsforAnimation.Sprite;
 import javafx.scene.canvas.GraphicsContext;
@@ -74,7 +75,8 @@ public class Player extends Entity {
 
     }
     @Override
-    public void shootIceBall(GraphicsContext gc){
+    public void shootIceBall(GraphicsContext gc)
+    {
         if(facing == 0){
             if(numberIceBall > 0){  
                 IceBall iceBall = (IceBall) bulletCache.getBullet(bulletType.snowBall);
@@ -106,6 +108,46 @@ public class Player extends Entity {
             }
         }
     }
+    
+    @Override
+    public void placeSlowSpirit(GraphicsContext gc) 
+    {
+        if(facing == 0)
+        {
+            if(numberSlowSpirit > 0){  
+                SlowSpirit slowSpirit = (SlowSpirit) bulletCache.getBullet(bulletType.SlowSpirit);
+                slowSpirit.setX(this.getX());
+                slowSpirit.setY(this.getY());
+                slowSpirit.setFlyingLeft(true);
+                bulletHandler.getBullets().add(slowSpirit);   
+                numberSlowSpirit -= 1;
+            }
+        }
+        else if(facing == 1){
+            if(numberIceBall > 0)
+            {
+                SlowSpirit slowSpirit = (SlowSpirit) bulletCache.getBullet(bulletType.SlowSpirit);
+                slowSpirit.setX(this.getX() + getWidth() / 4);
+                slowSpirit.setY(this.getY());
+                slowSpirit.setFlyingLeft(false);
+                bulletHandler.getBullets().add(slowSpirit);
+                numberSlowSpirit -= 1;
+            }
+        }
+        for(Bullet bullet : bulletHandler.getBullets()){
+            if(bullet.getId() == bulletType.SlowSpirit){
+                if(bullet.isFlyingLeft() == true)
+                {
+                    bullet.setVelX(0);
+                }
+                else if(bullet.isFlyingLeft() == false)
+                {
+                    bullet.setVelX(0);
+                }
+            }
+        }
+    }
+    
     @Override
     public void tick(long currentime) {
         x+= velX;
@@ -118,8 +160,8 @@ public class Player extends Entity {
                 lasttime = currentime;
                 this.setShootable(true);
             }
-
         }
+        
         if(this.getHp() <= 0){
             this.die();
         }
@@ -219,5 +261,7 @@ public class Player extends Entity {
             }
         }
     }
+
+    
     
 }

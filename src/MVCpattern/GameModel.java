@@ -42,6 +42,7 @@ import tile.TileCache;
 import tile.TileHandler;
 
 import java.util.LinkedList;
+import javax.swing.plaf.synth.SynthRootPaneUI;
 
 
 /**
@@ -55,10 +56,10 @@ public class GameModel extends Application {
     public static int HEIGHT = 1600;
     static Image image1,image2,image3,playerImage;
     private static Stage mainStage;
-    public static SpriteSheet sheet,crocodileSheet, crocodileSheetFrozen;
-    public static Sprite playerSprite [] = new Sprite[6];
-    public static Sprite crocodileSprite [] = new Sprite[6];
-    public static Sprite crocodileFrozen [] = new Sprite[6];
+    public SpriteSheet sheet,crocodileSheet, crocodileSheetFrozen;
+    public Sprite playerSprite [] = new Sprite[6];
+    public Sprite crocodileSprite [] = new Sprite[6];
+    public Sprite crocodileFrozen [] = new Sprite[6];
 
     public Image imageLeft,imageRight,iceBallImage;
     public EntityHandler entityHandler = EntityHandler.getInstance();
@@ -118,7 +119,7 @@ public class GameModel extends Application {
     public void TickModelGame(long currentime){
         entityHandler.tickEntities(currentime);
         tileHandler.tickTiles();
-        bulletHandler.tickBullets();
+        bulletHandler.tickBullets(currentime);
         houseHandler.tickHouses();
     }
     public void renderModelGame(GraphicsContext g){
@@ -303,7 +304,7 @@ public class GameModel extends Application {
                                 }
                                 break;
                             case I:
-                                if (bulletHandler.getBullets().size() < 1)
+                                if (en.shootable == true)
                                 {
                                     en.shootIceBall(gc);
                                     soundHandler.playSound("iceball");
@@ -318,6 +319,15 @@ public class GameModel extends Application {
                                     en.setShootable(false);
                                 }
                                 break;
+                                
+                            case T:
+                                if (en.shootable == true)
+                                {
+                                    en.placeSlowSpirit(gc);
+                                    en.setShootable(false);
+                                }
+                                break;
+                                
                             case A:
                                 en.setIsMovingLeft(true);
                                 soundHandler.playSound("footstep");

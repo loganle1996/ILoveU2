@@ -32,6 +32,9 @@ public class BulletCache {
         IceBall iceBall = new IceBall(bulletHandler, bulletType.snowBall);
         bulletHashtable.put(iceBall.getId(), iceBall);
         
+        SlowSpirit slowSpirit = new SlowSpirit(bulletHandler, bulletType.SlowSpirit);
+        bulletHashtable.put(slowSpirit.getId(), slowSpirit);
+        
     }
     //get instance
     public static BulletCache getInstance(){

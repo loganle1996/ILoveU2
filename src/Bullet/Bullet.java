@@ -32,6 +32,7 @@ public abstract class Bullet implements Cloneable{
     BulletHandler bulletHandler = BulletHandler.getInstance();
     HouseHandler houseHandler = HouseHandler.getInstance();
     private boolean flyingLeft;
+    public long lastTime = 0;
 
     public Bullet(double x, double y,BulletHandler bulletHandler,boolean flyingLeft) {
         this.x = x;
@@ -44,7 +45,7 @@ public abstract class Bullet implements Cloneable{
         this.id = id;
     }
     public abstract void renderBullet(GraphicsContext gc,Entity en,Image imageLeft, Image imageRight);
-    public abstract void tick();
+    public abstract void tick(long currenttime);
     @Override
     public Object clone(){
         Object clone = null;

@@ -14,21 +14,25 @@ import tile.Tile;
 
 /**
  *
- * @author khoinguyen
+ * @author apple
  */
-public class FireBall extends Bullet{
-    public FireBall(double x, double y,BulletHandler bulletHandler,Boolean flyingLeft) {
+public class SlowSpirit extends Bullet
+{
+    boolean outOfEffect = false;
+    public SlowSpirit(double x, double y,BulletHandler bulletHandler,Boolean flyingLeft) {
         super(x, y,bulletHandler,flyingLeft);
-        this.setId(bulletType.fireBall);
+        this.setId(bulletType.SlowSpirit);
     }
     
-    public FireBall(BulletHandler bulletHandler, bulletType id) {
+    public SlowSpirit(BulletHandler bulletHandler, bulletType id) 
+    {
         super(bulletHandler, id);
     }
-    
+
     @Override
-    public void renderBullet(GraphicsContext gc, Entity en,Image imageLeft, Image imageRight) {
-        if(en.getFacing() == 0){
+    public void renderBullet(GraphicsContext gc, Entity en, Image imageLeft, Image imageRight) 
+    {
+       if(en.getFacing() == 0){
             gc.drawImage(imageLeft, this.getX(),this.getY(),this.getWidth() , this.getHeight());
         }
         else if(en.facing == 1){
@@ -37,17 +41,26 @@ public class FireBall extends Bullet{
     }
 
     @Override
-    public void tick(long currenttime) {
+    public void tick(long currenttime) 
+    {
         this.setX(this.getX() + this.getVelX());
         this.setY(this.getY() + this.getVelY());
         //check if fireball collides tiles
         tileCollidingChecking();
         //check if this collides entities
         entityCollidingChecking();
-        //check if this collides houses
-        houseCollidingCheck();
         
+        if (lastTime == 0){
+            lastTime = currenttime;
+        }
+        else {
+            if (((currenttime - lastTime) / 1000000000.0) > 3){
+                lastTime = currenttime;
+                this.disappear();
+            }
+        }
     }
+    
     public void tileCollidingChecking(){
         for(Tile t: tileHandler.getTile())  {
             if(t.solid == false){
@@ -57,7 +70,6 @@ public class FireBall extends Bullet{
                     if(t.getType().equalsIgnoreCase("wall3")){
                         t.setHp(t.getHp()-200);
                     }
-                    this.disappear();
                 }    
             }  
         }
@@ -65,19 +77,26 @@ public class FireBall extends Bullet{
     public void entityCollidingChecking(){
         for(Entity en : entityHandler.getEntity()){
             if(en.getId() == Id.Goomba){
-                if(this.intersectsEntity(en)){
-                    en.setHp(en.getHp()-200);
-                    this.disappear();
+                if(this.intersectsEntity(en) && en.facing == 1 && outOfEffect == false)
+                {
+                    en.setHp(en.getHp()-1);
+                    en.setIsOnSlow(true);
+                }
+                else
+                {
+                    en.setIsOnSlow(false);
+                }
+                
+                if(this.intersectsEntity(en) && en.facing == 0 && outOfEffect == false)
+                {
+                    en.setHp(en.getHp()-1);
+                    en.setIsOnSlow(true);
+                }
+                else
+                {
+                    en.setIsOnSlow(false);
                 }
             }
         }
-    }
-    public void houseCollidingCheck(){
-        for(AiHouse aiHouse : houseHandler.getAiHouses()){
-            if(this.intersectsHouse(aiHouse)){
-                aiHouse.setHp(aiHouse.getHp()-200);
-                this.disappear();
-            }
-        } 
     }
 }

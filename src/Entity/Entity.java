@@ -9,7 +9,6 @@ import Bullet.Bullet;
 import Bullet.BulletHandler;
 import Entity.Folow.Follow;
 import GraphicsforAnimation.Sprite;
-import MVCpattern.GameModel;
 import javafx.geometry.Rectangle2D;
 import javafx.scene.canvas.GraphicsContext;
 import tile.Tile;
@@ -30,7 +29,7 @@ public abstract class Entity{
     public static EntityHandler entityHandler = EntityHandler.getInstance();
     public TileHandler tileHandler = TileHandler.getInstance();
     public BulletHandler bulletHandler = BulletHandler.getInstance();
-    public boolean isMovingLeft = false, isMovingRight = false, jumping = false,jumping2 = false;
+    public boolean isMovingLeft = false, isMovingRight = false, jumping = false;
     public int facing = 0; //0 is left; 1 is right
     public double hp = 1000;
     public boolean isCollidingLeft = false, isCollidingRight = false,collidingTop = false, collidingBottom = false,shootable = true;
@@ -38,7 +37,16 @@ public abstract class Entity{
     public int frameDelay = 0;
     public boolean animate = false;
     public boolean freeze = false;
-    public int numberFireball = 50,numberIceBall = 10;
+    public boolean OnSlow = false;
+
+    public boolean isOnSlow() {
+        return OnSlow;
+    }
+
+    public void setIsOnSlow(boolean isOnSlow) {
+        this.OnSlow = isOnSlow;
+    }
+    public int numberFireball = 50,numberIceBall = 10,numberSlowSpirit = 20;
     public Rectangle2D bigRectangle2D,smallRectangle2D;
     private Follow followskill;
     public long lasttime = 0;
@@ -51,7 +59,7 @@ public abstract class Entity{
         this.height = height;
         this.solid = solid;
         this.id = id;
-        this.entityHandler = entityHandler;
+        Entity.entityHandler = entityHandler;
         velY += gravity;
     }
     public Entity(int width,int height, boolean solid, Id id, EntityHandler entityHandler){
@@ -59,7 +67,7 @@ public abstract class Entity{
         this.height = height;
         this.solid = solid;
         this.id = id;
-        this.entityHandler = entityHandler;
+        Entity.entityHandler = entityHandler;
         velY += gravity;
     }
     public abstract void render(GraphicsContext g, Sprite[] sprite);
@@ -68,6 +76,8 @@ public abstract class Entity{
 
     public abstract void shootFireBall(GraphicsContext gc);
     public abstract void shootIceBall(GraphicsContext gc);
+    public abstract void placeSlowSpirit(GraphicsContext gc);
+    
     public void healAndRefill(){
         this.numberFireball = 50;
         this.numberIceBall = 10;

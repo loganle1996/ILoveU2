@@ -10,5 +10,5 @@ package Bullet;
  * @author khoinguyen
  */
 public enum bulletType {
-    fireBall,snowBall;
+    fireBall,snowBall,SlowSpirit;
 }
