@@ -47,9 +47,11 @@ import tile.TileCache;
 import tile.TileHandler;
 
 import java.util.LinkedList;
-<<<<<<< HEAD
-<<<<<<< HEAD
+
 import javax.swing.plaf.synth.SynthRootPaneUI;
+=======
+import java.util.Random;
+>>>>>>> origin/master
 =======
 import java.util.Random;
 >>>>>>> origin/master
@@ -353,6 +355,7 @@ public class GameModel extends Application {
                                 
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
                             case T:
                                 if (en.shootable == true)
                                 {
@@ -361,6 +364,8 @@ public class GameModel extends Application {
                                 }
                                 break;
                                 
+=======
+>>>>>>> origin/master
 =======
 >>>>>>> origin/master
 =======
