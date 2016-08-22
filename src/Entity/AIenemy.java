@@ -5,6 +5,8 @@
  */
 package Entity;
 
+import Bullet.Bullet;
+import Bullet.bulletType;
 import Entity.Folow.WalkingFollow;
 import GraphicsforAnimation.Sprite;
 import javafx.scene.canvas.GraphicsContext;
@@ -40,7 +42,7 @@ public class AIenemy extends Entity{
     }
 
     @Override
-    public void tick() {
+    public void tick(long currentime) {
         x += velX;
         y += velY;
         this.watchingAround();
@@ -48,6 +50,30 @@ public class AIenemy extends Entity{
             if(en.getId() == Id.player){
                 if(this.foundObject(en)){
                     this.follow(en);
+                }
+            }
+        }
+        for(Bullet bullet: bulletHandler.getBullets()){
+            if(bullet.getId() == bulletType.fireBall){
+                if(this.foundDanger(bullet)){
+                    this.jump();
+                }
+            }
+        }
+        if(this.isJumping() == true){            
+            if (lasttime == 0){
+                lasttime = currentime;
+            }
+            else {
+                if (((currentime - lasttime) / 1000000000.0) > 0.2){
+                    lasttime = currentime;
+                    
+                }
+                if(velY <10){
+                    velY += 1;
+                }
+                else{
+                    jumping = false;
                 }
             }
         }
@@ -87,17 +113,16 @@ public class AIenemy extends Entity{
         }
         
     }
-public void tileCollidingChecking(){
+    public void tileCollidingChecking(){
         for(Tile t: tileHandler.getTile()){
             if(t.getId() == Id.wall || t.getId() == Id.fireTrap){
                 if(this.intersectsTopTile(t)){
+//                    this.setJumping(false);
                     y = t.getY() - height;
-                    this.setVelY(10);
-                    this.setJumping(false);
                     if(t.getId() == Id.fireTrap){
                         hp -= 20;
                     }
-                }    
+                }
                 if(this.intersectsBottomTile(t)){                       
                     y = t.getY() + height;
                     if(t.getId() == Id.fireTrap){
@@ -122,6 +147,12 @@ public void tileCollidingChecking(){
                 }
             }
         }
-}    
+}
+    public void jump(){
+        if(this.jumping == false){
+            this.setVelY(-15);
+            this.setJumping(true); // error from this boolean
+        }
+    }
 }
 

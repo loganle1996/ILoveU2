@@ -114,8 +114,8 @@ public class GameModel extends Application {
         this.houseHandler = houseHandler;
     }
 
-    public void TickModelGame(){
-        entityHandler.tickEntities();
+    public void TickModelGame(long currentime){
+        entityHandler.tickEntities(currentime);
         tileHandler.tickTiles();
         bulletHandler.tickBullets();
         houseHandler.tickHouses();
@@ -167,7 +167,7 @@ public class GameModel extends Application {
         camera.setFarClip(1500);
         camera.setTranslateX(800);
         camera.setTranslateY(800);
-        camera.setTranslateZ(-1500);
+        camera.setTranslateZ(-800);
 
         // Player's HP HUD
         hpLabel.setTextFill(javafx.scene.paint.Color.WHITE);
@@ -200,8 +200,9 @@ public class GameModel extends Application {
                         lastSpawnTime = currentNanoTime;
                         spawnEnemy();
                     }
+                    
                 }
-                tickAndRenderModel();
+                tickAndRenderModel(currentNanoTime);
 
                 camera.setTranslateX(player1.getX());
                 camera.setTranslateY(player1.getY());
@@ -211,9 +212,6 @@ public class GameModel extends Application {
                 fireBallLabel.setText("Fireballs left: " + player1.getNumberFireball());
                 fireBallLabel.setTranslateX(player1.getX()+ 350);
                 fireBallLabel.setTranslateY(player1.getY() - 250);
-//                iceBallLabel.setText("Ice Shards left: "+ player1.get);
-//                iceBallLabel.setTranslateX(player1.getX()+ 350);
-//                iceBallLabel.setTranslateY(player1.getY() - 200);
 
             }
         }.start();
@@ -253,10 +251,10 @@ public class GameModel extends Application {
         launch(args);
         mainStage = new Stage();
     }
-    public void tickAndRenderModel(){
+    public void tickAndRenderModel(long currentime){
         gc.clearRect(0, 0, WIDTH, HEIGHT);
         gc.drawImage(Background, 0, 0, WIDTH, HEIGHT);
-        this.TickModelGame();
+        this.TickModelGame(currentime);
         this.renderModelGame(gc);
     }
 
@@ -283,22 +281,6 @@ public class GameModel extends Application {
                                     en.setVelY(-15);
                                 }
                                 break;
-
-//                        if(event.getCode() == KeyCode.H){
-//                            originator.setEntityState((EntityHandler) entityHandler.clone());
-//                            originator.setBulletState((BulletHandler) bulletHandler.clone());
-//                            originator.setTileState((TileHandler) tileHandler.clone());
-//                            careTaker.add(originator.saveStateMemento());
-//                            System.out.println("saving successfully");
-//
-//                        }
-//                        if(event.getCode() == KeyCode.J){
-//                            originator.getStateFromMemento(careTaker.get());
-//                            entityHandler.editInstance(originator.getEntityState());
-//                            bulletHandler.editInstance(originator.getBulletState());
-//                            tileHandler.editInstance(originator.getTileState());
-//                            System.out.println("undo succesfully");
-//                        }
                             case I:
                                 if (bulletHandler.getBullets().size() < 1)
                                 {
@@ -308,10 +290,11 @@ public class GameModel extends Application {
                                 break;
 
                             case R:
-                                if (bulletHandler.getBullets().size() < 1)
+                                if (en.shootable == true)
                                 {
                                     en.shootFireBall(gc);
                                     soundHandler.playSound("fireball");
+                                    en.setShootable(false);
                                 }
                                 break;
                             case A:

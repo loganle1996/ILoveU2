@@ -49,10 +49,10 @@ public class EntityHandler implements Cloneable{
         this.entity = entity;
     }
     //Tick entities
-    public void tickEntities(){
+    public void tickEntities(long currentime){
         copiedEntity = new LinkedList<Entity>(entity);
         for(Entity en: copiedEntity){
-            en.tick();
+            en.tick(currentime);
         }
     }
     //render entities

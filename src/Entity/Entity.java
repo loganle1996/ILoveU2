@@ -5,6 +5,7 @@
  */
 package Entity;
 
+import Bullet.Bullet;
 import Bullet.BulletHandler;
 import Entity.Folow.Follow;
 import GraphicsforAnimation.Sprite;
@@ -29,17 +30,18 @@ public abstract class Entity{
     public static EntityHandler entityHandler = EntityHandler.getInstance();
     public TileHandler tileHandler = TileHandler.getInstance();
     public BulletHandler bulletHandler = BulletHandler.getInstance();
-    public boolean isMovingLeft = false, isMovingRight = false, jumping = false;
+    public boolean isMovingLeft = false, isMovingRight = false, jumping = false,jumping2 = false;
     public int facing = 0; //0 is left; 1 is right
     public double hp = 1000;
-    public boolean isCollidingLeft = false, isCollidingRight = false,collidingTop = false, collidingBottom = false;
+    public boolean isCollidingLeft = false, isCollidingRight = false,collidingTop = false, collidingBottom = false,shootable = true;
     public int frame = 0;
     public int frameDelay = 0;
     public boolean animate = false;
     public boolean freeze = false;
     public int numberFireball = 50,numberIceBall = 10;
-    public Rectangle2D bigRectangle2D;
+    public Rectangle2D bigRectangle2D,smallRectangle2D;
     private Follow followskill;
+    public long lasttime = 0;
     //public boolean falling = true;
     
     public Entity(int x, int y, int width, int height, boolean solid,Id id,EntityHandler entityHandler) {
@@ -62,7 +64,7 @@ public abstract class Entity{
     }
     public abstract void render(GraphicsContext g, Sprite[] sprite);
         
-    public abstract void tick();
+    public abstract void tick(long currentTime);
 
     public abstract void shootFireBall(GraphicsContext gc);
     public abstract void shootIceBall(GraphicsContext gc);
@@ -273,6 +275,14 @@ public abstract class Entity{
         return facing;
     }
 
+    public boolean isShootable() {
+        return shootable;
+    }
+
+    public void setShootable(boolean shootable) {
+        this.shootable = shootable;
+    }
+
     public void setFacing(int facing) {
         this.facing = facing;
     }
@@ -287,8 +297,11 @@ public abstract class Entity{
     
     public void watchingAround(){
         bigRectangle2D =  new Rectangle2D(this.getX()-200, this.getY()-200, 800, 400);
+        smallRectangle2D = new Rectangle2D(this.getX()-100,this.getY(), 200, 40);
     }
-    
+    public boolean foundDanger(Bullet bullet){
+        return smallRectangle2D.intersects(bullet.getBoundary());
+    }
     public boolean foundObject(Entity en){
         return bigRectangle2D.intersects(en.getBoundary());
     }
