@@ -19,7 +19,7 @@ import tile.Tile;
 public class AIenemy extends Entity{
     public AIenemy(int x, int y, int width, int height, boolean solid, Id id, EntityHandler entityHandler) {
         super(x, y, width, height, solid, id, entityHandler);
-//        this.setIsMovingLeft(true);
+        this.setIsMovingLeft(true);
         this.setFollowSkill(new WalkingFollow());
     }
 
