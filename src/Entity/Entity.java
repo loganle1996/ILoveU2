@@ -73,6 +73,7 @@ public abstract class Entity{
         this.numberIceBall = 10;
         this.setHp(1000);
     }
+        
     public void setFollowSkill(Follow followSkill){
         this.followskill = followSkill;
     }
