@@ -55,9 +55,10 @@ public class GameModel extends Application {
     public static int HEIGHT = 1600;
     static Image image1,image2,image3,playerImage;
     private static Stage mainStage;
-    public static SpriteSheet sheet,crocodileSheet;
+    public static SpriteSheet sheet,crocodileSheet, crocodileSheetFrozen;
     public static Sprite playerSprite [] = new Sprite[6];
     public static Sprite crocodileSprite [] = new Sprite[6];
+    public static Sprite crocodileFrozen [] = new Sprite[6];
 
     public Image imageLeft,imageRight,iceBallImage;
     public EntityHandler entityHandler = EntityHandler.getInstance();
@@ -121,7 +122,7 @@ public class GameModel extends Application {
         houseHandler.tickHouses();
     }
     public void renderModelGame(GraphicsContext g){
-        entityHandler.renderEntities(g,playerSprite,crocodileSprite);
+        entityHandler.renderEntities(g,playerSprite,crocodileSprite, crocodileFrozen);
         tileHandler.renderTiles(g);
         houseHandler.renderHouses(gc);
         bulletHandler.renderBullets(gc);
@@ -200,7 +201,7 @@ public class GameModel extends Application {
                         lastSpawnTime = currentNanoTime;
                         spawnEnemy();
                     }
-                    
+
                 }
                 tickAndRenderModel(currentNanoTime);
 
@@ -241,11 +242,19 @@ public class GameModel extends Application {
         for(int i = 0; i< playerSprite.length;i++){
             playerSprite[i] = new Sprite(sheet,i+1,1);
         }
+
         crocodileSheet = new SpriteSheet("crocodileGameSheet.png");
+
         for(int i = 0; i< crocodileSprite.length;i++){
-            crocodileSprite[i] = new Sprite(crocodileSheet,i+1,1);
+            crocodileSprite[i] = new Sprite(crocodileSheet, i+1, 1);
         }
-        bulletCache.loadBulletCache();
+
+        crocodileSheetFrozen = new SpriteSheet("crocodileGameSheetFrozen.png");
+        for(int i = 0; i< crocodileSprite.length;i++) {
+            crocodileFrozen[i] = new Sprite(crocodileSheetFrozen, i + 1, 1);
+        }
+
+            bulletCache.loadBulletCache();
     }
     public static void main(String[] args) {
         launch(args);
@@ -274,6 +283,9 @@ public class GameModel extends Application {
                 copiedEntity = new LinkedList<Entity>(entityHandler.getEntity());
                 for(Entity en: copiedEntity){
                     if(en.getId() == Id.player){
+
+                        // TODO (Dzung Le): Add a key buffer
+
                         switch (event.getCode()) {
                             case SPACE:
                                 if (en.isJumping() == false){
@@ -325,7 +337,7 @@ public class GameModel extends Application {
                                 break;
                             case D:
                                 en.setIsMovingRight(false);
-                                break;    
+                                break;
                         }
                     }
                 }

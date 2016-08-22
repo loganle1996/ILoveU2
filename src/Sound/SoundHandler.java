@@ -32,9 +32,6 @@ public class SoundHandler
             soundEffectsMap.get(id).play();
         }
 
-        else {
-        }
-
     }
 
     public void playBackgroundMusic(String id)

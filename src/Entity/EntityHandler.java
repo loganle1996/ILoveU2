@@ -6,8 +6,9 @@
 package Entity;
 
 import GraphicsforAnimation.Sprite;
-import java.util.LinkedList;
 import javafx.scene.canvas.GraphicsContext;
+
+import java.util.LinkedList;
 
 /**
  *
@@ -56,13 +57,18 @@ public class EntityHandler implements Cloneable{
         }
     }
     //render entities
-    public void renderEntities(GraphicsContext g, Sprite[] playerSprite,Sprite[] crocodileSprite){
+    public void renderEntities(GraphicsContext g, Sprite[] playerSprite,Sprite[] crocodileSprite, Sprite[] crocodileFrozen){
         for(Entity en: entity){
             if(en.getId()== Id.player){
                 en.render(g,playerSprite );
             }
             else if(en.getId() == Id.Goomba){
                 en.render(g, crocodileSprite);
+
+                if (en.isFreeze()) {
+                    en.render(g, crocodileFrozen);
+                }
+
             }
         }
     }
