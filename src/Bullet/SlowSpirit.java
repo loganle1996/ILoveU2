@@ -84,13 +84,11 @@ public class SlowSpirit extends Bullet
                     {
                         en.setHp(en.getHp()-1);
                         en.setIsOnSlow(true);
-                        System.out.println("Intersect");
                     }
                 }
                 else
                 {
                     en.setIsOnSlow(false);
-                    System.out.println("Not interesect");
                 }
                 
                 if (outOfEffect == true)
