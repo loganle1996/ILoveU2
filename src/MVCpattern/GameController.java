@@ -19,8 +19,8 @@ public class GameController {
         this.gameView = view;
         this.gameModel = model;
     }
-    public void tickModelGame(){
-        gameModel.TickModelGame();
+    public void tickModelGame(long currentime){
+        gameModel.TickModelGame(currentime);
     }
     public LinkedList getTileList(){
         return gameModel.getTileHandler().getTile();

@@ -57,14 +57,14 @@ public class FireBall extends Bullet{
                     if(t.getType().equalsIgnoreCase("wall3")){
                         t.setHp(t.getHp()-200);
                     }
-                        this.disappear();
+                    this.disappear();
                 }    
             }  
         }
     }
     public void entityCollidingChecking(){
         for(Entity en : entityHandler.getEntity()){
-            if(en.getId() != Id.player){
+            if(en.getId() == Id.Goomba){
                 if(this.intersectsEntity(en)){
                     en.setHp(en.getHp()-200);
                     this.disappear();

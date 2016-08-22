@@ -11,8 +11,7 @@ import MVCpattern.GameModel;
 import Entity.Id;
 import javafx.geometry.Rectangle2D;
 import javafx.scene.canvas.GraphicsContext;
-import javafx.scene.image.Image;
-import javafx.scene.shape.Rectangle;
+
 
 /**
  *
@@ -101,8 +100,9 @@ public abstract class Tile implements Cloneable{
     public Rectangle2D getBoundary(){
         return new Rectangle2D(getX(), getY(), width, height);
     }
+
     public Rectangle2D getTopBoundary(){
-        return new Rectangle2D(getX() + 10,getY(),width-20,5);
+        return new Rectangle2D(this.getX() + 10,this.getY(),width-20,5);
     }
     public Rectangle2D getBottomBoundary(){
         return new Rectangle2D(getX() + 10,getY()+ height - 5,width-20,5);

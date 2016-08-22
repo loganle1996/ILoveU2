@@ -19,7 +19,6 @@ import tile.Tile;
  * @author owne
  */
 public class Player extends Entity {
-    public int numberFireball = 50,numberIceBall = 10;
     private static Player player = new Player(40, 40, true, Id.player, entityHandler);
     private BulletCache bulletCache = BulletCache.getInstance();
     private Player(int width, int height, boolean solid, Id id, EntityHandler entityHandler) {
@@ -28,14 +27,6 @@ public class Player extends Entity {
     
     public static Player getInstance(){
         return player;
-    }
-
-    public int getNumberFireball() {
-        return numberFireball;
-    }
-
-    public void setNumberFireball(int numberFireball) {
-        this.numberFireball = numberFireball;
     }
 
     @Override
@@ -51,7 +42,6 @@ public class Player extends Entity {
     public void shootFireBall(GraphicsContext gc) {
         if(facing == 0){
             if(numberFireball > 0){  
-//              bulletHandler.getBullets().add(new FireBall(this.getX(), this.getY(), bulletHandler,true));
                 FireBall fireBall = (FireBall) bulletCache.getBullet(bulletType.fireBall);
                 fireBall.setX(this.getX());
                 fireBall.setY(this.getY());
@@ -62,7 +52,6 @@ public class Player extends Entity {
         }
         else if(facing == 1){
             if(numberFireball > 0){
-//                bulletHandler.getBullets().add(new FireBall(this.getX() + this.getWidth()/4, this.getY() + 5, bulletHandler,false));
                 FireBall fireBall = (FireBall) bulletCache.getBullet(bulletType.fireBall);
                 fireBall.setX(this.getX()+this.getWidth()/4);
                 fireBall.setY(this.getY());
@@ -88,7 +77,6 @@ public class Player extends Entity {
     public void shootIceBall(GraphicsContext gc){
         if(facing == 0){
             if(numberIceBall > 0){  
-//              bulletHandler.getBullets().add(new FireBall(this.getX(), this.getY(), bulletHandler,true));
                 IceBall iceBall = (IceBall) bulletCache.getBullet(bulletType.snowBall);
                 iceBall.setX(this.getX());
                 iceBall.setY(this.getY());
@@ -99,7 +87,6 @@ public class Player extends Entity {
         }
         else if(facing == 1){
             if(numberIceBall > 0){
-//                bulletHandler.getBullets().add(new FireBall(this.getX() + this.getWidth()/4, this.getY() + 5, bulletHandler,false));
                 IceBall iceBall = (IceBall) bulletCache.getBullet(bulletType.snowBall);
                 iceBall.setX(this.getX()+this.getWidth()/4);
                 iceBall.setY(this.getY());
@@ -119,19 +106,24 @@ public class Player extends Entity {
             }
         }
     }
-    public void jump() {
-        this.setVelY(-15);
-    }
-
     @Override
-    public void tick() {
+    public void tick(long currentime) {
         x+= velX;
         y += velY;
+        if (lasttime == 0){
+            lasttime = currentime;
+        }
+        else {
+            if (((currentime - lasttime) / 1000000000.0) > 1){
+                lasttime = currentime;
+                this.setShootable(true);
+            }
 
+        }
         if(this.getHp() <= 0){
             this.die();
         }
-        if (this.jumping) {
+        if (this.jumping == true) {
               velY += this.getGravity() / 10;
         }
         if(this.isMovingLeft == true){
@@ -142,7 +134,7 @@ public class Player extends Entity {
             this.setVelX(5);
             this.facing = 1;
         }
-        else if(freeze == true || (isMovingLeft == false && isMovingRight == false)) {
+        else if(freeze == true ||(isMovingLeft == false && isMovingRight == false)) {
             this.setVelX(0);
         }
         
@@ -181,21 +173,18 @@ public class Player extends Entity {
                         }
                     }    
                     if(this.intersectsBottomTile(t)){                       
-                        setVelY(0);
                         y = t.getY() + height;
                         if(t.getId() == Id.fireTrap){
                             hp -= 10;
                         }
                     }
                     if(this.intersectsRightTile(t)){
-                        setVelX(0);
                         x = t.getX()+t.width;
                         if(t.getId() == Id.fireTrap){
                             hp -= 10;
                         }
                     }
                     if(this.intersectsLeftTile(t)){
-                        setVelX(0);
                         x = t.getX()-t.width;  
                         if(t.getId() == Id.fireTrap){
                             hp -= 10;
@@ -214,24 +203,21 @@ public class Player extends Entity {
                         this.setJumping(false);
                         this.setHp(this.getHp() - 10);
                     }    
-                    else if(this.intersectsBottomEntity(en)){                       
+                    if (this.intersectsBottomEntity(en)){                       
                         setVelY(0);
                         y = en.getY() + height;
                        this.setHp(this.getHp() - 10);
                     }
-                    else if(this.intersectsRightEntity(en)){
-                        setVelX(0);
+                    if(this.intersectsRightEntity(en)){
                         x = en.getX()+en.width;
                         this.setHp(this.getHp() - 10); 
                     }
-                    else if(this.intersectsLeftEntity(en)){
-
-                        setVelX(0);
+                    if(this.intersectsLeftEntity(en)){
                         x = en.getX()-en.width;   
                         this.setHp(this.getHp() - 10);
                     }
             }
         }
     }
-
+    
 }

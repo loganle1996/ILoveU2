@@ -49,10 +49,10 @@ public class EntityHandler implements Cloneable{
         this.entity = entity;
     }
     //Tick entities
-    public void tickEntities(){
+    public void tickEntities(long currentime){
         copiedEntity = new LinkedList<Entity>(entity);
         for(Entity en: copiedEntity){
-            en.tick();
+            en.tick(currentime);
         }
     }
     //render entities
@@ -69,7 +69,10 @@ public class EntityHandler implements Cloneable{
     //empty handler without the player
     public void emptyHandler(){
         copiedEntity = new LinkedList<Entity>(entity);
-        for(Entity en: copiedEntity){                
+        for(Entity en: copiedEntity){
+                if(en.getId() == Id.player){
+                    en.healAndRefill();
+                }
                 entityHandler.removeEntity(en);
         }
     }

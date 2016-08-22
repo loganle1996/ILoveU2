@@ -19,7 +19,7 @@ public class SoundHandler
     // Loads sound from a
     public void loadSound(String id)
     {
-        String audioClipPath = getClass().getResource("../" + id + ".wav").toExternalForm();
+        String audioClipPath = getClass().getResource("/" + id + ".wav").toExternalForm();
         System.out.println(audioClipPath);
         AudioClip sound = new AudioClip(audioClipPath);
         soundEffectsMap.put(id, sound);
@@ -33,7 +33,6 @@ public class SoundHandler
         }
 
         else {
-//            wait();
         }
 
     }
