@@ -9,6 +9,7 @@ import Bullet.Bullet;
 import Bullet.bulletType;
 import Entity.Folow.WalkingFollow;
 import GraphicsforAnimation.Sprite;
+import Sound.SoundHandler;
 import javafx.scene.canvas.GraphicsContext;
 import tile.Tile;
 
@@ -17,7 +18,7 @@ import tile.Tile;
  * @author owne
  */
 public class AIenemy extends Entity
-{   
+{
     public AIenemy(int x, int y, int width, int height, boolean solid, Id id, EntityHandler entityHandler) {
         super(x, y, width, height, solid, id, entityHandler);
         this.setIsMovingLeft(true);
@@ -36,9 +37,9 @@ public class AIenemy extends Entity
 
     }
     @Override
-    public void shootFireBall(GraphicsContext gc) 
+    public void shootFireBall(GraphicsContext gc)
     {
-        
+
     }
     @Override
     public void shootIceBall(GraphicsContext gc){
@@ -107,13 +108,14 @@ public class AIenemy extends Entity
                 this.setIsOnSlow(false);
             }
         }
-        else if(freeze == true || (isMovingLeft == false && isMovingRight == false)) 
+        else if(freeze == true || (isMovingLeft == false && isMovingRight == false))
         {
             this.setVelX(0);
         }
-        
+
         if(this.getHp() <= 0){
             this.die();
+            SoundHandler.getInstance().playSound("monster_death");
         }
 
         //check if this collides tiles
@@ -188,7 +190,7 @@ public class AIenemy extends Entity
             this.setVelY(-15);
             this.setJumping(true);
         }
-        
+
         if (isFreeze() == true)
         {
             this.setJumping(true);

@@ -5,13 +5,9 @@
  */
 package Entity;
 
-import Bullet.Bullet;
-import Bullet.BulletCache;
-import Bullet.FireBall;
-import Bullet.IceBall;
-import Bullet.SlowSpirit;
-import Bullet.bulletType;
+import Bullet.*;
 import GraphicsforAnimation.Sprite;
+import Sound.SoundHandler;
 import javafx.scene.canvas.GraphicsContext;
 import tile.Tile;
 
@@ -25,7 +21,7 @@ public class Player extends Entity {
     private Player(int width, int height, boolean solid, Id id, EntityHandler entityHandler) {
         super(width, height, solid, id, entityHandler);
     }
-    
+
     public static Player getInstance(){
         return player;
     }
@@ -41,13 +37,17 @@ public class Player extends Entity {
     }
     @Override
     public void shootFireBall(GraphicsContext gc) {
+
+      SoundHandler.getInstance().playSound("fireball");
+
+
         if(facing == 0){
-            if(numberFireball > 0){  
+            if(numberFireball > 0){
                 FireBall fireBall = (FireBall) bulletCache.getBullet(bulletType.fireBall);
                 fireBall.setX(this.getX());
                 fireBall.setY(this.getY());
                 fireBall.setFlyingLeft(true);
-                bulletHandler.getBullets().add(fireBall);   
+                bulletHandler.getBullets().add(fireBall);
                 numberFireball -= 1;
             }
         }
@@ -61,7 +61,7 @@ public class Player extends Entity {
                 numberFireball -= 1;
             }
         }
-        
+
         for(Bullet bullet : bulletHandler.getBullets()){
             if(bullet.getId() == bulletType.fireBall){
                 if(bullet.isFlyingLeft() == true){
@@ -77,13 +77,15 @@ public class Player extends Entity {
     @Override
     public void shootIceBall(GraphicsContext gc)
     {
+      SoundHandler.getInstance().playSound("iceball");
+
         if(facing == 0){
-            if(numberIceBall > 0){  
+            if(numberIceBall > 0){
                 IceBall iceBall = (IceBall) bulletCache.getBullet(bulletType.snowBall);
                 iceBall.setX(this.getX());
                 iceBall.setY(this.getY());
                 iceBall.setFlyingLeft(true);
-                bulletHandler.getBullets().add(iceBall);   
+                bulletHandler.getBullets().add(iceBall);
                 numberIceBall -= 1;
             }
         }
@@ -108,18 +110,20 @@ public class Player extends Entity {
             }
         }
     }
-    
+
     @Override
-    public void placeSlowSpirit(GraphicsContext gc) 
+    public void placeSlowSpirit(GraphicsContext gc)
     {
+        SoundHandler.getInstance().playSound("iceball");
+
         if(facing == 0)
         {
-            if(numberSlowSpirit > 0){  
+            if(numberSlowSpirit > 0){
                 SlowSpirit slowSpirit = (SlowSpirit) bulletCache.getBullet(bulletType.SlowSpirit);
                 slowSpirit.setX(this.getX());
                 slowSpirit.setY(this.getY());
                 slowSpirit.setFlyingLeft(true);
-                bulletHandler.getBullets().add(slowSpirit);   
+                bulletHandler.getBullets().add(slowSpirit);
                 numberSlowSpirit -= 1;
             }
         }
@@ -147,7 +151,7 @@ public class Player extends Entity {
             }
         }
     }
-    
+
     @Override
     public void tick(long currentime) {
         x+= velX;
@@ -161,7 +165,7 @@ public class Player extends Entity {
                 this.setShootable(true);
             }
         }
-        
+
         if(this.getHp() <= 0){
             this.die();
         }
@@ -171,15 +175,23 @@ public class Player extends Entity {
         if(this.isMovingLeft == true){
             this.setVelX(-5.0);
             this.facing = 0;
+            if (!this.jumping)
+            {
+            SoundHandler.getInstance().playSound("footstep");
+            }
         }
         else if(this.isMovingRight){
             this.setVelX(5);
             this.facing = 1;
+            if (!this.jumping)
+            {
+            SoundHandler.getInstance().playSound("footstep");
+            }
         }
         else if(freeze == true ||(isMovingLeft == false && isMovingRight == false)) {
             this.setVelX(0);
         }
-        
+
         if(velX != 0){
             this.animate = true;
         }
@@ -198,7 +210,7 @@ public class Player extends Entity {
             frameDelay = 0;
         }
         }
- 
+
     }
     public void tileCollidingChecking(){
         for(Tile t: tileHandler.getTile()){
@@ -212,28 +224,36 @@ public class Player extends Entity {
                         this.setJumping(false);
                         if(t.getId() == Id.fireTrap){
                             hp -= 10;
+                            SoundHandler.getInstance().playSound("player_hurt");
+
                         }
-                    }    
-                    if(this.intersectsBottomTile(t)){                       
+                    }
+                    if(this.intersectsBottomTile(t)){
                         y = t.getY() + height;
                         if(t.getId() == Id.fireTrap){
                             hp -= 10;
+                            SoundHandler.getInstance().playSound("player_hurt");
+
                         }
                     }
                     if(this.intersectsRightTile(t)){
                         x = t.getX()+t.width;
                         if(t.getId() == Id.fireTrap){
                             hp -= 10;
+                            SoundHandler.getInstance().playSound("player_hurt");
+
                         }
                     }
                     if(this.intersectsLeftTile(t)){
-                        x = t.getX()-t.width;  
+                        x = t.getX()-t.width;
                         if(t.getId() == Id.fireTrap){
                             hp -= 10;
+                            SoundHandler.getInstance().playSound("player_hurt");
+
                         }
                     }
                 }
-            }     
+            }
         }
     }
     public void enemyCollidingChecking(){
@@ -244,24 +264,32 @@ public class Player extends Entity {
                         this.setVelY(10);
                         this.setJumping(false);
                         this.setHp(this.getHp() - 10);
-                    }    
-                    if (this.intersectsBottomEntity(en)){                       
+                        SoundHandler.getInstance().playSound("player_hurt");
+
+                    }
+                    if (this.intersectsBottomEntity(en)){
                         setVelY(0);
                         y = en.getY() + height;
                        this.setHp(this.getHp() - 10);
+                       SoundHandler.getInstance().playSound("player_hurt");
+
                     }
                     if(this.intersectsRightEntity(en)){
                         x = en.getX()+en.width;
-                        this.setHp(this.getHp() - 10); 
+                        this.setHp(this.getHp() - 10);
+                        SoundHandler.getInstance().playSound("player_hurt");
+
                     }
                     if(this.intersectsLeftEntity(en)){
-                        x = en.getX()-en.width;   
+                        x = en.getX()-en.width;
                         this.setHp(this.getHp() - 10);
+                        SoundHandler.getInstance().playSound("player_hurt");
+
                     }
             }
         }
     }
 
-    
-    
+
+
 }

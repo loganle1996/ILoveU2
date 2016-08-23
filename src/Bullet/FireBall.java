@@ -7,6 +7,7 @@ package Bullet;
 
 import Entity.Entity;
 import Entity.Id;
+import Sound.SoundHandler;
 import Target.AiHouse;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
@@ -21,11 +22,11 @@ public class FireBall extends Bullet{
         super(x, y,bulletHandler,flyingLeft);
         this.setId(bulletType.fireBall);
     }
-    
+
     public FireBall(BulletHandler bulletHandler, bulletType id) {
         super(bulletHandler, id);
     }
-    
+
     @Override
     public void renderBullet(GraphicsContext gc, Entity en,Image imageLeft, Image imageRight) {
         if(en.getFacing() == 0){
@@ -46,7 +47,7 @@ public class FireBall extends Bullet{
         entityCollidingChecking();
         //check if this collides houses
         houseCollidingCheck();
-        
+
     }
     public void tileCollidingChecking(){
         for(Tile t: tileHandler.getTile())  {
@@ -58,8 +59,8 @@ public class FireBall extends Bullet{
                         t.setHp(t.getHp()-200);
                     }
                     this.disappear();
-                }    
-            }  
+                }
+            }
         }
     }
     public void entityCollidingChecking(){
@@ -67,6 +68,7 @@ public class FireBall extends Bullet{
             if(en.getId() == Id.Goomba){
                 if(this.intersectsEntity(en)){
                     en.setHp(en.getHp()-200);
+                    SoundHandler.getInstance().playSound("monster_hurt");
                     this.disappear();
                 }
             }
@@ -78,6 +80,6 @@ public class FireBall extends Bullet{
                 aiHouse.setHp(aiHouse.getHp()-200);
                 this.disappear();
             }
-        } 
+        }
     }
 }

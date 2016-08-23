@@ -6,8 +6,8 @@
 package Items;
 
 import Entity.Entity;
-import static Entity.Entity.entityHandler;
 import Entity.Id;
+import Sound.SoundHandler;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
 import tile.Tile;
@@ -52,18 +52,18 @@ public class BulletBox extends Item{
                 if(t.getId() == Id.wall || t.getId() == Id.fireTrap){
                     if(this.intersectsTopTile(t)){
                         y = t.getY() - height;
-                    }    
-                    if(this.intersectsBottomTile(t)){                       
+                    }
+                    if(this.intersectsBottomTile(t)){
                         y = t.getY() + height;
                     }
                     if(this.intersectsRightTile(t)){
                         x = t.getX()+t.width;
                     }
                     if(this.intersectsLeftTile(t)){
-                        x = t.getX()-t.width;  
+                        x = t.getX()-t.width;
                     }
                 }
-            }     
+            }
         }
     }
     public void entitiesCollidingCheck(){
@@ -72,6 +72,7 @@ public class BulletBox extends Item{
                 if(en.getId() == Id.player){
                     en.setNumberFireball(en.getNumberFireball() + 10);
                     en.setNumberIceBall(en.getNumberIceBall() + 2);
+                    SoundHandler.getInstance().playSound("pickup");
                     this.disappear();
                 }
             }
@@ -79,6 +80,6 @@ public class BulletBox extends Item{
         }
     }
     public void bulletCollidingCheck(){
-        
-    } 
+
+    }
 }

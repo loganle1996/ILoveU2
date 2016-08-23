@@ -7,20 +7,15 @@ package MVCpattern;
 
 import Bullet.BulletCache;
 import Bullet.BulletHandler;
-import Bullet.bulletType;
-import Entity.AIenemy;
-import Entity.Entity;
-import Entity.EntityHandler;
-import Entity.Id;
-import Entity.Player;
+import Entity.*;
 import GameState.CareTaker;
 import GameState.Originator;
 import GraphicsforAnimation.Sprite;
 import GraphicsforAnimation.SpriteSheet;
 import Items.BulletBox;
-import Items.Item;
 import Items.ItemCache;
 import Items.ItemHandler;
+import Map.GameMap;
 import Sound.SoundHandler;
 import Target.AiHouse;
 import Target.HouseHandler;
@@ -28,7 +23,6 @@ import javafx.animation.AnimationTimer;
 import javafx.application.Application;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Group;
@@ -39,25 +33,13 @@ import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
-import javafx.scene.input.KeyEvent;
 import javafx.stage.Stage;
-import Map.GameMap;
 import tile.Tile;
 import tile.TileCache;
 import tile.TileHandler;
 
 import java.util.LinkedList;
-
-import javax.swing.plaf.synth.SynthRootPaneUI;
-=======
 import java.util.Random;
->>>>>>> origin/master
-=======
-import java.util.Random;
->>>>>>> origin/master
-=======
-import java.util.Random;
->>>>>>> origin/master
 
 
 /**
@@ -90,7 +72,6 @@ public class GameModel extends Application {
     public CareTaker careTaker = new CareTaker();
     public LinkedList<Entity> copiedEntity;
     private long lastSpawnTime = 0,bulletBoxLastSpTime = 0;
-    private SoundHandler soundHandler = new SoundHandler();
 
     public Label hpLabel = new Label();
     public Label fireBallLabel = new Label();
@@ -198,7 +179,7 @@ public class GameModel extends Application {
         Canvas canvas = new Canvas(WIDTH, HEIGHT);
         root.getChildren().addAll(canvas, hpLabel, fireBallLabel, iceBallLabel);
 
-            
+
         //Associate gc to the canvas to draw.
         gc = canvas.getGraphicsContext2D();
         //getMapAndObjects
@@ -238,7 +219,7 @@ public class GameModel extends Application {
                 fireBallLabel.setText("Fireballs left: " + player1.getNumberFireball());
                 fireBallLabel.setTranslateX(player1.getX() + 220);
                 fireBallLabel.setTranslateY(player1.getY() - 210);
-                
+
                 iceBallLabel.setText("Ice Shards left: " + player1.getNumberIceBall());
                 iceBallLabel.setTranslateX(player1.getX() + 220);
                 iceBallLabel.setTranslateY(player1.getY() - 190);
@@ -261,12 +242,6 @@ public class GameModel extends Application {
     private void loadGraphicsAndObjects()
     {
         Background = new Image("background.png");
-        String[] soundArray = new String[] {"fireball", "iceball", "footstep"};
-
-        for (String sound: soundArray)
-        {
-        soundHandler.loadSound(sound);
-        }
 
         sheet = new SpriteSheet("gameSheet5.png");
         for(int i = 0; i< playerSprite.length;i++){
@@ -286,6 +261,8 @@ public class GameModel extends Application {
 
         bulletCache.loadBulletCache();
         itemCache.loadCache();
+
+        SoundHandler.getInstance().loadAllSounds();
     }
     public static void main(String[] args) {
         launch(args);
@@ -296,7 +273,7 @@ public class GameModel extends Application {
         gc.drawImage(Background, 0, 0, WIDTH, HEIGHT);
         this.TickModelGame(currentime);
         this.renderModelGame(gc);
-        
+
     }
 
     public void spawnEnemy()
@@ -316,91 +293,72 @@ public class GameModel extends Application {
         itemHandler.addItem(randomBulletBox);
     }
     public void prepareKeyEvent(Scene mainScene) {
-        mainScene.setOnKeyPressed(new EventHandler<KeyEvent>()
-        {
-            // To Do (Dzung Le): Find a way to handle multiple key inputs
-            @Override
-            public void handle(KeyEvent event)
-            {
-                //currentlyActiveKeys.add(event.getCode().toString());
-                copiedEntity = new LinkedList<Entity>(entityHandler.getEntity());
-                for(Entity en: copiedEntity){
-                    if(en.getId() == Id.player){
+        mainScene.setOnKeyPressed(event -> {
+            //currentlyActiveKeys.add(event.getCode().toString());
+            copiedEntity = new LinkedList<Entity>(entityHandler.getEntity());
+            for(Entity en: copiedEntity){
+                if(en.getId() == Id.player){
 
-                        // TODO (Dzung Le): Sound 
+                    // TODO (Dzung Le): Sound
 
-                        switch (event.getCode()) {
-                            case SPACE:
-                                if (en.isJumping() == false){
-                                    en.setJumping(true);
-                                    en.setVelY(-15);
-                                }
-                                break;
-                            case I:
-                                if (en.shootable == true)
-                                {
-                                    en.shootIceBall(gc);
-                                    soundHandler.playSound("iceball");
-                                }
-                                break;
+                    switch (event.getCode()) {
+                        case SPACE:
+                            if (en.isJumping() == false){
+                                en.setJumping(true);
+                                en.setVelY(-15);
+                                SoundHandler.getInstance().playSound("jump");
+                            }
+                            break;
+                        case I:
+                            if (en.shootable == true)
+                            {
+                                en.shootIceBall(gc);
 
-                            case R:
-                                if (en.shootable == true)
-                                {
-                                    en.shootFireBall(gc);
-                                    soundHandler.playSound("fireball");
-                                    en.setShootable(false);
-                                }
-                                break;
-                                
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
-                            case T:
-                                if (en.shootable == true)
-                                {
-                                    en.placeSlowSpirit(gc);
-                                    en.setShootable(false);
-                                }
-                                break;
-                                
-=======
->>>>>>> origin/master
-=======
->>>>>>> origin/master
-=======
->>>>>>> origin/master
-                            case A:
-                                en.setIsMovingLeft(true);
-                                soundHandler.playSound("footstep");
-                                break;
-                                
-                            case D:
-                                en.setIsMovingRight(true);
-                                soundHandler.playSound("footstep");
-                                break;
-                        }
+                            }
+                            break;
+
+                        case R:
+                            if (en.shootable == true)
+                            {
+                                en.shootFireBall(gc);
+
+                                en.setShootable(false);
+                            }
+                            break;
+
+                        case T:
+                            if (en.shootable == true)
+                            {
+                                en.placeSlowSpirit(gc);
+                                en.setShootable(false);
+                            }
+                            break;
+
+                        case A:
+                            en.setIsMovingLeft(true);
+
+                            break;
+
+                        case D:
+                            en.setIsMovingRight(true);
+
+                            break;
                     }
-
                 }
+
             }
         });
-        mainScene.setOnKeyReleased(new EventHandler<KeyEvent>()
-        {
-            @Override
-            public void handle(KeyEvent event)
-            {
-                copiedEntity = new LinkedList<Entity>(entityHandler.getEntity());
-                for(Entity en: copiedEntity){
-                    if(en.getId() == Id.player){
-                        switch (event.getCode()) {
-                            case A:
-                                en.setIsMovingLeft(false);
-                                break;
-                            case D:
-                                en.setIsMovingRight(false);
-                                break;
-                        }
+        mainScene.setOnKeyReleased(event -> {
+            copiedEntity = new LinkedList<Entity>(entityHandler.getEntity());
+            for(Entity en: copiedEntity){
+                if(en.getId() == Id.player){
+                    switch (event.getCode()) {
+                        case A:
+                            en.setIsMovingLeft(false);
+                            break;
+                        case D:
+                            en.setIsMovingRight(false);
+                            break;
                     }
                 }
             }

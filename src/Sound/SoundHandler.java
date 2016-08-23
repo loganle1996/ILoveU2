@@ -2,10 +2,10 @@ package Sound;
 
 import javafx.animation.Animation;
 import javafx.scene.media.AudioClip;
-import java.io.File;
-import java.util.HashMap;
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
+
+import java.util.HashMap;
 
 /**
  * Created by NangTrongVuon on 17/8/16.
@@ -13,10 +13,11 @@ import javafx.scene.media.MediaPlayer;
 public class SoundHandler
 {
 
+    private static SoundHandler soundHandler  = new SoundHandler();
     HashMap<String,AudioClip> soundEffectsMap = new HashMap<>();
     MediaPlayer backgroundPlayer;
 
-    // Loads sound from a
+    // Loads sound using an id - the filename
     public void loadSound(String id)
     {
         String audioClipPath = getClass().getResource("/" + id + ".wav").toExternalForm();
@@ -24,6 +25,18 @@ public class SoundHandler
         AudioClip sound = new AudioClip(audioClipPath);
         soundEffectsMap.put(id, sound);
     }
+
+    public void loadAllSounds()
+    {
+      String[] soundArray = new String[] {"fireball", "iceball", "footstep", "jump", "monster_death", "monster_hurt", "player_hurt", "pickup"};
+
+      for (String sound : soundArray)
+      {
+        SoundHandler.getInstance().loadSound(sound);
+      }
+    }
+
+
 
     public void playSound(String id)
     {
@@ -42,6 +55,15 @@ public class SoundHandler
       MediaPlayer background = this.backgroundPlayer;
       background.setCycleCount(Animation.INDEFINITE);
       background.setAutoPlay(true);
+    }
+
+    public void editInstance(SoundHandler soundHandler){
+        this.soundHandler = soundHandler;
+    }
+
+    public static SoundHandler getInstance()
+    {
+      return soundHandler;
     }
 
 }
