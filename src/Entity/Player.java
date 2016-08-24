@@ -284,11 +284,11 @@ public class Player extends Entity {
     }
     public void enemyCollidingChecking(){
         for(Entity en : entityHandler.getEntity()){
-            if(en.getId() == Id.Goomba ||en.getId() == Id.GoombaBoss){
+            if((en.getId() == Id.Goomba ||en.getId() == Id.GoombaBoss ||en.getId()== Id.Eagle) && en.isFreeze() == false){
                     if(this.intersectsTopEntity(en)){
-                        y = en.getY() - height;
+//                        y = en.getY() - height;
                         this.setVelY(10);
-                        this.setJumping(false);
+//                        this.setJumping(false);
 
                         this.setHp(this.getHp() - 10);
                         SoundHandler.getInstance().playSound("player_hurt");
@@ -306,19 +306,19 @@ public class Player extends Entity {
                     if (this.intersectsBottomEntity(en)){
 
                         setVelY(0);
-                        y = en.getY() + height;
+//                        y = en.getY() + height;
                        this.setHp(this.getHp() - 10);
                        SoundHandler.getInstance().playSound("player_hurt");
 
                     }
                     if(this.intersectsRightEntity(en)){
-                        x = en.getX()+en.width;
+//                        x = en.getX()+en.width;
                         this.setHp(this.getHp() - 10);
                         SoundHandler.getInstance().playSound("player_hurt");
 
                     }
                     if(this.intersectsLeftEntity(en)){
-                        x = en.getX()-en.width;
+//                        x = en.getX()-en.width;
                         this.setHp(this.getHp() - 10);
                         SoundHandler.getInstance().playSound("player_hurt");
 

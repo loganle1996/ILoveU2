@@ -20,7 +20,7 @@ public class Eagle extends Entity{
 
     public Eagle(int width, int height, boolean solid, Id id, EntityHandler entityHandler) {
         super(width, height, solid, id, entityHandler);
-        this.isMovingLeft = true;
+//        this.isMovingLeft = true;
         this.setFollowSkill(new FlyFollow());
         this.setVelY(0);
         this.animate = true;
@@ -52,6 +52,9 @@ public class Eagle extends Entity{
     public void tick(long currentTime) {
         x += velX;
         y += velY;
+        if(hp<= 0){
+            this.die();
+        }
         watchingAround();
         searchingEntities();
         tileCollidingChecking();

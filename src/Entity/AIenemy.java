@@ -10,6 +10,7 @@ import Bullet.bulletType;
 import Entity.Folow.WalkingFollow;
 import GraphicsforAnimation.Sprite;
 import Sound.SoundHandler;
+import javafx.geometry.Rectangle2D;
 import javafx.scene.canvas.GraphicsContext;
 import tile.Tile;
 
@@ -19,6 +20,7 @@ import tile.Tile;
  */
 public class AIenemy extends Entity
 {
+    private long lastimeFreeze = 0;
     public AIenemy(int x, int y, int width, int height, boolean solid, Id id, EntityHandler entityHandler) {
         super(x, y, width, height, solid, id, entityHandler);
         this.setIsMovingLeft(true);
@@ -66,10 +68,11 @@ public class AIenemy extends Entity
                 lasttime = currentime;
             }
             else {
-                if (((currentime - lasttime) / 1000000000.0) > 0.2){
-                    lasttime = currentime;
+//                if (((currentime - lasttime) / 1000000000.0) > 0.2){
+//                    lasttime = currentime;
+//
+//                }
 
-                }
                 if(velY <10){
                     velY += 1;
                 }
@@ -78,6 +81,18 @@ public class AIenemy extends Entity
                 }
             }
         }
+        if(this.freeze == true){
+            if(lastimeFreeze == 0){
+                lastimeFreeze = currentime;
+            }
+            else {
+                if(((currentime - lastimeFreeze) / 1000000000.0) > 3){
+                    lastimeFreeze =0;
+                    this.setFreeze(false);
+                }
+            }
+        }
+
         if(this.isMovingLeft == true && this.isFreeze() == false)
         {
             this.moveLeft();
@@ -122,35 +137,37 @@ public class AIenemy extends Entity
             if(t.getId() == Id.wall || t.getId() == Id.fireTrap){
                 if(this.intersectsTopTile(t)){
                     y = t.getY() - height;
-                    if(t.getId() == Id.fireTrap){
-                        hp -= 200;
-                        this.jump();
-                    }
+//                    if(t.getId() == Id.fireTrap){
+//                        hp -= 200;
+//                        this.jump();
+//                    }
                 }
                 if(this.intersectsBottomTile(t)){
                     y = t.getY() + height;
-                    if(t.getId() == Id.fireTrap){
-                        hp -= 200;
-                        this.jump();
-                    }
+//                    if(t.getId() == Id.fireTrap){
+//                        hp -= 200;
+//                        this.jump();
+//                    }
                 }
                 if(this.intersectsRightTile(t)){
                     this.setIsMovingRight(true);
                     this.setIsMovingLeft(false);
                     x = t.getX()+t.width;
-                    if(t.getId() == Id.fireTrap){
-                        hp -= 200;
-                        jump();
-                    }
+//                    if(t.getId() == Id.fireTrap){
+//                        hp -= 200;
+//                        jump();
+//                    }
+                    this.jump();
                 }
                 if(this.intersectsLeftTile(t)){
                     this.setIsMovingLeft(true);
                     this.setIsMovingRight(false);
                     x = t.getX()-t.width;
-                    if(t.getId() == Id.fireTrap){
-                        hp -= 200;
-                        jump();
-                    }
+//                    if(t.getId() == Id.fireTrap){
+//                        hp -= 200;
+//                        jump();
+//                    }
+                    this.jump();
                 }
             }
         }
@@ -164,7 +181,7 @@ public class AIenemy extends Entity
         else
         {
             this.setIsOnSlow(false);
-            this.setVelY(-15);
+            this.setVelY(-10);
             this.setJumping(true);
         }
 
@@ -218,6 +235,18 @@ public class AIenemy extends Entity
     }
     @Override
     public void placeSlowSpirit(GraphicsContext gc) {
+        
+    }
+    @Override
+        public void watchingAround(){
+        if(facing == 0){
+            bigRectangle2D =  new Rectangle2D(this.getX()-20, this.getY()-200, 60, 200);
+            smallRectangle2D = new Rectangle2D(this.getX()-100,this.getY(), 100, 40);
+        }
+        else if(facing == 1){
+            bigRectangle2D =  new Rectangle2D(this.getX(), this.getY()-200, 60, 200);
+            smallRectangle2D = new Rectangle2D(this.getX(),this.getY(), 140, 40);
+        }
         
     }
 }
