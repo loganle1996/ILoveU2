@@ -39,6 +39,8 @@ public abstract class Entity{
     public boolean freeze = false;
     public boolean OnSlow = false;
     public boolean flyUp = false,flyDown = false;
+    private double shootDelay = 1;
+
 
     public boolean isOnSlow() {
         return OnSlow;
@@ -52,7 +54,7 @@ public abstract class Entity{
     private Follow followskill;
     public long lasttime = 0;
     //public boolean falling = true;
-    
+
     public Entity(int x, int y, int width, int height, boolean solid,Id id,EntityHandler entityHandler) {
         this.x = x;
         this.y = y;
@@ -374,6 +376,15 @@ public abstract class Entity{
             this.setVelY(0);
         }
     }
+
+    public double getShootDelay() {
+        return shootDelay;
+    }
+
+    public void setShootDelay(double shootDelay) {
+        this.shootDelay = shootDelay;
+    }
+
     public abstract void moveLeft();
     public abstract void moveRight();
 }

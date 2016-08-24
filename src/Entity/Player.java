@@ -18,6 +18,8 @@ import tile.Tile;
 public class Player extends Entity {
     private static Player player = new Player(40, 40, true, Id.player, entityHandler);
     private BulletCache bulletCache = BulletCache.getInstance();
+
+
     private Player(int width, int height, boolean solid, Id id, EntityHandler entityHandler) {
         super(width, height, solid, id, entityHandler);
     }
@@ -29,29 +31,29 @@ public class Player extends Entity {
     @Override
     public void render(GraphicsContext g,Sprite[] playerSprite ) {
         if(this.facing == 0){
-            if(isJumping() == false){ 
+            if(isJumping() == false){
                 if(velX != 0){
-                   g.drawImage(playerSprite[frame+5].getImage(), x, y, width, height); 
+                   g.drawImage(playerSprite[frame+5].getImage(), x, y, width, height);
                 }
                 else{
-                    g.drawImage(playerSprite[4].getImage(), x, y, width, height); 
+                    g.drawImage(playerSprite[4].getImage(), x, y, width, height);
                 }
             }
             else if(isJumping() == true){
-                g.drawImage(playerSprite[5].getImage(), x, y, width, height); 
+                g.drawImage(playerSprite[5].getImage(), x, y, width, height);
             }
         }
         else if(this.facing == 1){
-            if(this.isJumping()== false){                
+            if(this.isJumping()== false){
                 if(velX != 0){
-                   g.drawImage(playerSprite[frame+1].getImage(), x, y, width, height); 
+                   g.drawImage(playerSprite[frame+1].getImage(), x, y, width, height);
                 }
                 else{
                     g.drawImage(playerSprite[0].getImage(), x, y, width, height);
-                } 
+                }
             }
             else if(isJumping() == true){
-                g.drawImage(playerSprite[1].getImage(), x, y, width, height); 
+                g.drawImage(playerSprite[1].getImage(), x, y, width, height);
             }
         }
     }
@@ -94,6 +96,8 @@ public class Player extends Entity {
         }
 
     }
+
+
     @Override
     public void shootIceBall(GraphicsContext gc)
     {
@@ -180,7 +184,7 @@ public class Player extends Entity {
             lasttime = currentime;
         }
         else {
-            if (((currentime - lasttime) / 1000000000.0) > 1){
+            if (((currentime - lasttime) / 1000000000.0) > this.getShootDelay()){
                 lasttime = currentime;
                 this.setShootable(true);
             }
@@ -209,7 +213,7 @@ public class Player extends Entity {
             }
             this.moveRight();
         }
-        
+
         else if(freeze == true ||(isMovingLeft == false && isMovingRight == false)) {
             this.setVelX(0);
         }
@@ -292,14 +296,14 @@ public class Player extends Entity {
                     }
                     if (this.intersectsBottomEntity(en)){
 
-                        if(en.getId() == Id.Goomba){                            
+                        if(en.getId() == Id.Goomba){
                             this.setHp(this.getHp() - 10);
                         }
-                        if(en.getId() == Id.GoombaBoss){                            
+                        if(en.getId() == Id.GoombaBoss){
                             this.setHp(this.getHp() - 80);
                         }
-                    }    
-                    if (this.intersectsBottomEntity(en)){                       
+                    }
+                    if (this.intersectsBottomEntity(en)){
 
                         setVelY(0);
                         y = en.getY() + height;
@@ -322,7 +326,7 @@ public class Player extends Entity {
             }
         }
     }
-    
+
     @Override
     public void moveLeft() {
         this.setVelX(-5.0);
@@ -334,5 +338,5 @@ public class Player extends Entity {
         this.setVelX(5);
         this.facing = 1;
     }
-    
+
 }
