@@ -16,16 +16,16 @@ import tile.Tile;
  *
  * @author LoganLe
  */
-public class BulletBox extends Item{
+public class FireRune extends Item{
 
-    public BulletBox(ItemHandler itemHandler) {
+    public FireRune(ItemHandler itemHandler) {
         super(itemHandler);
-        this.image = new Image("fireBox.png");
-        this.itemType = "bulletBox";
+        this.image = new Image("fireScroll.png");
+        this.itemType = "fireRune";
     }
-    public BulletBox(ItemHandler itemHandler,double x,double y) {
+    public FireRune(ItemHandler itemHandler, double x, double y) {
         super(itemHandler);
-        this.image = new Image("fireBox.png");
+        this.image = new Image("fireScroll.png");
         this.itemType = "bulletBox";
         this.x = x;
         this.y = y;
@@ -71,7 +71,6 @@ public class BulletBox extends Item{
             if(this.intersectsEntity(en)){
                 if(en.getId() == Id.player){
                     en.setNumberFireball(en.getNumberFireball() + 10);
-                    en.setNumberIceBall(en.getNumberIceBall() + 2);
                     SoundHandler.getInstance().playSound("pickup");
                     this.disappear();
                 }

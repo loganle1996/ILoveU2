@@ -12,9 +12,7 @@ import GameState.CareTaker;
 import GameState.Originator;
 import GraphicsforAnimation.Sprite;
 import GraphicsforAnimation.SpriteSheet;
-import Items.BulletBox;
-import Items.ItemCache;
-import Items.ItemHandler;
+import Items.*;
 import Map.GameMap;
 import Sound.SoundHandler;
 import Target.AiHouse;
@@ -154,6 +152,14 @@ public class GameModel extends Application {
         });
 
     }
+
+    @FXML
+    private void quitGame(ActionEvent event)
+    {
+      Platform.exit();
+      System.exit(0);
+    }
+
 
     @FXML
     private void loadGame(ActionEvent event) throws Exception {
@@ -307,11 +313,34 @@ public class GameModel extends Application {
         Random random = new Random();
         double x = (((random.nextDouble() * 1440) % 1440) + 50);
         double y = (((random.nextDouble() * 1440) % 1440) + 50);
-        BulletBox randomBulletBox = (BulletBox)itemCache.getItem("bulletBox");
-        System.out.println("X is " + x + "" + "Y is " + y);
-        randomBulletBox.setX(x);
-        randomBulletBox.setY(y);
-        itemHandler.addItem(randomBulletBox);
+        FireRune randomFireRune = (FireRune)itemCache.getItem("fireRune");
+        QuickcastRune randomQuickcastRune = (QuickcastRune) itemCache.getItem("quickcastRune");
+        WaterRune randomWaterRune = (WaterRune) itemCache.getItem("waterRune");
+
+        Integer itemIndex = random.nextInt(2);
+
+        switch (itemIndex)
+        {
+            case 0:
+                randomFireRune.setX(x);
+                randomFireRune.setY(y);
+                itemHandler.addItem(randomFireRune);
+                break;
+            case 1:
+                randomQuickcastRune.setX(x);
+                randomQuickcastRune.setY(y);
+                itemHandler.addItem(randomQuickcastRune);
+                break;
+            case 2:
+                randomWaterRune.setX(x);
+                randomWaterRune.setY(y);
+                itemHandler.addItem(randomWaterRune);
+                break;
+
+        }
+
+//        System.out.println("X is " + x + "" + "Y is " + y);
+
     }
     public void prepareKeyEvent(Scene mainScene) {
         mainScene.setOnKeyPressed(event -> {

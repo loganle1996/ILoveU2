@@ -25,9 +25,13 @@ public class ItemCache {
         return(Item) cachedItem.clone();
     }
     public void loadCache(){
-        BulletBox bulletBox = new BulletBox(itemHandler);
+        FireRune fireRune = new FireRune(itemHandler);
+        QuickcastRune quickcastRune = new QuickcastRune(itemHandler);
+        WaterRune waterRune = new WaterRune(itemHandler);
         
-        itemTable.put(bulletBox.getItemType(), bulletBox);
+        itemTable.put(fireRune.getItemType(), fireRune);
+        itemTable.put(waterRune.getItemType(), waterRune);
+        itemTable.put(quickcastRune.getItemType(), quickcastRune);
     }
     public static ItemCache getInstance(){
         return  itemCache;

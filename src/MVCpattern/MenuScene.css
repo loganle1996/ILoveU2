@@ -1,0 +1,17 @@
+/* Game Button Setup */
+
+.button {
+  -fx-opacity: 1;
+  -fx-background-insets: 0, 0, 1, 2;
+  -fx-font-size: 30;
+}
+
+.button:hover {
+  -fx-cursor: hand;
+  -fx-font-weight: bold;
+  -fx-font-size: 35;
+}
+
+.button:pressed {
+  -fx-font-size: 35;
+}
