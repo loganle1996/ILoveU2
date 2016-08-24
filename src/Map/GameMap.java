@@ -16,6 +16,7 @@ import Entity.Player;
 import Target.HouseHandler;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import tile.Portal;
 import tile.Tile;
 import tile.TileCache;
 import tile.TileHandler;
@@ -43,6 +44,7 @@ public class GameMap
     public AiHouse aiHouse;
     public WoodBridge woodBridge;
     public Eagle eagle;
+    public Portal portal;
     Image aiHouseImage = new Image("AiHouse.png");
     private static GameMap gameMap = new GameMap();
     EntityHandler entityHandler = EntityHandler.getInstance();
@@ -210,6 +212,7 @@ public class GameMap
                     aiHouse = new AiHouse((i%40)* 40,(i/40)*40,aiHouseImage);
                     houseHandler.addHouse(aiHouse);
                     break;
+                    
                 case "B":
                     finalBoss.setX((i%40) * 40);
                     finalBoss.setY((i/40) * 40);
@@ -234,6 +237,7 @@ public class GameMap
     public void changeMap(){
         entityHandler.emptyHandler();
         tileHandler.emptyHandler();
+        houseHandler.emptyHandler();
 //        this.getMapData2();
         this.addAllObjectsToGameModel();
     }

@@ -49,6 +49,9 @@ public class TileCache {
         
         WoodBridge woodBridge = new WoodBridge(true, 40, 40, 40, 40, true, Id.wall, tileHandler, "woodBridge");
         tileTable.put(woodBridge.getType(),woodBridge);
+        
+        Portal portal = new Portal(40, 40, 40, 40, true, Id.Portal, tileHandler, "portal");
+        tileTable.put(portal.getType(), portal);
     }
     public static TileCache getInstance(){
         return tileCache;

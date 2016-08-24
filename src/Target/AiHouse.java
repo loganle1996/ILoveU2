@@ -5,8 +5,10 @@
  */
 package Target;
 
+import Entity.Entity;
 import Entity.EntityHandler;
 import Entity.Id;
+import Entity.Player;
 import Map.GameMap;
 import javafx.geometry.Rectangle2D;
 import javafx.scene.canvas.GraphicsContext;
@@ -22,10 +24,12 @@ public class AiHouse {
     private final int width = 40,height = 40;
     private double x,y;
     private Image houseImage;
+    private Image portal = new Image("portal.png");
     private int id;
     public HouseHandler houseHandler = HouseHandler.getInstance();
     public TileHandler tileHandler = TileHandler.getInstance();
     public EntityHandler entityHandler = EntityHandler.getInstance();
+    public Player player = Player.getInstance();
     public double hp = 4000;
     public GameMap gameMap = GameMap.getInstance();
     public AiHouse(double x, double y, Image houseImage) {
@@ -86,16 +90,43 @@ public class AiHouse {
     public void die(){
         houseHandler.removeHouse(this);
     }
-    public void tick(){
-        if(this.getHp()<=0){
-            this.die();
-            gameMap.changeMap();
+    public void tick()
+    {
+        if(this.getHp() <= 0 )
+        {
+            this.setHouseImage(portal);
+            if(player.getBoundary().intersects(this.getBoundary()) && this.getHouseImage() == portal)
+            {
+                gameMap.changeMap();
+                this.die();
+                System.out.println("Changed");
+            }
+//           gameMap.changeMap();
         }
         tileCollidingCheck();
     }
     public void render(GraphicsContext gc){
         gc.drawImage(houseImage, x, y, width, height);
     }
+    
+//    public void playerCollidingCheck()
+//    {
+//        boolean isPlayer = false;
+//        for(Entity en: entityHandler.getEntity())
+//            {
+//                if(en.getId() == Id.player && en.getBoundary().intersects(this.getBoundary()))
+//                {
+//                    isPlayer = true;
+//                }
+//            }
+//        
+//        if(isPlayer = true)
+//        {
+//            gameMap.changeMap();
+//            System.out.println("Map changed");
+//        }
+//    }
+    
     public void tileCollidingCheck(){
         for(Tile t: tileHandler.getTile()){
             if(t.solid == false){
