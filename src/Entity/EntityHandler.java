@@ -58,22 +58,28 @@ public class EntityHandler implements Cloneable{
         }
     }
     //render entities
-    public void renderEntities(GraphicsContext g, Sprite[] playerSprite,Sprite[] crocodileSprite, Sprite[] crocodileFrozen)
+    public void renderEntities(GraphicsContext g, Sprite[] playerSprite,Sprite[] crocodileSprite,
+            Sprite[] crocodileFrozen, Sprite[] goombaBoss,Sprite[] eagleSprites)
     {
         for(Entity en: entity)
         {
             if(en.getId()== Id.player){
-                en.render(g,playerSprite );
-        }
-        else if(en.getId() == Id.Goomba)
-        {
-            en.render(g, crocodileSprite);
-
-            if (en.isFreeze()) {
-                en.render(g, crocodileFrozen);
+                    en.render(g,playerSprite );
             }
+            else if(en.getId() == Id.Goomba)
+            {
+                en.render(g, crocodileSprite);
 
-        }
+                if (en.isFreeze()) {
+                    en.render(g, crocodileFrozen);
+                }
+            }
+            else if(en.getId() == Id.GoombaBoss){
+                en.render(g, goombaBoss);
+            }
+            else if(en.getId() == Id.Eagle){
+                en.render(g, eagleSprites);
+            }
         }
     }
     //empty handler without the player

@@ -10,5 +10,5 @@ package Entity;
  * @author owne
  */
 public enum Id {
-    player,wall, Goomba,fireTrap;
+    player,wall, Goomba,fireTrap,GoombaBoss,Eagle;
 }

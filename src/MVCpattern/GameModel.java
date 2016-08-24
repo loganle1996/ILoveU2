@@ -7,6 +7,7 @@ package MVCpattern;
 
 import Bullet.BulletCache;
 import Bullet.BulletHandler;
+
 import Entity.*;
 import GameState.CareTaker;
 import GameState.Originator;
@@ -54,10 +55,11 @@ public class GameModel extends Application {
     static Image image1,image2,image3,playerImage;
     private static Stage mainStage;
     public SpriteSheet sheet,crocodileSheet, crocodileSheetFrozen;
-    public Sprite playerSprite [] = new Sprite[6];
+    public Sprite playerSprite [] = new Sprite[8];
+    public Sprite eaglSprite [] = new Sprite[8];
     public Sprite crocodileSprite [] = new Sprite[6];
     public Sprite crocodileFrozen [] = new Sprite[6];
-
+    public Sprite crocodileBoss[] = new Sprite[1];
     public Image imageLeft,imageRight,iceBallImage;
     public EntityHandler entityHandler = EntityHandler.getInstance();
     public TileHandler tileHandler = TileHandler.getInstance();
@@ -122,7 +124,7 @@ public class GameModel extends Application {
         itemHandler.tickItems(currentime);
     }
     public void renderModelGame(GraphicsContext g){
-        entityHandler.renderEntities(g,playerSprite,crocodileSprite, crocodileFrozen);
+        entityHandler.renderEntities(g,playerSprite,crocodileSprite, crocodileFrozen,crocodileBoss,eaglSprite);
         tileHandler.renderTiles(g);
         houseHandler.renderHouses(g);
         bulletHandler.renderBullets(g);
@@ -151,7 +153,7 @@ public class GameModel extends Application {
 
     }
 
-    @FXML
+      @FXML
     private void loadGame(ActionEvent event) throws Exception {
 
         mainStage.close();
@@ -203,7 +205,7 @@ public class GameModel extends Application {
                         lastSpawnTime = currentNanoTime;
                         spawnEnemy();
                     }
-                    if (((currentNanoTime - bulletBoxLastSpTime) / 1000000000.0) > 6){
+                    if (((currentNanoTime - bulletBoxLastSpTime) / 1000000000.0) > 16){
                         bulletBoxLastSpTime = currentNanoTime;
                         spawnItems();
                     }
@@ -235,6 +237,8 @@ public class GameModel extends Application {
         });
 
     }
+    
+    
     public void getMapAndObjects(){
         gameMap.getMapData1();
         gameMap.addAllObjectsToGameModel();
@@ -243,11 +247,17 @@ public class GameModel extends Application {
     {
         Background = new Image("background.png");
 
-        sheet = new SpriteSheet("gameSheet5.png");
+//        sheet = new SpriteSheet("gameSheet6.png");
+        Image player;
         for(int i = 0; i< playerSprite.length;i++){
-            playerSprite[i] = new Sprite(sheet,i+1,1);
+            player = new Image("player"+i+".png");
+            playerSprite[i] = new Sprite(player);
         }
-
+        Image eagle;
+        for(int i = 0; i< eaglSprite.length;i++){
+            eagle = new Image("eagle"+i+".png");
+            eaglSprite[i] = new Sprite(eagle);
+        }
         crocodileSheet = new SpriteSheet("crocodileGameSheet.png");
 
         for(int i = 0; i< crocodileSprite.length;i++){
@@ -258,6 +268,10 @@ public class GameModel extends Application {
         for(int i = 0; i< crocodileSprite.length;i++) {
             crocodileFrozen[i] = new Sprite(crocodileSheetFrozen, i + 1, 1);
         }
+        
+        Image bossImage0 = new Image("boss.png");
+        crocodileBoss[0] = new Sprite(bossImage0);
+        
 
         bulletCache.loadBulletCache();
         itemCache.loadCache();
@@ -293,6 +307,7 @@ public class GameModel extends Application {
         itemHandler.addItem(randomBulletBox);
     }
     public void prepareKeyEvent(Scene mainScene) {
+
         mainScene.setOnKeyPressed(event -> {
             //currentlyActiveKeys.add(event.getCode().toString());
             copiedEntity = new LinkedList<Entity>(entityHandler.getEntity());
