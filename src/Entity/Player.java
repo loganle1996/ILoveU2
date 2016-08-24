@@ -305,7 +305,7 @@ public class Player extends Entity {
                     }
                     if (this.intersectsBottomEntity(en)){
 
-                        setVelY(0);
+//                        setVelY(0);
 //                        y = en.getY() + height;
                        this.setHp(this.getHp() - 10);
                        SoundHandler.getInstance().playSound("player_hurt");
