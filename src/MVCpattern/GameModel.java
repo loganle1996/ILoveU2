@@ -17,6 +17,7 @@ import GameState.Originator;
 import GraphicsforAnimation.Sprite;
 import GraphicsforAnimation.SpriteSheet;
 import Items.BulletBox;
+
 import Items.ItemCache;
 import Items.ItemHandler;
 import Sound.SoundHandler;
@@ -159,7 +160,7 @@ public class GameModel extends Application {
 
     }
 
-    @FXML
+      @FXML
     private void loadGame(ActionEvent event) throws Exception {
 
         mainStage.close();
@@ -211,7 +212,7 @@ public class GameModel extends Application {
                         lastSpawnTime = currentNanoTime;
                         spawnEnemy();
                     }
-                    if (((currentNanoTime - bulletBoxLastSpTime) / 1000000000.0) > 15){
+                    if (((currentNanoTime - bulletBoxLastSpTime) / 1000000000.0) > 16){
                         bulletBoxLastSpTime = currentNanoTime;
                         spawnItems();
                     }
@@ -243,6 +244,8 @@ public class GameModel extends Application {
         });
 
     }
+    
+    
     public void getMapAndObjects(){
         gameMap.getMapData1();
         gameMap.addAllObjectsToGameModel();
@@ -282,6 +285,7 @@ public class GameModel extends Application {
         Image bossImage0 = new Image("boss.png");
         crocodileBoss[0] = new Sprite(bossImage0);
         
+
         bulletCache.loadBulletCache();
         itemCache.loadCache();
     }
