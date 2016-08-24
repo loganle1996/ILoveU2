@@ -201,7 +201,7 @@ public class GameModel extends Application {
                     bulletBoxLastSpTime = currentNanoTime;
                 }
                 else {
-                    if (((currentNanoTime - lastSpawnTime) / 1000000000.0) > 5){
+                    if (((currentNanoTime - lastSpawnTime) / 1000000000.0) > 20){
                         lastSpawnTime = currentNanoTime;
                         spawnEnemy();
                     }
@@ -292,14 +292,17 @@ public class GameModel extends Application {
 
     public void spawnEnemy()
     {
-        for(AiHouse aiHouse: houseHandler.getAiHouses()){
+        if(houseHandler.getAiHouses().size() <= 7){
+            for(AiHouse aiHouse: houseHandler.getAiHouses()){
             entityHandler.addEntity(new AIenemy((int)aiHouse.getX(), (int)aiHouse.getY(), 40, 40, true, Id.Goomba, entityHandler));
+            }
         }
+
     }
     public void spawnItems(){
         Random random = new Random();
-        double x = (((random.nextDouble() * 1550) % 1550) + 50);
-        double y = (((random.nextDouble() * 1550) % 1550) + 50);
+        double x = (((random.nextDouble() * 1440) % 1440) + 50);
+        double y = (((random.nextDouble() * 1440) % 1440) + 50);
         BulletBox randomBulletBox = (BulletBox)itemCache.getItem("bulletBox");
         System.out.println("X is " + x + "" + "Y is " + y);
         randomBulletBox.setX(x);

@@ -65,9 +65,14 @@ public class FireBall extends Bullet{
     }
     public void entityCollidingChecking(){
         for(Entity en : entityHandler.getEntity()){
-            if(en.getId() == Id.Goomba || en.getId() == Id.GoombaBoss){
+            if(en.getId() == Id.Goomba || en.getId() == Id.GoombaBoss || en.getId() == Id.Eagle){
                 if(this.intersectsEntity(en)){
-                    en.setHp(en.getHp()-200);
+                    if(en.getId() == Id.Eagle){
+                        en.setHp(en.getHp()- 1000);
+                    }
+                    else {
+                        en.setHp(en.getHp()-200);
+                    } 
                     SoundHandler.getInstance().playSound("monster_hurt");
                     this.disappear();
                 }
