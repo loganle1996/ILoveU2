@@ -54,7 +54,7 @@ public class IceBall extends Bullet{
     }
     public void entityCollidingChecking(){
         for(Entity en : entityHandler.getEntity()){
-            if(en.getId() == Id.Goomba){
+            if(en.getId() == Id.Goomba || en.getId() == Id.GoombaBoss){
                 if(this.intersectsEntity(en)){
                     en.setFreeze(true);
                     this.disappear();

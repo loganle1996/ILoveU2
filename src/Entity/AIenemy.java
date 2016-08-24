@@ -24,6 +24,13 @@ public class AIenemy extends Entity
         this.setFollowSkill(new WalkingFollow());
     }
 
+    public AIenemy(int width, int height, boolean solid, EntityHandler entityHandler) {
+        super(width, height, solid, entityHandler);
+        this.setIsMovingLeft(true);
+        this.setFollowSkill(new WalkingFollow());
+    }
+    
+
     @Override
     public void render(GraphicsContext g,Sprite[] aiSprite) {
         if(this.facing == 0 ){
@@ -32,8 +39,6 @@ public class AIenemy extends Entity
          else if(this.facing == 1){
              g.drawImage(aiSprite[frame].getImage(), x, y, width, height);
          }
-
-
     }
     @Override
     public void shootFireBall(GraphicsContext gc) 
@@ -49,21 +54,12 @@ public class AIenemy extends Entity
     public void tick(long currentime) {
         x += velX;
         y += velY;
+        if(this.getHp() <= 0){
+            this.die();
+        }
         this.watchingAround();
-        for(Entity en: entityHandler.getEntity()){
-            if(en.getId() == Id.player){
-                if(this.foundObject(en)){
-                    this.follow(en);
-                }
-            }
-        }
-        for(Bullet bullet: bulletHandler.getBullets()){
-            if(bullet.getId() == bulletType.fireBall){
-                if(this.foundDanger(bullet)){
-                    this.jump();
-                }
-            }
-        }
+        searchingEntities();
+        searchingDanger();
         if(this.isJumping() == true){
             if (lasttime == 0){
                 lasttime = currentime;
@@ -83,39 +79,16 @@ public class AIenemy extends Entity
         }
         if(this.isMovingLeft == true && this.isFreeze() == false)
         {
-            this.facing = 0;
-            if(this.isOnSlow() == true)
-            {
-                this.setVelX(-0.5);
-            }
-            else
-            {
-                this.setVelX(-3);
-                this.setIsOnSlow(false);
-            }
+            this.moveLeft();
         }
         else if(this.isMovingRight == true && this.isFreeze() == false)
         {
-            this.facing = 1;
-            if(this.isOnSlow() == true)
-            {
-                this.setVelX(0.5);
-            }
-            else
-            {
-                this.setVelX(3);
-                this.setIsOnSlow(false);
-            }
+            this.moveRight();
         }
         else if(freeze == true || (isMovingLeft == false && isMovingRight == false)) 
         {
             this.setVelX(0);
         }
-        
-        if(this.getHp() <= 0){
-            this.die();
-        }
-
         //check if this collides tiles
         tileCollidingChecking();
         //animation
@@ -141,7 +114,6 @@ public class AIenemy extends Entity
         for(Tile t: tileHandler.getTile()){
             if(t.getId() == Id.wall || t.getId() == Id.fireTrap){
                 if(this.intersectsTopTile(t)){
-//                    this.setJumping(false);
                     y = t.getY() - height;
                     if(t.getId() == Id.fireTrap){
                         hp -= 200;
@@ -195,9 +167,50 @@ public class AIenemy extends Entity
             this.setVelY(0);
         }
     }
-
+    public void searchingEntities(){
+        for(Entity en: entityHandler.getEntity()){
+            if(en.getId() == Id.player){
+                if(this.foundObject(en)){
+                    this.follow(en);
+                }
+            }
+        }
+    }
+    public void searchingDanger(){
+        for(Bullet bullet: bulletHandler.getBullets()){
+            if(bullet.getId() == bulletType.fireBall){
+                if(this.foundDanger(bullet)){
+                    this.jump();
+                }
+            }
+        }
+    }
+    public void moveLeft(){
+        this.facing = 0;
+        if(this.isOnSlow() == true)
+        {
+            this.setVelX(-0.5);
+        }
+        else
+        {
+            this.setVelX(-3);
+            this.setIsOnSlow(false);
+        }
+    }
+    public void moveRight(){
+        this.facing = 1;
+        if(this.isOnSlow() == true)
+        {
+            this.setVelX(0.5);
+        }
+        else
+        {
+            this.setVelX(3);
+            this.setIsOnSlow(false);
+        }
+    }
     @Override
     public void placeSlowSpirit(GraphicsContext gc) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        
     }
 }

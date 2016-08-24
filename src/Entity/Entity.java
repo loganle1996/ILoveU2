@@ -38,6 +38,7 @@ public abstract class Entity{
     public boolean animate = false;
     public boolean freeze = false;
     public boolean OnSlow = false;
+    public boolean flyUp = false,flyDown = false;
 
     public boolean isOnSlow() {
         return OnSlow;
@@ -70,6 +71,13 @@ public abstract class Entity{
         Entity.entityHandler = entityHandler;
         velY += gravity;
     }
+    public Entity(int width,int height, boolean solid, EntityHandler entityHandler){
+        this.width = width;
+        this.height = height;
+        this.solid = solid;
+        Entity.entityHandler = entityHandler;
+        velY += gravity;
+    }
     public abstract void render(GraphicsContext g, Sprite[] sprite);
         
     public abstract void tick(long currentTime);
@@ -96,6 +104,22 @@ public abstract class Entity{
 
     public void setX(int x) {
         this.x = x;
+    }
+
+    public boolean isFlyUp() {
+        return flyUp;
+    }
+
+    public void setFlyUp(boolean flyUp) {
+        this.flyUp = flyUp;
+    }
+
+    public boolean isFlyDown() {
+        return flyDown;
+    }
+
+    public void setFlyDown(boolean flyDown) {
+        this.flyDown = flyDown;
     }
 
     public double getY() {
@@ -333,4 +357,23 @@ public abstract class Entity{
     public boolean foundObject(Entity en){
         return bigRectangle2D.intersects(en.getBoundary());
     }
+    public void flyUp(){
+        if(flyDown == false){
+            flyUp = true;
+            this.setVelY(-5);
+        }
+    }
+    public void flyDown(){
+        if(flyUp == false){
+            flyDown = true;
+            this.setVelY(5);
+        }
+    }
+    public void stopFlyUpAndDown(){
+        if(flyDown == false && flyUp == false){
+            this.setVelY(0);
+        }
+    }
+    public abstract void moveLeft();
+    public abstract void moveRight();
 }

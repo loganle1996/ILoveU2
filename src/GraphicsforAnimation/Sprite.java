@@ -18,6 +18,9 @@ public class Sprite {
     public  Sprite(SpriteSheet sheet, int x, int y){
         image = sheet.getSprite(x, y);
     }
+    public Sprite(Image image){
+        this.image = image;
+    }
     public Image getImage(){
         return image;
     }

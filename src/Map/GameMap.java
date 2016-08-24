@@ -7,8 +7,10 @@ package Map;
 
 
 import Entity.AIenemy;
+import Entity.Eagle;
 import Target.AiHouse;
 import Entity.EntityHandler;
+import Entity.FinalBoss;
 import Entity.Id;
 import Entity.Player;
 import Target.HouseHandler;
@@ -36,9 +38,11 @@ public class GameMap
     public Tile clonedTile1,clonedTile2,clonedTile3;
     public Trap1 clonedTile4;
     public Player player1 = Player.getInstance();
+    public FinalBoss finalBoss = FinalBoss.getInstance();
     public AIenemy aienemy;
     public AiHouse aiHouse;
     public WoodBridge woodBridge;
+    public Eagle eagle;
     Image aiHouseImage = new Image("AiHouse.png");
     private static GameMap gameMap = new GameMap();
     EntityHandler entityHandler = EntityHandler.getInstance();
@@ -55,7 +59,7 @@ public class GameMap
                 {0,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,0},
                 {0,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,2,2,2,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,0},
                 {0,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,0},
-                {0,1,1,1,1,1,1,1,1,1,1,1,1,1,1,6,6,6,6,6,1,1,1,1,1,1,1,1,1,4,1,1,1,1,1,1,1,1,1,0},
+                {0,1,1,1,1,4,1,1,1,1,1,1,1,1,1,6,6,6,6,6,1,1,1,1,1,1,1,1,1,4,1,1,1,1,1,1,1,1,1,0},
                 {0,1,1,1,1,2,2,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,0},
                 {0,1,1,1,1,1,1,1,1,3,3,3,3,1,1,1,1,1,1,1,4,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,0},
                 {0,2,2,2,2,1,2,2,2,2,2,2,2,2,1,2,2,2,2,2,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,0},
@@ -86,7 +90,7 @@ public class GameMap
                 {0,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,4,1,1,1,1,1,1,1,0},
                 {0,1,1,1,1,1,1,1,2,2,2,2,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,2,2,2,2,2,2,2,0},
                 {0,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,0},
-                {0,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,10,1,1,1,1,1,1,1,1,1,1,1,1,1,1,11,1,0},
+                {0,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,10,1,1,1,1,1,1,1,14,1,1,1,1,1,1,1,1,0},
                 {0,2,2,2,1,1,1,2,2,2,1,1,1,2,2,2,1,1,1,1,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,0},
                 {0,1,1,1,3,3,3,1,1,3,3,3,3,1,1,1,3,3,3,3,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,0},
                 {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0}
@@ -205,10 +209,19 @@ public class GameMap
                     break;
                 case 12:
                     aiHouse = new AiHouse((i%40)* 40,(i/40)*40,aiHouseImage);
-//                    int size = gameModel.getHouseHandler().getAiHouses().size();
-//                    aiHouse.setId(size+1);
                     houseHandler.addHouse(aiHouse);
                     break;
+                case 13:
+                    finalBoss.setX((i%40) * 40);
+                    finalBoss.setY((i/40) * 40);
+                    entityHandler.addEntity(finalBoss);
+                    break;
+                case 14:
+                    eagle = new Eagle(40, 40, true, Id.Eagle, entityHandler);
+                    eagle.setX((i%40)* 40);
+                    eagle.setY((i/40)* 40);
+                    entityHandler.addEntity(eagle);
+                    break;                    
                 default:
                 
             }

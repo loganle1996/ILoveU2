@@ -76,7 +76,7 @@ public class SlowSpirit extends Bullet
     }
     public void entityCollidingChecking(){
         for(Entity en : entityHandler.getEntity()){
-            if(en.getId() == Id.Goomba)
+            if(en.getId() == Id.Goomba || en.getId() == Id.GoombaBoss)
             {
                 if(this.intersectsEntity(en))
                 {
@@ -84,13 +84,11 @@ public class SlowSpirit extends Bullet
                     {
                         en.setHp(en.getHp()-1);
                         en.setIsOnSlow(true);
-                        System.out.println("Intersect");
                     }
                 }
                 else
                 {
                     en.setIsOnSlow(false);
-                    System.out.println("Not interesect");
                 }
                 
                 if (outOfEffect == true)

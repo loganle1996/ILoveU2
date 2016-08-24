@@ -32,12 +32,32 @@ public class Player extends Entity {
 
     @Override
     public void render(GraphicsContext g,Sprite[] playerSprite ) {
-         if(this.facing == 0 ){
-             g.drawImage(playerSprite[frame+ 3].getImage(), x, y, width, height);
-         }
-         else if(this.facing == 1){
-             g.drawImage(playerSprite[frame].getImage(), x, y, width, height);
-         }
+        if(this.facing == 0){
+            if(isJumping() == false){ 
+                if(velX != 0){
+                   g.drawImage(playerSprite[frame+5].getImage(), x, y, width, height); 
+                }
+                else{
+                    g.drawImage(playerSprite[4].getImage(), x, y, width, height); 
+                }
+            }
+            else if(isJumping() == true){
+                g.drawImage(playerSprite[5].getImage(), x, y, width, height); 
+            }
+        }
+        else if(this.facing == 1){
+            if(this.isJumping()== false){                
+                if(velX != 0){
+                   g.drawImage(playerSprite[frame+1].getImage(), x, y, width, height); 
+                }
+                else{
+                    g.drawImage(playerSprite[0].getImage(), x, y, width, height);
+                } 
+            }
+            else if(isJumping() == true){
+                g.drawImage(playerSprite[1].getImage(), x, y, width, height); 
+            }
+        }
     }
     @Override
     public void shootFireBall(GraphicsContext gc) {
@@ -169,34 +189,31 @@ public class Player extends Entity {
               velY += this.getGravity() / 10;
         }
         if(this.isMovingLeft == true){
-            this.setVelX(-5.0);
-            this.facing = 0;
+            this.moveLeft();
         }
         else if(this.isMovingRight){
-            this.setVelX(5);
-            this.facing = 1;
+            this.moveRight();
         }
         else if(freeze == true ||(isMovingLeft == false && isMovingRight == false)) {
             this.setVelX(0);
         }
-        
+        enemyCollidingChecking();
+        tileCollidingChecking();
         if(velX != 0){
             this.animate = true;
         }
         else{
             this.animate = false;
         }
-        enemyCollidingChecking();
-        tileCollidingChecking();
         if(animate == true){
-            frameDelay++;
-            if(frameDelay >=3){
-                frame++;
-            if(frame >=3){
-                frame = 0;
+                frameDelay++;
+                if(frameDelay >=3){
+                    frame++;
+                if(frame >=3){
+                    frame = 0;
+                }
+                frameDelay = 0;
             }
-            frameDelay = 0;
-        }
         }
  
     }
@@ -238,12 +255,17 @@ public class Player extends Entity {
     }
     public void enemyCollidingChecking(){
         for(Entity en : entityHandler.getEntity()){
-            if(en.getId() == Id.Goomba){
+            if(en.getId() == Id.Goomba ||en.getId() == Id.GoombaBoss){
                     if(this.intersectsTopEntity(en)){
                         y = en.getY() - height;
                         this.setVelY(10);
                         this.setJumping(false);
-                        this.setHp(this.getHp() - 10);
+                        if(en.getId() == Id.Goomba){                            
+                            this.setHp(this.getHp() - 10);
+                        }
+                        if(en.getId() == Id.GoombaBoss){                            
+                            this.setHp(this.getHp() - 80);
+                        }
                     }    
                     if (this.intersectsBottomEntity(en)){                       
                         setVelY(0);
@@ -262,6 +284,17 @@ public class Player extends Entity {
         }
     }
 
+    @Override
+    public void moveLeft() {
+        this.setVelX(-5.0);
+        this.facing = 0;
+    }
+
+    @Override
+    public void moveRight() {
+        this.setVelX(5);
+        this.facing = 1;
+    }
     
     
 }
