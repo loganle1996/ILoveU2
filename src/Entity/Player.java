@@ -178,7 +178,7 @@ public class Player extends Entity {
 
     @Override
     public void tick(long currentime) {
-        x+= velX;
+        x += velX;
         y += velY;
         if (lasttime == 0){
             lasttime = currentime;
