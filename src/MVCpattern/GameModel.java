@@ -363,7 +363,7 @@ public class GameModel extends Application {
         double x = (((random.nextDouble() * 1440) % 1440) + 50);
         double y = (((random.nextDouble() * 1440) % 1440) + 50);
         FireRune randomFireRune = (FireRune)itemCache.getItem("fireRune");
-        QuickcastRune randomQuickcastRune = (QuickcastRune) itemCache.getItem("quickcastRune");
+        AirRune randomAirRune = (AirRune) itemCache.getItem("airRune");
         WaterRune randomWaterRune = (WaterRune) itemCache.getItem("waterRune");
         EarthRune randomEarthRune = (EarthRune) itemCache.getItem("earthRune");
 
@@ -377,9 +377,9 @@ public class GameModel extends Application {
                 itemHandler.addItem(randomFireRune);
                 break;
             case 1:
-                randomQuickcastRune.setX(x);
-                randomQuickcastRune.setY(y);
-                itemHandler.addItem(randomQuickcastRune);
+                randomAirRune.setX(x);
+                randomAirRune.setY(y);
+                itemHandler.addItem(randomAirRune);
                 break;
             case 2:
                 randomWaterRune.setX(x);
