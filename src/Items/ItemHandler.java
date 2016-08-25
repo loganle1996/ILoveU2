@@ -42,7 +42,12 @@ public class ItemHandler {
             item.render(gc);
         }
     }
-    
+    public void removeAllItems(){
+        copiedItems = new LinkedList<Item>(items);
+        for(Item item: copiedItems){
+            items.remove(item);
+        }
+    }
     //add and remove objects
     public void addItem(Item item){
         items.add(item);

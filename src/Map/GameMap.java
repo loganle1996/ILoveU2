@@ -13,6 +13,7 @@ import Entity.EntityHandler;
 import Entity.FinalBoss;
 import Entity.Id;
 import Entity.Player;
+import Items.ItemHandler;
 import Target.HouseHandler;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -44,12 +45,13 @@ public class GameMap
     public AiHouse aiHouse;
     public WoodBridge woodBridge;
     public Eagle eagle;
-    public Portal portal;
-    Image aiHouseImage = new Image("AiHouse.png");
+    public static Portal portal;
+//    Image aiHouseImage = new Image("AiHouse.png");
     private static GameMap gameMap = new GameMap();
     EntityHandler entityHandler = EntityHandler.getInstance();
-    TileHandler tileHandler = TileHandler.getInstance();
+    public TileHandler tileHandler = TileHandler.getInstance();
     HouseHandler houseHandler = HouseHandler.getInstance();
+    ItemHandler  itemHandler = ItemHandler.getInstance();
     //contructor
     private GameMap(){
     }
@@ -58,7 +60,7 @@ public class GameMap
         map = new String [][]{
             {"x","x","x","x","x","x","x","x","x","x","x","x","x","x","x","x","x","x","x","x","x","x","x","x","x","x","x","x","x","x","x","x","x","x","x","x","x","x","x","x"},
             {"x"," "," "," "," "," "," "," "," "," "," "," "," "," "," "," "," ","d","d","d"," "," "," "," "," "," "," "," "," "," "," "," "," "," "," "," "," "," "," ","x"},
-            {"x"," "," "," "," "," "," "," "," "," "," "," "," "," "," "," "," ","d"," ","d"," "," "," "," "," "," "," "," "," "," "," "," "," "," "," "," "," "," "," ","x"},
+            {"x"," "," "," "," "," "," "," "," "," "," "," "," "," "," "," "," "," ","g","d"," "," "," "," "," "," "," "," "," "," "," "," "," "," "," "," "," "," "," ","x"},
             {"x"," "," "," "," "," "," "," "," "," "," "," "," "," "," "," ","m","m","m","m","m"," "," "," "," "," "," "," "," "," "," "," "," "," "," "," "," "," "," ","x"},
             {"x"," "," "," "," "," "," "," "," "," "," "," "," "," "," "," "," "," "," "," "," "," "," "," "," "," "," "," "," "," "," "," "," "," "," "," "," "," "," ","x"},
             {"x","i"," "," "," "," "," "," "," "," "," "," "," "," "," "," "," ","-","-","-"," "," "," "," "," "," "," "," "," ","i"," "," "," "," "," "," "," "," "," ","x"},
@@ -209,7 +211,7 @@ public class GameMap
                     entityHandler.addEntity(aienemy);
                     break;
                 case "h":
-                    aiHouse = new AiHouse((i%40)* 40,(i/40)*40,aiHouseImage);
+                    aiHouse = new AiHouse((i%40)* 40,(i/40)*40);
                     houseHandler.addHouse(aiHouse);
                     break;
                     
@@ -223,7 +225,12 @@ public class GameMap
                     eagle.setX((i%40)* 40);
                     eagle.setY((i/40)* 40);
                     entityHandler.addEntity(eagle);
-                    break;                    
+                    break;
+                case "g":
+                    portal =(Portal) tileCache.getTile("portal");
+                    portal.setX((i%40)* 40);
+                    portal.setY((i/40)*40);              
+                    break;
                 default:
                 
             }
@@ -238,7 +245,11 @@ public class GameMap
         entityHandler.emptyHandler();
         tileHandler.emptyHandler();
         houseHandler.emptyHandler();
+        itemHandler.removeAllItems();
 //        this.getMapData2();
         this.addAllObjectsToGameModel();
+    }
+    public void addPortal(){
+        tileHandler.addTile(portal);
     }
 }

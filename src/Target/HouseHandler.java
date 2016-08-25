@@ -5,6 +5,7 @@
  */
 package Target;
 
+import Map.GameMap;
 import java.util.LinkedList;
 import javafx.scene.canvas.GraphicsContext;
 import tile.Tile;
@@ -61,5 +62,5 @@ public class HouseHandler {
     public static HouseHandler getInstance(){
         return houseHandler;
     }
-    
+
 }

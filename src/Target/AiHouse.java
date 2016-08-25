@@ -23,16 +23,15 @@ import tile.TileHandler;
 public class AiHouse {
     private final int width = 40,height = 40;
     private double x,y;
-    private Image houseImage;
-    private Image portal = new Image("portal.png");
+    private Image houseImage = new Image("AiHouse.png");
     private int id;
     public HouseHandler houseHandler = HouseHandler.getInstance();
     public TileHandler tileHandler = TileHandler.getInstance();
     public EntityHandler entityHandler = EntityHandler.getInstance();
     public Player player = Player.getInstance();
-    public double hp = 4000;
+    public double hp = 500;
     public GameMap gameMap = GameMap.getInstance();
-    public AiHouse(double x, double y, Image houseImage) {
+    public AiHouse(double x, double y) {
         this.x = x;
         this.y = y;
         this.houseImage = houseImage;
@@ -94,38 +93,15 @@ public class AiHouse {
     {
         if(this.getHp() <= 0 )
         {
-            this.setHouseImage(portal);
-            if(player.getBoundary().intersects(this.getBoundary()) && this.getHouseImage() == portal)
-            {
-                gameMap.changeMap();
-                this.die();
-                System.out.println("Changed");
-            }
-//           gameMap.changeMap();
+
+            this.die();
+            gameMap.addPortal();
         }
         tileCollidingCheck();
     }
     public void render(GraphicsContext gc){
         gc.drawImage(houseImage, x, y, width, height);
     }
-    
-//    public void playerCollidingCheck()
-//    {
-//        boolean isPlayer = false;
-//        for(Entity en: entityHandler.getEntity())
-//            {
-//                if(en.getId() == Id.player && en.getBoundary().intersects(this.getBoundary()))
-//                {
-//                    isPlayer = true;
-//                }
-//            }
-//        
-//        if(isPlayer = true)
-//        {
-//            gameMap.changeMap();
-//            System.out.println("Map changed");
-//        }
-//    }
     
     public void tileCollidingCheck(){
         for(Tile t: tileHandler.getTile()){
@@ -182,4 +158,33 @@ public class AiHouse {
         return ti.getBottomBoundary().intersects(this.getBoundary());
     }
     
+    public boolean intersectsEntity(Entity en){
+        return en.getBoundary().intersects(this.getBoundary());
+    }
+    public boolean intersectsTopEntity(Entity en){
+        return en.getTopBoundary().intersects(this.getBoundary());
+    }
+    public boolean intersectsLeftEntity(Entity en){
+        return en.getLeftBoundary().intersects(this.getBoundary());
+    }
+    public boolean intersectsRightEntity(Entity en){
+        return en.getRightBoundary().intersects(this.getBoundary());
+    }
+    public boolean intersectsBottomEntity(Entity en){
+        return en.getBottomBoundary().intersects(this.getBoundary());
+    }
+    public void changeMap(){
+        gameMap.changeMap();
+    }
+//    public void playerCollidingCheck(){
+//        for(Entity entity : entityHandler.getEntity()){
+//            if(entity.getId() == Id.player){
+//                if(this.intersectsEntity(entity)){
+//                    System.out.println("aa");
+//                    this.changeMap();
+//                    System.out.println("intersects player");
+//                }
+//            }
+//        }
+//    }
 }
