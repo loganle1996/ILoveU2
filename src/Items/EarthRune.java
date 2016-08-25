@@ -8,32 +8,25 @@ package Items;
 import Entity.Entity;
 import Entity.Id;
 import Sound.SoundHandler;
-import javafx.animation.KeyFrame;
-import javafx.animation.Timeline;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
-import javafx.util.Duration;
 import tile.Tile;
 
 /**
  *
  * @author LoganLe
  */
-public class QuickcastRune extends Item {
+public class EarthRune extends Item{
 
-    final int quickcastDuration = 10;
-    int duration = quickcastDuration;
-
-
-    public QuickcastRune(ItemHandler itemHandler) {
+    public EarthRune(ItemHandler itemHandler) {
         super(itemHandler);
-        this.image = new Image("airScroll.png");
-        this.itemType = "quickcastRune";
+        this.image = new Image("earthScroll.png");
+        this.itemType = "earthRune";
     }
-    public QuickcastRune(ItemHandler itemHandler,double x,double y) {
+    public EarthRune(ItemHandler itemHandler, double x, double y) {
         super(itemHandler);
-        this.image = new Image("airScroll.png");
-        this.itemType = "quickcastRune";
+        this.image = new Image("earthScroll.png");
+        this.itemType = "earthRune";
         this.x = x;
         this.y = y;
         this.setVelY(this.getVelY() + this.gravity);
@@ -74,30 +67,10 @@ public class QuickcastRune extends Item {
         }
     }
     public void entitiesCollidingCheck(){
-
-        duration = quickcastDuration;
-
         for(Entity en : entityHandler.getEntity()){
             if(this.intersectsEntity(en)){
                 if(en.getId() == Id.player){
-
-                    en.setShootDelay(0.25);
-
-                    Timeline timer = new Timeline();
-                    timer.setCycleCount(Timeline.INDEFINITE);
-                    duration = quickcastDuration;
-                    timer.getKeyFrames().add(
-                            new KeyFrame(Duration.seconds(1), event -> {
-                                duration--;
-                                if (duration == 0)
-                                {
-                                    en.setShootDelay(1);
-                                }
-                            })
-                    );
-                    timer.play();
-
-
+                    en.setHp(en.getHp() + 250);
                     SoundHandler.getInstance().playSound("pickup");
                     this.disappear();
                 }

@@ -18,6 +18,7 @@ import tile.Tile;
 public class Player extends Entity {
     private static Player player = new Player(40, 40, true, Id.player, entityHandler);
     private BulletCache bulletCache = BulletCache.getInstance();
+    int deltaTime = 0;
 
 
     private Player(int width, int height, boolean solid, Id id, EntityHandler entityHandler) {
@@ -33,7 +34,7 @@ public class Player extends Entity {
         if(this.facing == 0){
             if(isJumping() == false){
                 if(velX != 0){
-                   g.drawImage(playerSprite[frame+5].getImage(), x, y, width, height);
+                    g.drawImage(playerSprite[frame+5].getImage(), x, y, width, height);
                 }
                 else{
                     g.drawImage(playerSprite[4].getImage(), x, y, width, height);
@@ -46,7 +47,7 @@ public class Player extends Entity {
         else if(this.facing == 1){
             if(this.isJumping()== false){
                 if(velX != 0){
-                   g.drawImage(playerSprite[frame+1].getImage(), x, y, width, height);
+                    g.drawImage(playerSprite[frame+1].getImage(), x, y, width, height);
                 }
                 else{
                     g.drawImage(playerSprite[0].getImage(), x, y, width, height);
@@ -60,7 +61,7 @@ public class Player extends Entity {
     @Override
     public void shootFireBall(GraphicsContext gc) {
 
-      SoundHandler.getInstance().playSound("fireball");
+        SoundHandler.getInstance().playSound("fireball");
 
 
         if(facing == 0){
@@ -101,7 +102,7 @@ public class Player extends Entity {
     @Override
     public void shootIceBall(GraphicsContext gc)
     {
-      SoundHandler.getInstance().playSound("iceball");
+        SoundHandler.getInstance().playSound("iceball");
 
         if(facing == 0){
             if(numberIceBall > 0){
@@ -178,30 +179,33 @@ public class Player extends Entity {
 
     @Override
     public void tick(long currentime) {
+
         x += velX;
         y += velY;
-        if (lasttime == 0){
+
+        deltaTime = (int)  (currentime - lasttime) / 1000000000;
+
+        if (deltaTime > this.getShootDelay()){
             lasttime = currentime;
+            this.setShootable(true);
         }
-        else {
-            if (((currentime - lasttime) / 1000000000.0) > this.getShootDelay()){
-                lasttime = currentime;
-                this.setShootable(true);
-            }
-        }
+
+        System.out.println("deltatime: " + deltaTime);
 
         if(this.getHp() <= 0){
             this.die();
         }
-        if (this.jumping == true) {
+
+        if (this.jumping) {
               velY += this.getGravity() / 10;
         }
+
         if(this.isMovingLeft){
             this.setVelX(-5.0);
             this.facing = 0;
             if (!this.jumping)
             {
-            SoundHandler.getInstance().playSound("footstep");
+                SoundHandler.getInstance().playSound("footstep");
             }
         }
         else if(this.isMovingRight){
@@ -209,7 +213,7 @@ public class Player extends Entity {
             this.facing = 1;
             if (!this.jumping)
             {
-            SoundHandler.getInstance().playSound("footstep");
+                SoundHandler.getInstance().playSound("footstep");
             }
             this.moveRight();
         }
@@ -227,9 +231,9 @@ public class Player extends Entity {
             this.animate = false;
         }
         if(animate == true){
-                frameDelay++;
-                if(frameDelay >=3){
-                    frame++;
+            frameDelay++;
+            if(frameDelay >=3){
+                frame++;
                 if(frame >=3){
                     frame = 0;
                 }
@@ -285,44 +289,44 @@ public class Player extends Entity {
     public void enemyCollidingChecking(){
         for(Entity en : entityHandler.getEntity()){
             if((en.getId() == Id.Goomba ||en.getId() == Id.GoombaBoss ||en.getId()== Id.Eagle) && en.isFreeze() == false){
-                    if(this.intersectsTopEntity(en)){
+                if(this.intersectsTopEntity(en)){
 //                        y = en.getY() - height;
-                        this.setVelY(10);
+                    this.setVelY(10);
 //                        this.setJumping(false);
 
+                    this.setHp(this.getHp() - 10);
+                    SoundHandler.getInstance().playSound("player_hurt");
+
+                }
+                if (this.intersectsBottomEntity(en)){
+
+                    if(en.getId() == Id.Goomba){
                         this.setHp(this.getHp() - 10);
-                        SoundHandler.getInstance().playSound("player_hurt");
-
                     }
-                    if (this.intersectsBottomEntity(en)){
-
-                        if(en.getId() == Id.Goomba){
-                            this.setHp(this.getHp() - 10);
-                        }
-                        if(en.getId() == Id.GoombaBoss){
-                            this.setHp(this.getHp() - 80);
-                        }
+                    if(en.getId() == Id.GoombaBoss){
+                        this.setHp(this.getHp() - 80);
                     }
-                    if (this.intersectsBottomEntity(en)){
+                }
+                if (this.intersectsBottomEntity(en)){
 
-                        setVelY(0);
+                    setVelY(0);
 //                        y = en.getY() + height;
-                       this.setHp(this.getHp() - 10);
-                       SoundHandler.getInstance().playSound("player_hurt");
+                    this.setHp(this.getHp() - 10);
+                    SoundHandler.getInstance().playSound("player_hurt");
 
-                    }
-                    if(this.intersectsRightEntity(en)){
+                }
+                if(this.intersectsRightEntity(en)){
 //                        x = en.getX()+en.width;
-                        this.setHp(this.getHp() - 10);
-                        SoundHandler.getInstance().playSound("player_hurt");
+                    this.setHp(this.getHp() - 10);
+                    SoundHandler.getInstance().playSound("player_hurt");
 
-                    }
-                    if(this.intersectsLeftEntity(en)){
+                }
+                if(this.intersectsLeftEntity(en)){
 //                        x = en.getX()-en.width;
-                        this.setHp(this.getHp() - 10);
-                        SoundHandler.getInstance().playSound("player_hurt");
+                    this.setHp(this.getHp() - 10);
+                    SoundHandler.getInstance().playSound("player_hurt");
 
-                    }
+                }
             }
         }
     }

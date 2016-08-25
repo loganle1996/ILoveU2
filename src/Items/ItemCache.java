@@ -26,12 +26,14 @@ public class ItemCache {
     }
     public void loadCache(){
         FireRune fireRune = new FireRune(itemHandler);
-        QuickcastRune quickcastRune = new QuickcastRune(itemHandler);
+        AirRune airRune = new AirRune(itemHandler);
         WaterRune waterRune = new WaterRune(itemHandler);
-        
+        EarthRune earthRune = new EarthRune(itemHandler);
+
         itemTable.put(fireRune.getItemType(), fireRune);
         itemTable.put(waterRune.getItemType(), waterRune);
-        itemTable.put(quickcastRune.getItemType(), quickcastRune);
+        itemTable.put(airRune.getItemType(), airRune);
+        itemTable.put(earthRune.getItemType(), earthRune);
     }
     public static ItemCache getInstance(){
         return  itemCache;

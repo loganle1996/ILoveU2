@@ -83,6 +83,14 @@ public class GameModel extends Application {
     public BulletCache bulletCache = BulletCache.getInstance();
     public ItemCache itemCache = ItemCache.getInstance();
 
+    // FPS calculation
+    boolean showFPS = false;
+    boolean firstTick = true;
+    int frames = 0;
+    long startTime = 0;
+    double fps = 0.0;
+
+
     public GameModel(){
 
     }
@@ -198,12 +206,18 @@ public class GameModel extends Application {
         loadGraphicsAndObjects();
         // main scene listens for keyevent
         prepareKeyEvent(mainScene);
-
         new AnimationTimer()
         {
             @Override
             public void handle(long currentNanoTime)
             {
+
+                if (showFPS)
+                {
+                    fps = calculateFPS(currentNanoTime);
+                    System.out.println("FPS: " + fps);
+                }
+
                 if (lastSpawnTime == 0 || bulletBoxLastSpTime == 0){
                     lastSpawnTime = currentNanoTime;
                     bulletBoxLastSpTime = currentNanoTime;
@@ -237,6 +251,8 @@ public class GameModel extends Application {
                 iceBallLabel.setTranslateY(player1.getY() - 190);
 
 
+
+
             }
         }.start();
         gameStage.show();
@@ -247,6 +263,39 @@ public class GameModel extends Application {
         });
 
     }
+
+    private double calculateFPS(long timePassed)
+    {
+
+        // To measure framerate, we need to know:
+        // How many frames have passed
+        // How much time have passed
+
+        // If this tick is the first tick of the game, do some setup
+       if (firstTick)
+       {
+           frames = 0;
+           startTime = timePassed;
+           firstTick = false;
+           return 0.0;
+       }
+
+       // Increment the number of frames that have passed
+       frames++;
+
+        // 0.25 -> We update the FPS count each 0.25 seconds.
+        // FPS = frames per second = frames / second
+
+        if (timePassed - startTime > 0.25 && frames > 10)
+        {
+            fps = (double) frames / ((timePassed - startTime) / 1000000000.0);
+            startTime = timePassed;
+            frames = 0;
+        }
+
+        return fps;
+    }
+
     public void getMapAndObjects(){
         gameMap.getMapData1();
         gameMap.addAllObjectsToGameModel();
@@ -316,8 +365,9 @@ public class GameModel extends Application {
         FireRune randomFireRune = (FireRune)itemCache.getItem("fireRune");
         QuickcastRune randomQuickcastRune = (QuickcastRune) itemCache.getItem("quickcastRune");
         WaterRune randomWaterRune = (WaterRune) itemCache.getItem("waterRune");
+        EarthRune randomEarthRune = (EarthRune) itemCache.getItem("earthRune");
 
-        Integer itemIndex = random.nextInt(2);
+        Integer itemIndex = random.nextInt(3);
 
         switch (itemIndex)
         {
@@ -335,6 +385,11 @@ public class GameModel extends Application {
                 randomWaterRune.setX(x);
                 randomWaterRune.setY(y);
                 itemHandler.addItem(randomWaterRune);
+                break;
+            case 3:
+                randomEarthRune.setX(x);
+                randomEarthRune.setY(y);
+                itemHandler.addItem(randomEarthRune);
                 break;
 
         }
@@ -391,8 +446,17 @@ public class GameModel extends Application {
 
                         case D:
                             en.setIsMovingRight(true);
-
                             break;
+
+                        case MINUS:
+                            if (showFPS)
+                            {
+                                showFPS = false;
+                            }
+                            else
+                            {
+                                showFPS = true;
+                            }
                     }
                 }
 
