@@ -5,8 +5,10 @@
  */
 package Target;
 
+import Entity.Entity;
 import Entity.EntityHandler;
 import Entity.Id;
+import Entity.Player;
 import Map.GameMap;
 import javafx.geometry.Rectangle2D;
 import javafx.scene.canvas.GraphicsContext;
@@ -21,14 +23,15 @@ import tile.TileHandler;
 public class AiHouse {
     private final int width = 40,height = 40;
     private double x,y;
-    private Image houseImage;
+    private Image houseImage = new Image("AiHouse.png");
     private int id;
     public HouseHandler houseHandler = HouseHandler.getInstance();
     public TileHandler tileHandler = TileHandler.getInstance();
     public EntityHandler entityHandler = EntityHandler.getInstance();
-    public double hp = 4000;
+    public Player player = Player.getInstance();
+    public double hp = 500;
     public GameMap gameMap = GameMap.getInstance();
-    public AiHouse(double x, double y, Image houseImage) {
+    public AiHouse(double x, double y) {
         this.x = x;
         this.y = y;
         this.houseImage = houseImage;
@@ -86,16 +89,20 @@ public class AiHouse {
     public void die(){
         houseHandler.removeHouse(this);
     }
-    public void tick(){
-        if(this.getHp()<=0){
+    public void tick()
+    {
+        if(this.getHp() <= 0 )
+        {
+
             this.die();
-            gameMap.changeMap();
+            gameMap.addPortal();
         }
         tileCollidingCheck();
     }
     public void render(GraphicsContext gc){
         gc.drawImage(houseImage, x, y, width, height);
     }
+    
     public void tileCollidingCheck(){
         for(Tile t: tileHandler.getTile()){
             if(t.solid == false){
@@ -151,4 +158,33 @@ public class AiHouse {
         return ti.getBottomBoundary().intersects(this.getBoundary());
     }
     
+    public boolean intersectsEntity(Entity en){
+        return en.getBoundary().intersects(this.getBoundary());
+    }
+    public boolean intersectsTopEntity(Entity en){
+        return en.getTopBoundary().intersects(this.getBoundary());
+    }
+    public boolean intersectsLeftEntity(Entity en){
+        return en.getLeftBoundary().intersects(this.getBoundary());
+    }
+    public boolean intersectsRightEntity(Entity en){
+        return en.getRightBoundary().intersects(this.getBoundary());
+    }
+    public boolean intersectsBottomEntity(Entity en){
+        return en.getBottomBoundary().intersects(this.getBoundary());
+    }
+    public void changeMap(){
+        gameMap.changeMap();
+    }
+//    public void playerCollidingCheck(){
+//        for(Entity entity : entityHandler.getEntity()){
+//            if(entity.getId() == Id.player){
+//                if(this.intersectsEntity(entity)){
+//                    System.out.println("aa");
+//                    this.changeMap();
+//                    System.out.println("intersects player");
+//                }
+//            }
+//        }
+//    }
 }

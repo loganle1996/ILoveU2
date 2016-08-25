@@ -49,7 +49,7 @@ public class SoundHandler
 
     public void playBackgroundMusic(String id)
     {
-      String backgroundPath = getClass().getResource("../" + id + ".mp3").toExternalForm();
+      String backgroundPath = getClass().getResource("/" + id + ".mp3").toExternalForm();
       Media backgroundFile = new Media(backgroundPath);
       this.backgroundPlayer = new MediaPlayer(backgroundFile);
       MediaPlayer background = this.backgroundPlayer;

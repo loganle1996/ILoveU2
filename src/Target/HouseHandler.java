@@ -5,8 +5,10 @@
  */
 package Target;
 
+import Map.GameMap;
 import java.util.LinkedList;
 import javafx.scene.canvas.GraphicsContext;
+import tile.Tile;
 
 /**
  *
@@ -25,6 +27,15 @@ public class HouseHandler {
         return aiHouses;
     }
 
+    public void emptyHandler()
+    {
+        copiedHouse = new LinkedList<>(aiHouses);
+        for(AiHouse ai: copiedHouse)
+        {
+            copiedHouse.remove(ai);
+        }
+    }
+    
     public void setAiHouses(LinkedList<AiHouse> aiHouses) {
         this.aiHouses = aiHouses;
     }
@@ -51,5 +62,5 @@ public class HouseHandler {
     public static HouseHandler getInstance(){
         return houseHandler;
     }
-    
+
 }

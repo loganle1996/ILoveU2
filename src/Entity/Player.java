@@ -7,7 +7,10 @@ package Entity;
 
 import Bullet.*;
 import GraphicsforAnimation.Sprite;
+import Map.GameMap;
 import Sound.SoundHandler;
+import Target.AiHouse;
+import Target.HouseHandler;
 import javafx.scene.canvas.GraphicsContext;
 import tile.Tile;
 
@@ -16,6 +19,7 @@ import tile.Tile;
  * @author owne
  */
 public class Player extends Entity {
+    HouseHandler houseHandler = HouseHandler.getInstance();
     private static Player player = new Player(40, 40, true, Id.player, entityHandler);
     private BulletCache bulletCache = BulletCache.getInstance();
     int deltaTime = 0;
@@ -309,7 +313,8 @@ public class Player extends Entity {
                 }
                 if (this.intersectsBottomEntity(en)){
 
-                    setVelY(0);
+//                        setVelY(0);
+
 //                        y = en.getY() + height;
                     this.setHp(this.getHp() - 10);
                     SoundHandler.getInstance().playSound("player_hurt");

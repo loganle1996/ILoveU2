@@ -68,10 +68,10 @@ public class FireBall extends Bullet{
             if(en.getId() == Id.Goomba || en.getId() == Id.GoombaBoss || en.getId() == Id.Eagle){
                 if(this.intersectsEntity(en)){
                     if(en.getId() == Id.Eagle){
-                        en.setHp(en.getHp()- 1000);
+                        en.setHp(en.getHp()- 1000); //1000
                     }
                     else {
-                        en.setHp(en.getHp()-200);
+                        en.setHp(en.getHp()-200); //200
                     } 
                     SoundHandler.getInstance().playSound("monster_hurt");
                     this.disappear();
@@ -82,7 +82,7 @@ public class FireBall extends Bullet{
     public void houseCollidingCheck(){
         for(AiHouse aiHouse : houseHandler.getAiHouses()){
             if(this.intersectsHouse(aiHouse)){
-                aiHouse.setHp(aiHouse.getHp()-200);
+                aiHouse.setHp(aiHouse.getHp()-200); //200
                 this.disappear();
             }
         }
