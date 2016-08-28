@@ -100,7 +100,9 @@ public abstract class Tile implements Cloneable{
     public Rectangle2D getBoundary(){
         return new Rectangle2D(getX(), getY(), width, height);
     }
-
+    public Rectangle2D getExtraBoundary(){
+        return new Rectangle2D(getX(), getY()-40, width, height);
+    }
     public Rectangle2D getTopBoundary(){
         return new Rectangle2D(this.getX() + 10,this.getY(),width-20,5);
     }

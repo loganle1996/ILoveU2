@@ -186,7 +186,6 @@ public class Player extends Entity {
 
         x += velX;
         y += velY;
-
         deltaTime = (int)  (currentime - lasttime) / 1000000000;
 
         if (deltaTime > this.getShootDelay()){
@@ -194,7 +193,6 @@ public class Player extends Entity {
             this.setShootable(true);
         }
 
-        System.out.println("deltatime: " + deltaTime);
 
         if(this.getHp() <= 0){
             this.die();
@@ -262,6 +260,7 @@ public class Player extends Entity {
 
                         }
                     }
+                    
                     if(this.intersectsBottomTile(t)){
                         y = t.getY() + height;
                         if(t.getId() == Id.fireTrap){

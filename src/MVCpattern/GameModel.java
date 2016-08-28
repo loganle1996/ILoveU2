@@ -67,6 +67,7 @@ public class GameModel extends Application {
     public BulletHandler bulletHandler = BulletHandler.getInstance();
     public HouseHandler houseHandler = HouseHandler.getInstance();
     public ItemHandler itemHandler = ItemHandler.getInstance();
+    public Tile tileA;
     public Player player1 = Player.getInstance();
     private PerspectiveCamera camera;
     private Image Background;
@@ -215,7 +216,6 @@ public class GameModel extends Application {
                 if (showFPS)
                 {
                     fps = calculateFPS(currentNanoTime);
-                    System.out.println("FPS: " + fps);
                 }
 
                 if (lastSpawnTime == 0 || bulletBoxLastSpTime == 0){
@@ -401,6 +401,7 @@ public class GameModel extends Application {
         mainScene.setOnKeyPressed(event -> {
             //currentlyActiveKeys.add(event.getCode().toString());
             copiedEntity = new LinkedList<Entity>(entityHandler.getEntity());
+  
             for(Entity en: copiedEntity){
                 if(en.getId() == Id.player){
 
@@ -408,13 +409,16 @@ public class GameModel extends Application {
 
                     switch (event.getCode()) {
                         case SPACE:
-                            if (en.isJumping() == false){
+                            if (en.isJumping() == false)
+                            {
                                 en.setJumping(true);
                                 en.setVelY(-15);
                                 SoundHandler.getInstance().playSound("jump");
                             }
+
+                            
                             break;
-                        case I:
+                        case K:
                             if (en.shootable == true)
                             {
                                 en.shootIceBall(gc);
@@ -422,7 +426,7 @@ public class GameModel extends Application {
                             }
                             break;
 
-                        case R:
+                        case J:
                             if (en.shootable == true)
                             {
                                 en.shootFireBall(gc);
@@ -431,7 +435,7 @@ public class GameModel extends Application {
                             }
                             break;
 
-                        case T:
+                        case L:
                             if (en.shootable == true)
                             {
                                 en.placeSlowSpirit(gc);
