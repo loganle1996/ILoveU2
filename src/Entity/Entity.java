@@ -364,13 +364,13 @@ public abstract class Entity{
         return bigRectangle2D.intersects(en.getBoundary());
     }
     public void flyUp(){
-        if(flyDown == false){
+        if(flyDown == false && this.isFreeze() == false){
             flyUp = true;
             this.setVelY(-5);
         }
     }
     public void flyDown(){
-        if(flyUp == false){
+        if(flyUp == false && this.isFreeze() == false){
             flyDown = true;
             this.setVelY(5);
         }

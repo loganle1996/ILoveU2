@@ -75,10 +75,13 @@ public class GameModel extends Application {
     public CareTaker careTaker = new CareTaker();
     public LinkedList<Entity> copiedEntity;
     private long lastSpawnTime = 0,bulletBoxLastSpTime = 0;
+    public long timePerSecond = 0;
+    public int second = 0, minute = 0;
 
     public Label hpLabel = new Label();
     public Label fireBallLabel = new Label();
     public Label iceBallLabel = new Label();
+    public Label timeLabel = new Label();
 
     public static GameMap gameMap;
     public BulletCache bulletCache = BulletCache.getInstance();
@@ -196,7 +199,7 @@ public class GameModel extends Application {
         iceBallLabel.setTextFill(javafx.scene.paint.Color.WHITE);
 
         Canvas canvas = new Canvas(WIDTH, HEIGHT);
-        root.getChildren().addAll(canvas, hpLabel, fireBallLabel, iceBallLabel);
+        root.getChildren().addAll(canvas, hpLabel, fireBallLabel, iceBallLabel,timeLabel);
 
 
         //Associate gc to the canvas to draw.
@@ -218,9 +221,10 @@ public class GameModel extends Application {
                     fps = calculateFPS(currentNanoTime);
                 }
 
-                if (lastSpawnTime == 0 || bulletBoxLastSpTime == 0){
+                if (lastSpawnTime == 0 || bulletBoxLastSpTime == 0 || timePerSecond == 0){
                     lastSpawnTime = currentNanoTime;
                     bulletBoxLastSpTime = currentNanoTime;
+                    timePerSecond = currentNanoTime;
                 }
                 else {
                     if (((currentNanoTime - lastSpawnTime) / 1000000000.0) > 20){
@@ -231,13 +235,23 @@ public class GameModel extends Application {
                         bulletBoxLastSpTime = currentNanoTime;
                         spawnItems();
                     }
-
+                    if (((currentNanoTime - timePerSecond) / 1000000000.0) > 1){
+                        second +=1;
+                        if(second >= 60){
+                            second = 0;
+                            minute +=1;
+                        }
+                        timePerSecond = currentNanoTime;
+                    }
                 }
                 tickAndRenderModel(currentNanoTime);
 
                 camera.setTranslateX(player1.getX());
                 camera.setTranslateY(player1.getY());
-
+                
+                timeLabel.setText(minute +":"+ (second));
+                timeLabel.setTranslateX(player1.getX());
+                timeLabel.setTranslateY(player1.getY() - 210);
                 hpLabel.setText("HP:" + player1.getHp());
                 hpLabel.setTranslateX(player1.getX() - 350);
                 hpLabel.setTranslateY(player1.getY() - 210);
@@ -249,10 +263,6 @@ public class GameModel extends Application {
                 iceBallLabel.setText("Ice Shards left: " + player1.getNumberIceBall());
                 iceBallLabel.setTranslateX(player1.getX() + 220);
                 iceBallLabel.setTranslateY(player1.getY() - 190);
-
-
-
-
             }
         }.start();
         gameStage.show();

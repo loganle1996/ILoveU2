@@ -30,7 +30,7 @@ public class Eagle extends Entity{
     public void render(GraphicsContext g, Sprite[] eagleSprite) {
         if(this.facing == 0){
 //            if(velX != 0){
-//               g.drawImage(eagleSprite[frame+5].getImage(), x, y, width, height); 
+//               g.drawImage(eagleSprite[frame+4].getImage(), x, y, width, height); 
 //            }
 //            else{
 //                g.drawImage(eagleSprite[4].getImage(), x, y, width, height); 
