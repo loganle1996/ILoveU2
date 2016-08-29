@@ -17,15 +17,15 @@ public class Trap1 extends Tile {
     private String trapDirection;
     Image imageLeft = new Image("fireTrapLeft.png");
     Image imageRight = new Image("fireTrapRight.png");
-    Image imageUp = new Image("fireTrapUp.png");
+    Image imageUp = new Image("spikeTrapUp.png");
     Image imageDown = new Image("fireTrapDown.png");
-    
+
     //Constructor
     public Trap1( int x, int y, int width, int height, boolean solid, Id id, TileHandler tileHandler, String type) {
         super(x, y, width, height, solid, id, tileHandler, type);
     }
-    
-    
+
+
     @Override
     public void render(GraphicsContext gc) {
         if(trapDirection.equalsIgnoreCase("left"))
@@ -40,7 +40,7 @@ public class Trap1 extends Tile {
 
     @Override
     public void tick() {
-        
+
     }
 
     public String getTrapDirection() {
@@ -50,5 +50,5 @@ public class Trap1 extends Tile {
     public void setTrapDirection(String trapDirection) {
         this.trapDirection = trapDirection;
     }
-    
+
 }
