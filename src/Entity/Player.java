@@ -260,6 +260,11 @@ public class Player extends Entity {
 
                         }
                     }
+                        
+                    if (this.intersectsExtraBounds(t) && this.intersectsTile(t))  {
+                            
+//                            System.out.println("intersecting extra bounds");
+                        } 
                     
                     if(this.intersectsBottomTile(t)){
                         y = t.getY() + height;
@@ -289,6 +294,7 @@ public class Player extends Entity {
             }
         }
     }
+    
     public void enemyCollidingChecking(){
         for(Entity en : entityHandler.getEntity()){
             if((en.getId() == Id.Goomba ||en.getId() == Id.GoombaBoss ||en.getId()== Id.Eagle) && en.isFreeze() == false){

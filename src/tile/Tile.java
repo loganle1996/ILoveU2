@@ -101,7 +101,7 @@ public abstract class Tile implements Cloneable{
         return new Rectangle2D(getX(), getY(), width, height);
     }
     public Rectangle2D getExtraBoundary(){
-        return new Rectangle2D(getX(), getY()-40, width, height);
+        return new Rectangle2D(getX(), getY()-20, width, height);
     }
     public Rectangle2D getTopBoundary(){
         return new Rectangle2D(this.getX() + 10,this.getY(),width-20,5);
@@ -131,6 +131,8 @@ public abstract class Tile implements Cloneable{
     public boolean intersectsBottomTile(Tile ti){
         return ti.getBottomBoundary().intersects(this.getBoundary());
     }
+    
+
 
     public String getType() {
         return type;

@@ -219,6 +219,10 @@ public abstract class Entity{
     public boolean intersectsBottomTile(Tile ti){
         return ti.getBottomBoundary().intersects(this.getBoundary());
     }
+    public boolean intersectsExtraBounds(Tile ti) {
+        return ti.getExtraBoundary().intersects(this.getBoundary());
+    }
+    
     // is intersected Entity
     public boolean intersectsEntity(Entity en){
         return en.getBoundary().intersects(this.getBoundary());

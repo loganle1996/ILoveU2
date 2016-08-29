@@ -59,8 +59,8 @@ public class WoodBridge extends Tile{
     }
     public void tileCollidingChecking(){
         for(Tile t: tileHandler.getTile()){
-            if(t.getId() == Id.wall){
-                if(!t.getType().equalsIgnoreCase("woodBridge")){
+            if(t.getId() == Id.wall && t != this){
+//                if(!t.getType().equalsIgnoreCase("woodBridge")){
                     if(this.intersectsRightTile(t)){
                         this.setIsMovingRight(true);
                         this.setIsMovingLeft(false);
@@ -69,7 +69,7 @@ public class WoodBridge extends Tile{
                         this.setIsMovingLeft(true);
                         this.setIsMovingRight(false);
                     }
-                }
+//                }
                 
             }
         }
