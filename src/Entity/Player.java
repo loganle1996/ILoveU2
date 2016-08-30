@@ -37,10 +37,11 @@ public class Player extends Entity {
     public void render(GraphicsContext g,Sprite[] playerSprite ) {
         if(this.facing == 0){
             if(isJumping() == false){
-                if(velX != 0){
+                if(isMovingLeft){
                     g.drawImage(playerSprite[frame+5].getImage(), x, y, width, height);
                 }
                 else{
+                    
                     g.drawImage(playerSprite[4].getImage(), x, y, width, height);
                 }
             }
@@ -50,7 +51,7 @@ public class Player extends Entity {
         }
         else if(this.facing == 1){
             if(this.isJumping()== false){
-                if(velX != 0){
+                if(isMovingRight){
                     g.drawImage(playerSprite[frame+1].getImage(), x, y, width, height);
                 }
                 else{
@@ -257,7 +258,9 @@ public class Player extends Entity {
                         if(t.getId() == Id.fireTrap){
                             hp -= 10;
                             SoundHandler.getInstance().playSound("player_hurt");
-
+                        }
+                        if(t.getType().equalsIgnoreCase("woodBridge") && this.getVelX() == 0){
+                            this.setVelX(this.getVelX() + t.getVelX());
                         }
                     }
                         

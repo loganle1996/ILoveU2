@@ -156,7 +156,7 @@ public class AIenemy extends Entity
         }
 }
     public void jump(){
-        if((this.jumping == false || this.jumping == true) && this.isFreeze() == false && this.isOnSlow() == true)
+        if((this.jumping == false) && this.isFreeze() == false && this.isOnSlow() == true)
         {
             this.setVelY(-3);
             this.setJumping(true);
@@ -187,7 +187,9 @@ public class AIenemy extends Entity
         for(Bullet bullet: bulletHandler.getBullets()){
             if(bullet.getId() == bulletType.fireBall){
                 if(this.foundDanger(bullet)){
-                    this.jump();
+                    if(this.isFreeze() == false){
+                        this.jump();
+                    }
                 }
             }
         }
