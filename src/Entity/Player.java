@@ -194,9 +194,9 @@ public class Player extends Entity {
         }
 
 
-        if(this.getHp() <= 0){
-            this.die();
-        }
+//        if(this.getHp() <= 0){
+//            this.die();
+//        }
 
         if (this.jumping) {
               velY += this.getGravity() / 10;
@@ -259,10 +259,6 @@ public class Player extends Entity {
                             SoundHandler.getInstance().playSound("player_hurt");
 
                         }
-//                        if(t.getType().equalsIgnoreCase("woodBridge") && this.getVelX() == 0){
-//                            this.setVelX(t.getVelX());
-//                            
-//                        }
                     }
                         
                     if (this.intersectsExtraBounds(t) && this.intersectsTile(t))  {
@@ -280,14 +276,15 @@ public class Player extends Entity {
                     }
                     if(this.intersectsRightTile(t)){
                         x = t.getX()+t.width;
+                        this.setVelX(0);
                         if(t.getId() == Id.fireTrap){
                             hp -= 10;
                             SoundHandler.getInstance().playSound("player_hurt");
-
                         }
                     }
                     if(this.intersectsLeftTile(t)){
                         x = t.getX()-t.width;
+                        this.setVelX(0);
                         if(t.getId() == Id.fireTrap){
                             hp -= 10;
                             SoundHandler.getInstance().playSound("player_hurt");

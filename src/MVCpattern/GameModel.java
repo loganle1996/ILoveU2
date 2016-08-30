@@ -249,7 +249,7 @@ public class GameModel extends Application {
                 camera.setTranslateX(player1.getX());
                 camera.setTranslateY(player1.getY());
                 
-                timeLabel.setText(minute +":"+ (second));
+                timeLabel.setText("Time: "+minute +":"+ (second));
                 timeLabel.setTranslateX(player1.getX());
                 timeLabel.setTranslateY(player1.getY() - 210);
                 hpLabel.setText("HP:" + player1.getHp());
@@ -307,7 +307,7 @@ public class GameModel extends Application {
     }
 
     public void getMapAndObjects(){
-        gameMap.getMapData1();
+        gameMap.getMapData2();
         gameMap.addAllObjectsToGameModel();
     }
     private void loadGraphicsAndObjects()
@@ -352,7 +352,7 @@ public class GameModel extends Application {
         mainStage = new Stage();
     }
     public void tickAndRenderModel(long currentime){
-        gc.clearRect(0, 0, WIDTH, HEIGHT);
+        gc.clearRect(0, 0, WIDTH+50, HEIGHT+50);
         gc.drawImage(Background, 0, 0, WIDTH, HEIGHT);
         this.TickModelGame(currentime);
         this.renderModelGame(gc);
