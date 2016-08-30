@@ -64,22 +64,21 @@ public class AIenemy extends Entity
         searchingEntities();
         searchingDanger();
         if(this.isJumping() == true){
-            if (lasttime == 0){
-                lasttime = currentime;
-            }
-            else {
-//                if (((currentime - lasttime) / 1000000000.0) > 0.2){
-//                    lasttime = currentime;
-//
-//                }
-
+            
                 if(velY <10){
-                    velY += 1;
+                    velY += this.getGravity() / 10;
                 }
                 else{
                     jumping = false;
                 }
-            }
+//            if (lasttime == 0){
+//                lasttime = currentime;
+//            }
+//            else {
+//                if (((currentime - lasttime) / 1000000000.0) > 0.2){
+//                    lasttime = currentime;
+//                }
+//            }
         }
         if(this.freeze == true){
             if(lastimeFreeze == 0){
@@ -137,36 +136,20 @@ public class AIenemy extends Entity
             if(t.getId() == Id.wall || t.getId() == Id.fireTrap){
                 if(this.intersectsTopTile(t)){
                     y = t.getY() - height;
-//                    if(t.getId() == Id.fireTrap){
-//                        hp -= 200;
-//                        this.jump();
-//                    }
                 }
                 if(this.intersectsBottomTile(t)){
                     y = t.getY() + height;
-//                    if(t.getId() == Id.fireTrap){
-//                        hp -= 200;
-//                        this.jump();
-//                    }
                 }
                 if(this.intersectsRightTile(t)){
                     this.setIsMovingRight(true);
                     this.setIsMovingLeft(false);
                     x = t.getX()+t.width;
-//                    if(t.getId() == Id.fireTrap){
-//                        hp -= 200;
-//                        jump();
-//                    }
                     this.jump();
                 }
                 if(this.intersectsLeftTile(t)){
                     this.setIsMovingLeft(true);
                     this.setIsMovingRight(false);
                     x = t.getX()-t.width;
-//                    if(t.getId() == Id.fireTrap){
-//                        hp -= 200;
-//                        jump();
-//                    }
                     this.jump();
                 }
             }
@@ -188,7 +171,7 @@ public class AIenemy extends Entity
         if (isFreeze() == true)
         {
             this.setJumping(true);
-            this.setVelY(0);
+//            this.setVelY(0);
         }
     }
     public void searchingEntities(){
@@ -240,11 +223,11 @@ public class AIenemy extends Entity
     @Override
         public void watchingAround(){
         if(facing == 0){
-            bigRectangle2D =  new Rectangle2D(this.getX()-20, this.getY()-200, 60, 200);
+            bigRectangle2D =  new Rectangle2D(this.getX()-20, this.getY()-50, 60, 140);
             smallRectangle2D = new Rectangle2D(this.getX()-100,this.getY(), 100, 40);
         }
         else if(facing == 1){
-            bigRectangle2D =  new Rectangle2D(this.getX(), this.getY()-200, 60, 200);
+            bigRectangle2D =  new Rectangle2D(this.getX(), this.getY()-50, 60, 140);
             smallRectangle2D = new Rectangle2D(this.getX(),this.getY(), 140, 40);
         }
         

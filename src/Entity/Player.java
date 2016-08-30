@@ -23,7 +23,7 @@ public class Player extends Entity {
     private static Player player = new Player(40, 40, true, Id.player, entityHandler);
     private BulletCache bulletCache = BulletCache.getInstance();
     int deltaTime = 0;
-
+    private int score = 0;
 
     private Player(int width, int height, boolean solid, Id id, EntityHandler entityHandler) {
         super(width, height, solid, id, entityHandler);
@@ -259,6 +259,10 @@ public class Player extends Entity {
                             SoundHandler.getInstance().playSound("player_hurt");
 
                         }
+//                        if(t.getType().equalsIgnoreCase("woodBridge") && this.getVelX() == 0){
+//                            this.setVelX(t.getVelX());
+//                            
+//                        }
                     }
                         
                     if (this.intersectsExtraBounds(t) && this.intersectsTile(t))  {
@@ -353,4 +357,12 @@ public class Player extends Entity {
         this.facing = 1;
     }
 
+    public int getScore() {
+        return score;
+    }
+
+    public void setScore(int score) {
+        this.score = score;
+    }
+    
 }

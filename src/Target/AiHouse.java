@@ -29,7 +29,7 @@ public class AiHouse {
     public TileHandler tileHandler = TileHandler.getInstance();
     public EntityHandler entityHandler = EntityHandler.getInstance();
     public Player player = Player.getInstance();
-    public double hp = 500;
+    public double hp = 2000;
     public GameMap gameMap = GameMap.getInstance();
     public AiHouse(double x, double y) {
         this.x = x;
