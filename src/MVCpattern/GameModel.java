@@ -144,8 +144,8 @@ public class GameModel{
         }
     };
 
-    public void setGameMap(GameMap gameMap) {
-        this.gameMap = gameMap;
+    public void setGameMap(String map) {
+        gameMap.chooseMap(map);
     }
 
     

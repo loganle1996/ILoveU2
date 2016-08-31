@@ -35,8 +35,8 @@ public class GameController {
     public void setEntityList(LinkedList entityList){
         gameModel.getEntityHandler().setEntity(entityList);
     }
-    public void chooseMap(GameMap gameMap){
-        gameModel.setGameMap(gameMap);
+    public void chooseMap(String map){
+        gameModel.setGameMap(map);
     }
     public void restartGame(){
         gameModel.gameMap.resetMap();

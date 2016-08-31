@@ -70,8 +70,8 @@ public class MainMenu extends Application{
         gameController.restartGame();
     }
     @FXML
-    private void chooseMap(GameMap gameMap){
-        gameController.chooseMap(gameMap);
+    private void chooseMap(String map){
+        gameController.chooseMap(map);
     }
     @FXML
     private void quitGame(ActionEvent event)
