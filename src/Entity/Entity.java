@@ -92,6 +92,7 @@ public abstract class Entity{
         this.numberFireball = 50;
         this.numberIceBall = 10;
         this.setHp(1000);
+        System.out.println("healandrefill succesfully");
     }
         
     public void setFollowSkill(Follow followSkill){
@@ -280,7 +281,9 @@ public abstract class Entity{
     public void die(){
         entityHandler.removeEntity(this);
     }
-
+    public void recover(){
+        entityHandler.addEntity(this);
+    }
     public double getHp() {
         return hp;
     }

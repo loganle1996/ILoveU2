@@ -8,6 +8,7 @@ package tile;
 import Entity.Id;
 import MVCpattern.GameModel;
 import MVCpattern.GameView;
+import Sound.SoundHandler;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
 
@@ -38,6 +39,40 @@ public class Wall3 extends Tile{
             this.die();
             System.out.println("XCoordinate: "+ this.getX());
         }
+        x += this.getVelX();
+        y += this.getVelY();
+        if (velY < 10) {
+            velY += 1;
+        }
+        tileCollidingChecking();
     }
-    
+    public void tileCollidingChecking(){
+        for(Tile t: tileHandler.getTile()){
+            if(t.solid == false){
+            }
+            else{
+                if(t.getId() == Id.wall || t.getId() == Id.fireTrap){
+                    if(this.intersectsTopTile(t)){
+                        y = t.getY() - height;
+                    }                  
+
+                    
+                    if(this.intersectsBottomTile(t)){
+                        y = t.getY() + height;
+                        if(t.getId() == Id.fireTrap){
+
+                        }
+                    }
+                    if(this.intersectsRightTile(t)){
+                        x = t.getX()+t.width;
+                        this.setVelX(0);
+
+                    }
+                    if(this.intersectsLeftTile(t)){
+                        x = t.getX()-t.width;
+                    }
+                }
+            }
+        }
+    }
 }

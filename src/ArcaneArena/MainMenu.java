@@ -8,6 +8,9 @@ package ArcaneArena;
 import MVCpattern.GameController;
 import MVCpattern.GameModel;
 import MVCpattern.GameView;
+import Map.GameMap;
+import javafx.application.Application;
+import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -30,73 +33,59 @@ import java.util.logging.Logger;
  *
  * @author owne
  */
-public class MainMenu implements Initializable {
-
+public class MainMenu extends Application{
+    public static Stage mainStage;
+    static Scene mainScene;
+    private GameController gameController;
+    public static GameModel gameModel;
+    private GameView gameView;
+    private static MainMenu mainMenu = new MainMenu();
     @FXML
-    private Button startButton;
-
-    @FXML
-    private Button howToPlayButton;
-
-    @FXML
-    private Button highScoresButton;
-
-    @FXML
-    private Button quitButton;
-
-    @FXML
-    private Label wouldYouKindlyTitle;
-
-    @FXML
-    private Label authorTitle;
-
-    @FXML
-    private Label versionLabel;
-
-    @FXML
-    private VBox menuVbox;
-
-    @FXML
-    private Pane menuScenePane;
-
-    @FXML
-    private Pane howToPlayPane;
-
-    @FXML
-    private Pane highScorePane;
-
-    public static void launchGame() {
-        GameModel model = new GameModel();
-        GameView view = new GameView();
-        GameController controller = new GameController(view, model);
-        controller.renderGameScene();
+    public  void loadGame() throws Exception{
+        gameModel = new GameModel();
+        gameView = new GameView();
+        gameController = new GameController(gameView, gameModel);
+        gameController.renderGameScene();
+//        mainStage.close();
     }
 
     @Override
-    public void initialize(URL location, ResourceBundle resources) {
+    public void start(Stage primaryStage) throws Exception {
+        
+        mainStage = new Stage();
+        Parent root = FXMLLoader.load(getClass().getResource("MenuScene.fxml"));
+        mainScene = new Scene(root);
 
+        Platform.setImplicitExit(false);
+        mainStage.setScene(mainScene);
+        mainStage.setTitle("Arcane Arena");
+        mainStage.show();
+
+        mainStage.setOnCloseRequest(e -> {
+            Platform.exit();
+            System.exit(0);
+        });
     }
-
+    private void restartMap(){
+        gameController.restartGame();
+    }
     @FXML
-    private void handleStartButtonAction(ActionEvent event) throws IOException {
-
-            Stage stage = (Stage) startButton.getScene().getWindow();
-            Parent root = null;
-
-            if (event.getSource() == startButton) {
-                try {
-                    // Get the reference to the button's stage
-                    root = FXMLLoader.load(getClass().getResource("GameScene.fxml"));
-                } catch (IOException ex) {
-                    Logger.getLogger(MainMenu.class.getName()).log(Level.SEVERE, null, ex);
-                }
-
-            }
-            // Create a new scene with root.
-            Scene scene = new Scene(root);
-            stage.setScene(scene);
-            stage.show();
-
+    private void chooseMap(GameMap gameMap){
+        gameController.chooseMap(gameMap);
     }
-
+    @FXML
+    private void quitGame(ActionEvent event)
+    {
+        Platform.exit();
+        System.exit(0);
+    }
+    public static void main(String[] args) {
+        launch(args);
+    }
+    public static MainMenu getInstance(){
+        return mainMenu;
+    }
+    public static GameModel getGameModel(){
+        return gameModel;
+    }
 }

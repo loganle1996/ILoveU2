@@ -7,11 +7,13 @@ package Entity;
 
 import Bullet.*;
 import GraphicsforAnimation.Sprite;
+import InfoBox.AlertBox;
 import Map.GameMap;
 import Sound.SoundHandler;
 import Target.AiHouse;
 import Target.HouseHandler;
 import javafx.scene.canvas.GraphicsContext;
+import javafx.scene.control.Alert;
 import tile.Tile;
 
 /**
@@ -24,6 +26,7 @@ public class Player extends Entity {
     private BulletCache bulletCache = BulletCache.getInstance();
     int deltaTime = 0;
     private int score = 0;
+    private AlertBox alertBox = new AlertBox();
 
     private Player(int width, int height, boolean solid, Id id, EntityHandler entityHandler) {
         super(width, height, solid, id, entityHandler);
@@ -195,9 +198,10 @@ public class Player extends Entity {
         }
 
 
-//        if(this.getHp() <= 0){
-//            this.die();
-//        }
+        if(this.getHp() <= 0){
+            this.die();
+            alertBox.display("Restart to Menu","Would you like to restart the game?");
+        }
 
         if (this.jumping) {
               velY += this.getGravity() / 10;

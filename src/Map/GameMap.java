@@ -55,7 +55,7 @@ public class GameMap
     //contructor
     private GameMap(){
     }
-    public void getMapData1()
+    public void getMapData2()
     {
         map = new String [][]{
             {"x","x","x","x","x","x","x","x","x","x","x","x","x","x","x","x","x","x","x","x","x","x","x","x","x","x","x","x","x","x","x","x","x","x","x","x","x","x","x","x"},
@@ -78,7 +78,7 @@ public class GameMap
             {"x"," "," "," "," "," "," "," "," "," ","-","-"," "," "," "," "," ","m","m"," "," "," "," "," "," "," "," "," "," "," "," "," "," "," "," "," ","m","m","m","x"},
             {"x"," "," "," "," "," "," "," "," "," "," "," "," "," "," "," "," "," "," "," "," "," "," "," "," "," "," "," "," "," "," "," "," "," "," ","F"," "," "," ","x"},
             {"x"," "," "," "," "," "," "," "," "," "," "," "," "," "," "," "," "," "," "," "," "," "," "," "," "," "," "," "," "," "," "," "," ","m","m","m"," "," "," ","x"},
-            {"x"," "," ","m"," "," "," "," "," ","m","m"," "," "," "," ","i","P"," "," "," "," ","i"," "," "," "," "," "," "," "," "," "," ","m"," "," "," "," "," "," ","x"},
+            {"x"," "," ","m"," "," "," "," "," ","m","m"," "," "," "," ","i"," "," "," "," "," ","i"," "," "," "," "," "," "," "," "," "," ","m"," "," "," "," "," "," ","x"},
             {"x"," "," "," "," "," "," "," "," "," "," "," "," "," "," "," ","m","m","m","m","m"," "," "," "," ","F"," "," "," "," "," "," "," "," "," "," "," "," "," ","x"},
             {"x","i"," "," "," "," ","-","-"," "," "," "," "," "," "," "," "," "," "," "," "," "," "," ","m","m","m","m","m","m","m","m","m"," "," "," "," ","m","m","m","x"},
             {"x"," "," "," "," "," "," "," "," "," "," "," "," "," "," "," "," "," "," "," "," "," "," "," "," "," "," "," "," "," "," "," "," "," "," "," "," "," "," ","x"},
@@ -102,7 +102,7 @@ public class GameMap
         };
     }
 
-    public void getMapData2()
+    public void getMapData1()
     {
         map = new String [][]{
           {"x","x","x","x","x","x","x","x","x","x","x","x","x","x","x","x","x","x","x","x","x","x","x","x","x","x","x","x","x","x","x","x","x","x","x","x","x","x","x","x"},
@@ -248,6 +248,17 @@ public class GameMap
 
     public static GameMap getInstance(){
         return gameMap;
+    }
+    public void emptyMap(){
+        entityHandler.emptyHandler();
+        tileHandler.emptyHandler();
+        houseHandler.emptyHandler();
+        itemHandler.removeAllItems();
+    }
+    public void resetMap(){
+        emptyMap();
+        player1.healAndRefill();
+        this.addAllObjectsToGameModel();
     }
     public void changeMap(){
         entityHandler.emptyHandler();

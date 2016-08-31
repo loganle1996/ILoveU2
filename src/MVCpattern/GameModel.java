@@ -15,16 +15,11 @@ import GraphicsforAnimation.SpriteSheet;
 import Items.*;
 import Map.GameMap;
 import Sound.SoundHandler;
-import Target.AiHouse;
+import Target.AiHouse;  
 import Target.HouseHandler;
 import javafx.animation.AnimationTimer;
-import javafx.application.Application;
 import javafx.application.Platform;
-import javafx.event.ActionEvent;
-import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
 import javafx.scene.Group;
-import javafx.scene.Parent;
 import javafx.scene.PerspectiveCamera;
 import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
@@ -44,7 +39,7 @@ import java.util.Random;
  *
  * @author owne
  */
-public class GameModel extends Application {
+public class GameModel{
     static Scene mainScene;
     static GraphicsContext gc;
     public static int WIDTH = 1600;
@@ -83,7 +78,7 @@ public class GameModel extends Application {
     public Label iceBallLabel = new Label();
     public Label timeLabel = new Label();
 
-    public static GameMap gameMap;
+    public GameMap gameMap = GameMap.getInstance();
     public BulletCache bulletCache = BulletCache.getInstance();
     public ItemCache itemCache = ItemCache.getInstance();
 
@@ -93,10 +88,70 @@ public class GameModel extends Application {
     int frames = 0;
     long startTime = 0;
     double fps = 0.0;
+    AnimationTimer animation = new AnimationTimer()
+    {
+        @Override
+        public void handle(long currentNanoTime)
+        {
+//
+//                if (showFPS)
+//                {
+//                    fps = calculateFPS(currentNanoTime);
+//                }
 
+            if (lastSpawnTime == 0 || bulletBoxLastSpTime == 0 || timePerSecond == 0){
+                lastSpawnTime = currentNanoTime;
+                bulletBoxLastSpTime = currentNanoTime;
+                timePerSecond = currentNanoTime;
+            }
+            else {
+                if (((currentNanoTime - lastSpawnTime) / 1000000000.0) > 20){
+                    lastSpawnTime = currentNanoTime;
+                    spawnEnemy();
+                }
+                if (((currentNanoTime - bulletBoxLastSpTime) / 1000000000.0) > 6){
+                    bulletBoxLastSpTime = currentNanoTime;
+                    spawnItems();
+                }
+                if (((currentNanoTime - timePerSecond) / 1000000000.0) > 1){
+                    second +=1;
+                    if(second >= 60){
+                        second = 0;
+                        minute +=1;
+                    }
+                    timePerSecond = currentNanoTime;
+                }
+            }
+            tickAndRenderModel(currentNanoTime);
 
+            camera.setTranslateX(player1.getX());
+            camera.setTranslateY(player1.getY());
+
+            timeLabel.setText("Time: "+minute +":"+ (second));
+            timeLabel.setTranslateX(player1.getX());
+            timeLabel.setTranslateY(player1.getY() - 210);
+            hpLabel.setText("HP:" + player1.getHp());
+            hpLabel.setTranslateX(player1.getX() - 350);
+            hpLabel.setTranslateY(player1.getY() - 210);
+
+            fireBallLabel.setText("Fireballs left: " + player1.getNumberFireball());
+            fireBallLabel.setTranslateX(player1.getX() + 220);
+            fireBallLabel.setTranslateY(player1.getY() - 210);
+
+            iceBallLabel.setText("Ice Shards left: " + player1.getNumberIceBall());
+            iceBallLabel.setTranslateX(player1.getX() + 220);
+            iceBallLabel.setTranslateY(player1.getY() - 190);
+        }
+    };
+
+    public void setGameMap(GameMap gameMap) {
+        this.gameMap = gameMap;
+    }
+
+    
     public GameModel(){
-
+        //By default, this game will start with map1
+        gameMap.getMapData1();
     }
 
     public void addTile(Tile ti){
@@ -142,41 +197,8 @@ public class GameModel extends Application {
         bulletHandler.renderBullets(g);
         itemHandler.renderItems(g);
     }
-
-    @Override
-    public void start(Stage stage) throws Exception {
-
-        mainStage = new Stage();
-
-        Parent root = FXMLLoader.load(getClass().getResource("MenuScene.fxml"));
-        mainScene = new Scene(root);
-
-        Platform.setImplicitExit(false);
-        mainStage.setScene(mainScene);
-        mainStage.setTitle("Arcane Arena");
-        mainStage.show();
-
-        gameMap = GameMap.getInstance();
-
-        mainStage.setOnCloseRequest(e -> {
-            Platform.exit();
-            System.exit(0);
-        });
-
-    }
-
-    @FXML
-    private void quitGame(ActionEvent event)
-    {
-      Platform.exit();
-      System.exit(0);
-    }
-
-
-    @FXML
-    private void loadGame(ActionEvent event) throws Exception {
-
-        mainStage.close();
+    public void main(String[] args) {
+//        mainStage.close();
 
         //Create a camera
         Stage gameStage = new Stage();
@@ -205,109 +227,56 @@ public class GameModel extends Application {
         //Associate gc to the canvas to draw.
         gc = canvas.getGraphicsContext2D();
         //getMapAndObjects
-        getMapAndObjects();
+        addObjects();
         //Get all images from all resources.
         loadGraphicsAndObjects();
         // main scene listens for keyevent
         prepareKeyEvent(mainScene);
-        new AnimationTimer()
-        {
-            @Override
-            public void handle(long currentNanoTime)
-            {
 
-                if (showFPS)
-                {
-                    fps = calculateFPS(currentNanoTime);
-                }
-
-                if (lastSpawnTime == 0 || bulletBoxLastSpTime == 0 || timePerSecond == 0){
-                    lastSpawnTime = currentNanoTime;
-                    bulletBoxLastSpTime = currentNanoTime;
-                    timePerSecond = currentNanoTime;
-                }
-                else {
-                    if (((currentNanoTime - lastSpawnTime) / 1000000000.0) > 20){
-                        lastSpawnTime = currentNanoTime;
-                        spawnEnemy();
-                    }
-                    if (((currentNanoTime - bulletBoxLastSpTime) / 1000000000.0) > 6){
-                        bulletBoxLastSpTime = currentNanoTime;
-                        spawnItems();
-                    }
-                    if (((currentNanoTime - timePerSecond) / 1000000000.0) > 1){
-                        second +=1;
-                        if(second >= 60){
-                            second = 0;
-                            minute +=1;
-                        }
-                        timePerSecond = currentNanoTime;
-                    }
-                }
-                tickAndRenderModel(currentNanoTime);
-
-                camera.setTranslateX(player1.getX());
-                camera.setTranslateY(player1.getY());
-                
-                timeLabel.setText("Time: "+minute +":"+ (second));
-                timeLabel.setTranslateX(player1.getX());
-                timeLabel.setTranslateY(player1.getY() - 210);
-                hpLabel.setText("HP:" + player1.getHp());
-                hpLabel.setTranslateX(player1.getX() - 350);
-                hpLabel.setTranslateY(player1.getY() - 210);
-
-                fireBallLabel.setText("Fireballs left: " + player1.getNumberFireball());
-                fireBallLabel.setTranslateX(player1.getX() + 220);
-                fireBallLabel.setTranslateY(player1.getY() - 210);
-
-                iceBallLabel.setText("Ice Shards left: " + player1.getNumberIceBall());
-                iceBallLabel.setTranslateX(player1.getX() + 220);
-                iceBallLabel.setTranslateY(player1.getY() - 190);
-            }
-        }.start();
+        animation.start();
         gameStage.show();
 
         gameStage.setOnCloseRequest(e -> {
-            Platform.exit();
-            System.exit(0);
+            animation.stop();
+            gameMap.emptyMap();
+//            Platform.exit();
+//            System.exit(0);
         });
-
     }
-
-    private double calculateFPS(long timePassed)
-    {
-
-        // To measure framerate, we need to know:
-        // How many frames have passed
-        // How much time have passed
-
-        // If this tick is the first tick of the game, do some setup
-       if (firstTick)
-       {
-           frames = 0;
-           startTime = timePassed;
-           firstTick = false;
-           return 0.0;
-       }
-
-       // Increment the number of frames that have passed
-       frames++;
-
-        // 0.25 -> We update the FPS count each 0.25 seconds.
-        // FPS = frames per second = frames / second
-
-        if (timePassed - startTime > 0.25 && frames > 10)
-        {
-            fps = (double) frames / ((timePassed - startTime) / 1000000000.0);
-            startTime = timePassed;
-            frames = 0;
-        }
-
-        return fps;
-    }
-
-    public void getMapAndObjects(){
-        gameMap.getMapData2();
+//
+//    private double calculateFPS(long timePassed)
+//    {
+//
+//        // To measure framerate, we need to know:
+//        // How many frames have passed
+//        // How much time have passed
+//
+//        // If this tick is the first tick of the game, do some setup
+//       if (firstTick)
+//       {
+//           frames = 0;
+//           startTime = timePassed;
+//           firstTick = false;
+//           return 0.0;
+//       }
+//
+//       // Increment the number of frames that have passed
+//       frames++;
+//
+//        // 0.25 -> We update the FPS count each 0.25 seconds.
+//        // FPS = frames per second = frames / second
+//
+//        if (timePassed - startTime > 0.25 && frames > 10)
+//        {
+//            fps = (double) frames / ((timePassed - startTime) / 1000000000.0);
+//            startTime = timePassed;
+//            frames = 0;
+//        }
+//
+//        return fps;
+//    }
+//
+    public void addObjects(){
         gameMap.addAllObjectsToGameModel();
     }
     private void loadGraphicsAndObjects()
@@ -346,10 +315,6 @@ public class GameModel extends Application {
         itemCache.loadCache();
 
         SoundHandler.getInstance().loadAllSounds();
-    }
-    public static void main(String[] args) {
-        launch(args);
-        mainStage = new Stage();
     }
     public void tickAndRenderModel(long currentime){
         gc.clearRect(0, 0, WIDTH+50, HEIGHT+50);
@@ -496,5 +461,8 @@ public class GameModel extends Application {
     public void display(){
         String[] args = null;
         main(args);
+    }
+    public AnimationTimer getAnimationTimer(){
+        return animation;
     }
 }

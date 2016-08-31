@@ -17,6 +17,7 @@ import tile.Tile;
 public class HouseHandler {
     LinkedList<AiHouse> aiHouses = new LinkedList<>();
     LinkedList<AiHouse> copiedHouse;
+    LinkedList<AiHouse> copiedHouse2;
     private static HouseHandler houseHandler = new HouseHandler();
     
     private HouseHandler(){
@@ -29,8 +30,8 @@ public class HouseHandler {
 
     public void emptyHandler()
     {
-        copiedHouse = new LinkedList<>(aiHouses);
-        for(AiHouse ai: copiedHouse)
+        copiedHouse2 = new LinkedList<>(aiHouses);
+        for(AiHouse ai: copiedHouse2)
         {
             copiedHouse.remove(ai);
         }

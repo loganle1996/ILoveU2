@@ -5,6 +5,7 @@
  */
 package MVCpattern;
 
+import Map.GameMap;
 import java.util.LinkedList;
 
 /**
@@ -33,6 +34,12 @@ public class GameController {
     }
     public void setEntityList(LinkedList entityList){
         gameModel.getEntityHandler().setEntity(entityList);
+    }
+    public void chooseMap(GameMap gameMap){
+        gameModel.setGameMap(gameMap);
+    }
+    public void restartGame(){
+        gameModel.gameMap.resetMap();
     }
     public void renderGameScene(){
         //display all game graphics
