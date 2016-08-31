@@ -54,7 +54,9 @@ public class GameMap
     ItemHandler  itemHandler = ItemHandler.getInstance();
     //contructor
     private GameMap(){
+
     }
+
     public void getMapData2()
     {
         map = new String [][]{

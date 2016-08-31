@@ -14,20 +14,14 @@ import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
-import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
-import javafx.scene.control.Label;
-import javafx.scene.layout.Pane;
-import javafx.scene.layout.VBox;
+import javafx.scene.control.ChoiceDialog;
 import javafx.stage.Stage;
 
-import java.io.IOException;
-import java.net.URL;
-import java.util.ResourceBundle;
-import java.util.logging.Level;
-import java.util.logging.Logger;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Optional;
 
 /**
  *
@@ -39,19 +33,25 @@ public class MainMenu extends Application{
     private GameController gameController;
     public static GameModel gameModel;
     private GameView gameView;
+    private GameMap gameMap;
+
     private static MainMenu mainMenu = new MainMenu();
     @FXML
-    public  void loadGame() throws Exception{
+    public void loadGame() throws Exception{
+
         gameModel = new GameModel();
         gameView = new GameView();
         gameController = new GameController(gameView, gameModel);
+
+        mapSelection();
+
         gameController.renderGameScene();
 //        mainStage.close();
     }
 
     @Override
     public void start(Stage primaryStage) throws Exception {
-        
+
         mainStage = new Stage();
         Parent root = FXMLLoader.load(getClass().getResource("MenuScene.fxml"));
         mainScene = new Scene(root);
@@ -69,10 +69,44 @@ public class MainMenu extends Application{
     private void restartMap(){
         gameController.restartGame();
     }
-    @FXML
-    private void chooseMap(String map){
-        gameController.chooseMap(map);
+
+    private void mapSelection()
+    {
+        String mapName = "";
+
+        List<String> choices = new ArrayList<>();
+
+        choices.add("Map 1");
+        choices.add("Map 2");
+
+        ChoiceDialog<String> dialog = new ChoiceDialog<>("Map 1", choices);
+        dialog.setTitle("Map Selection");
+        dialog.setHeaderText("Please select what map you want?");
+        dialog.setContentText("Choose your map: ");
+
+        // Traditional way to get the response value.
+        Optional<String> result = dialog.showAndWait();
+
+        if (result.isPresent())
+        {
+            mapName = result.get();
+        }
+        switch (mapName)
+        {
+            case "Map 1":
+                gameController.chooseMap("map1");
+                break;
+
+            case "Map 2":
+                gameController.chooseMap("map2");
+                break;
+
+            default:
+                gameController.chooseMap("map1");
+                break;
+        }
     }
+
     @FXML
     private void quitGame(ActionEvent event)
     {

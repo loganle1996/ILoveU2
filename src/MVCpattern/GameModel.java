@@ -15,10 +15,9 @@ import GraphicsforAnimation.SpriteSheet;
 import Items.*;
 import Map.GameMap;
 import Sound.SoundHandler;
-import Target.AiHouse;  
+import Target.AiHouse;
 import Target.HouseHandler;
 import javafx.animation.AnimationTimer;
-import javafx.application.Platform;
 import javafx.scene.Group;
 import javafx.scene.PerspectiveCamera;
 import javafx.scene.Scene;
@@ -52,8 +51,6 @@ public class GameModel{
     public Sprite playerSprite [] = new Sprite[8];
     public Sprite eagleSprite [] = new Sprite[8];
     public Sprite crocodileBoss[] = new Sprite[1];
-
-
 
     public Image imageLeft,imageRight,iceBallImage;
     public EntityHandler entityHandler = EntityHandler.getInstance();
@@ -93,11 +90,11 @@ public class GameModel{
         @Override
         public void handle(long currentNanoTime)
         {
-//
-//                if (showFPS)
-//                {
-//                    fps = calculateFPS(currentNanoTime);
-//                }
+
+            if (showFPS)
+               {
+                   fps = calculateFPS(currentNanoTime);
+               }
 
             if (lastSpawnTime == 0 || bulletBoxLastSpTime == 0 || timePerSecond == 0){
                 lastSpawnTime = currentNanoTime;
@@ -148,10 +145,9 @@ public class GameModel{
         gameMap.chooseMap(map);
     }
 
-    
     public GameModel(){
         //By default, this game will start with map1
-        gameMap.getMapData1();
+//        gameMap.getMapData1();
     }
 
     public void addTile(Tile ti){
@@ -223,7 +219,6 @@ public class GameModel{
         Canvas canvas = new Canvas(WIDTH, HEIGHT);
         root.getChildren().addAll(canvas, hpLabel, fireBallLabel, iceBallLabel,timeLabel);
 
-
         //Associate gc to the canvas to draw.
         gc = canvas.getGraphicsContext2D();
         //getMapAndObjects
@@ -244,37 +239,37 @@ public class GameModel{
         });
     }
 //
-//    private double calculateFPS(long timePassed)
-//    {
-//
-//        // To measure framerate, we need to know:
-//        // How many frames have passed
-//        // How much time have passed
-//
-//        // If this tick is the first tick of the game, do some setup
-//       if (firstTick)
-//       {
-//           frames = 0;
-//           startTime = timePassed;
-//           firstTick = false;
-//           return 0.0;
-//       }
-//
-//       // Increment the number of frames that have passed
-//       frames++;
-//
-//        // 0.25 -> We update the FPS count each 0.25 seconds.
-//        // FPS = frames per second = frames / second
-//
-//        if (timePassed - startTime > 0.25 && frames > 10)
-//        {
-//            fps = (double) frames / ((timePassed - startTime) / 1000000000.0);
-//            startTime = timePassed;
-//            frames = 0;
-//        }
-//
-//        return fps;
-//    }
+   private double calculateFPS(long timePassed)
+   {
+
+       // To measure framerate, we need to know:
+       // How many frames have passed
+       // How much time have passed
+
+       // If this tick is the first tick of the game, do some setup
+      if (firstTick)
+      {
+          frames = 0;
+          startTime = timePassed;
+          firstTick = false;
+          return 0.0;
+      }
+
+      // Increment the number of frames that have passed
+      frames++;
+
+       // 0.25 -> We update the FPS count each 0.25 seconds.
+       // FPS = frames per second = frames / second
+
+       if (timePassed - startTime > 0.25 && frames > 10)
+       {
+           fps = (double) frames / ((timePassed - startTime) / 1000000000.0);
+           startTime = timePassed;
+           frames = 0;
+       }
+
+       return fps;
+   }
 //
     public void addObjects(){
         gameMap.addAllObjectsToGameModel();
@@ -326,11 +321,11 @@ public class GameModel{
 
     public void spawnEnemy()
     {
-        if(houseHandler.getAiHouses().size() <= 7){
-            for(AiHouse aiHouse: houseHandler.getAiHouses()){
-            entityHandler.addEntity(new AIenemy((int)aiHouse.getX(), (int)aiHouse.getY(), 40, 40, true, Id.Goomba, entityHandler));
-            }
-        }
+      if(houseHandler.getAiHouses().size() <= 7){
+          for(AiHouse aiHouse: houseHandler.getAiHouses()){
+          entityHandler.addEntity(new AIenemy((int)aiHouse.getX(), (int)aiHouse.getY(), 40, 40, true, Id.Goomba, entityHandler));
+          }
+      }
 
     }
     public void spawnItems(){
@@ -342,7 +337,7 @@ public class GameModel{
         WaterRune randomWaterRune = (WaterRune) itemCache.getItem("waterRune");
         EarthRune randomEarthRune = (EarthRune) itemCache.getItem("earthRune");
 
-        Integer itemIndex = random.nextInt(3);
+        Integer itemIndex = random.nextInt(4);
 
         switch (itemIndex)
         {
@@ -376,7 +371,7 @@ public class GameModel{
         mainScene.setOnKeyPressed(event -> {
             //currentlyActiveKeys.add(event.getCode().toString());
             copiedEntity = new LinkedList<Entity>(entityHandler.getEntity());
-  
+
             for(Entity en: copiedEntity){
                 if(en.getId() == Id.player){
 
@@ -391,7 +386,6 @@ public class GameModel{
                                 SoundHandler.getInstance().playSound("jump");
                             }
 
-                            
                             break;
                         case K:
                             if (en.shootable == true)
