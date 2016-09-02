@@ -49,7 +49,7 @@ public class EarthRune extends Item{
             if(t.solid == false){
             }
             else{
-                if(t.getId() == Id.wall || t.getId() == Id.fireTrap){
+                if(t.getId() == Id.wall){
                     if(this.intersectsTopTile(t)){
                         y = t.getY() - height;
                     }

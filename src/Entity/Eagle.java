@@ -114,34 +114,22 @@ public class Eagle extends Entity{
     }
     public void tileCollidingChecking(){
         for(Tile t: tileHandler.getTile()){
-            if((t.getId() == Id.wall || t.getId() == Id.fireTrap) && t.getType().equalsIgnoreCase("wall1")){
+            if((t.getId() == Id.wall ) && t.getType().equalsIgnoreCase("wall1")){
                 if(this.intersectsTopTile(t)){
                     y = t.getY() - height;
-                    if(t.getId() == Id.fireTrap){
-                        hp -= 200;
-                    }
                 }
                 if(this.intersectsBottomTile(t)){
                     y = t.getY() + height;
-                    if(t.getId() == Id.fireTrap){
-                        hp -= 200;
-                    }
                 }
                 if(this.intersectsRightTile(t)){
                     this.setIsMovingRight(true);
                     this.setIsMovingLeft(false);
                     x = t.getX()+t.width;
-                    if(t.getId() == Id.fireTrap){
-                        hp -= 200;
-                    }
                 }
                 if(this.intersectsLeftTile(t)){
                     this.setIsMovingLeft(true);
                     this.setIsMovingRight(false);
                     x = t.getX()-t.width;
-                    if(t.getId() == Id.fireTrap){
-                        hp -= 200;
-                    }
                 }
             }
         }

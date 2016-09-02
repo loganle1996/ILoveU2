@@ -41,7 +41,7 @@ public class Dwall2 extends  Tile {
             if(t.solid == false){
             }
             else{
-                if(t.getId() == Id.wall || t.getId() == Id.fireTrap){
+                if(t.getId() == Id.wall){
                     if(this.intersectsTopTile(t)){
                         y = t.getY() - height;
                     }
@@ -49,9 +49,6 @@ public class Dwall2 extends  Tile {
 
                     if(this.intersectsBottomTile(t)){
                         y = t.getY() + height;
-                        if(t.getId() == Id.fireTrap){
-
-                        }
                     }
                     if(this.intersectsRightTile(t)){
                         x = t.getX()+t.width;

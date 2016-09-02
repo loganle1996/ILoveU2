@@ -13,14 +13,18 @@ import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
 import tile.Tile;
 
+import java.util.LinkedList;
+
 /**
  *
  * @author khoinguyen
  */
 public class FireBall extends Bullet{
+    private LinkedList<Tile> copiedTile;
     public FireBall(double x, double y,BulletHandler bulletHandler,Boolean flyingLeft) {
         super(x, y,bulletHandler,flyingLeft);
         this.setId(bulletType.fireBall);
+
     }
 
     public FireBall(BulletHandler bulletHandler, bulletType id) {
@@ -50,15 +54,21 @@ public class FireBall extends Bullet{
 
     }
     public void tileCollidingChecking(){
-        for(Tile t: tileHandler.getTile())  {
+        copiedTile = new LinkedList<>(tileHandler.getTile());
+        for(Tile t: copiedTile)  {
             if(t.solid == false){
             }
             else if(t.getId() == Id.wall){
                 if(this.intersectsTile(t)){
-                    if(t.getType().equalsIgnoreCase("wall3") || t.getType().equalsIgnoreCase("dWall2")){
-                        t.setHp(t.getHp()-200);
+                    if(t.getType().equalsIgnoreCase("wall3")){
+                        t.die();
                     }
-                    this.disappear();
+                    if(t.getType().equalsIgnoreCase("dWall2")){
+                        t.setHp(t.getHp() -200);
+                    }
+                    if(!t.getType().equalsIgnoreCase("wall3")){
+                        this.disappear();
+                    }
                 }
             }
         }

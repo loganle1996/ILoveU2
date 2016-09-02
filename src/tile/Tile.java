@@ -7,6 +7,7 @@ package tile;
 
 
 
+import Entity.EntityHandler;
 import MVCpattern.GameModel;
 import Entity.Id;
 import javafx.geometry.Rectangle2D;
@@ -21,13 +22,15 @@ public abstract class Tile implements Cloneable{
     public int x, y;
     public int width = 40, height = 40;
     public GameModel gameModel;
-    TileHandler tileHandler = TileHandler.getInstance();
+    public TileHandler tileHandler = TileHandler.getInstance();
+    public EntityHandler entityHandler = EntityHandler.getInstance();
     public String type;
     private double hp = 1000;
     public boolean solid;
     public int velX,velY;
     public Id id;
     public boolean isAddedGameModel = true;
+    public String direction;
 //    public Image image; //= new Image(imagePath);
     
     public Tile(int x, int y, int width, int height, boolean solid,Id id,TileHandler tileHandler,String type) {
@@ -179,7 +182,12 @@ public abstract class Tile implements Cloneable{
     public void setIsAddedGameModel(boolean isAddedGameModel) {
         this.isAddedGameModel = isAddedGameModel;
     }
-    
 
+    public String getDirection() {
+        return direction;
+    }
 
+    public void setTrapDirection(String Direction) {
+        this.direction = Direction;
+    }
 }

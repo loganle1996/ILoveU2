@@ -38,11 +38,6 @@ public class Wall3 extends Tile{
         if(this.getHp() <= 0.0){
             this.die();
         }
-        x += this.getVelX();
-        y += this.getVelY();
-        if (velY < 10) {
-            velY += 1;
-        }
         tileCollidingChecking();
     }
     public void tileCollidingChecking(){
@@ -50,7 +45,7 @@ public class Wall3 extends Tile{
             if(t.solid == false){
             }
             else{
-                if(t.getId() == Id.wall || t.getId() == Id.fireTrap){
+                if(t.getId() == Id.wall){
                     if(this.intersectsTopTile(t)){
                         y = t.getY() - height;
                     }                  
@@ -58,9 +53,6 @@ public class Wall3 extends Tile{
                     
                     if(this.intersectsBottomTile(t)){
                         y = t.getY() + height;
-                        if(t.getId() == Id.fireTrap){
-
-                        }
                     }
                     if(this.intersectsRightTile(t)){
                         x = t.getX()+t.width;

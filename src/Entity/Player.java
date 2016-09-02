@@ -16,6 +16,8 @@ import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.control.Alert;
 import tile.Tile;
 
+import java.util.LinkedList;
+
 /**
  *
  * @author owne
@@ -28,6 +30,7 @@ public class Player extends Entity {
     private int score = 0;
     private AlertBox alertBox = new AlertBox();
     public double frameDelay2 =0;
+    private LinkedList<Tile> copiedTile;
 
     private Player(int width, int height, boolean solid, Id id, EntityHandler entityHandler) {
         super(width, height, solid, id, entityHandler);
@@ -314,7 +317,8 @@ public class Player extends Entity {
     }
     public void tileCollidingChecking(){
         isSwimming = false;
-        for(Tile t: tileHandler.getTile()){
+        copiedTile = new LinkedList<>(tileHandler.getTile());
+        for(Tile t: copiedTile){
             if(t.solid == false){
                 if(t.getType().equalsIgnoreCase("water")){
                     if(this.intersectsTile(t)){
@@ -323,14 +327,23 @@ public class Player extends Entity {
                 }
             }
             else{
-                if(t.getId() == Id.wall || t.getId() == Id.fireTrap){
+                if(t.getId() == Id.wall){
                     if(this.intersectsTopTile(t)){
                         y = t.getY() - height;
                         this.setVelY(0.1);
                         this.setJumping(false);
-                        if(t.getId() == Id.fireTrap){
-                            hp -= 10;
+                        if(t.getType().equalsIgnoreCase("trap1")){
+                            if((t.getDirection().equalsIgnoreCase("Down"))){
+                                this.setHp(this.getHp()-200);
+                                t.die();
+                            }
+                            else{
+                                this.setHp(this.getHp() - 10);
+                            }
                             SoundHandler.getInstance().playSound("player_hurt");
+                        }
+                        else if(t.getType().equalsIgnoreCase("fireTrap")){
+                            this.setHp(this.getHp() - 30);
                         }
                         if(t.getType().equalsIgnoreCase("woodBridge") && this.getVelX() == 0){
                             this.setVelX(this.getVelX() + t.getVelX());
@@ -339,25 +352,52 @@ public class Player extends Entity {
 
                     if(this.intersectsBottomTile(t)){
                         y = t.getY() + height;
-                        if(t.getId() == Id.fireTrap){
-                            hp -= 10;
+                        if(t.getType().equalsIgnoreCase("trap1")){
+                            if((t.getDirection().equalsIgnoreCase("Down"))){
+                                this.setHp(this.getHp()-200);
+                                t.die();
+                            }
+                            else{
+                                this.setHp(this.getHp() - 10);
+                            }
                             SoundHandler.getInstance().playSound("player_hurt");
+                        }
+                        else if(t.getType().equalsIgnoreCase("fireTrap")){
+                            this.setHp(this.getHp() - 30);
                         }
                     }
                     if(this.intersectsRightTile(t)){
                         x = t.getX()+t.width;
                         this.setVelX(0);
-                        if(t.getId() == Id.fireTrap){
-                            hp -= 10;
+                        if(t.getType().equalsIgnoreCase("trap1")){
+                            if((t.getDirection().equalsIgnoreCase("Down"))){
+                                this.setHp(this.getHp()-200);
+                                t.die();
+                            }
+                            else{
+                                this.setHp(this.getHp() - 10);
+                            }
                             SoundHandler.getInstance().playSound("player_hurt");
+                        }
+                        else if(t.getType().equalsIgnoreCase("fireTrap")){
+                            this.setHp(this.getHp() - 30);
                         }
                     }
                     if(this.intersectsLeftTile(t)){
                         x = t.getX()-t.width;
                         this.setVelX(0);
-                        if(t.getId() == Id.fireTrap){
-                            hp -= 10;
+                        if(t.getType().equalsIgnoreCase("trap1")){
+                            if((t.getDirection().equalsIgnoreCase("Down"))){
+                                this.setHp(this.getHp()-200);
+                                t.die();
+                            }
+                            else{
+                                this.setHp(this.getHp() - 10);
+                            }
                             SoundHandler.getInstance().playSound("player_hurt");
+                        }
+                        else if(t.getType().equalsIgnoreCase("fireTrap")){
+                            this.setHp(this.getHp() - 30);
                         }
                     }
                 }

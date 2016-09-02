@@ -7,37 +7,36 @@ import javafx.scene.image.Image;
 import java.util.LinkedList;
 
 /**
- * Created by LoganLe on 9/1/16.
+ * Created by LoganLe on 9/2/16.
  */
-public class Water extends Tile {
+public class Trap2 extends Tile {
     private LinkedList<Tile> copiedTile;
-    Image imageWater = new Image("water.jpeg");
-    public Water(int x, int y, int width, int height, boolean solid, Id id, TileHandler tileHandler, String type) {
+    Image fireTrap = new Image("fire.gif");
+
+    public Trap2(int x, int y, int width, int height, boolean solid, Id id, TileHandler tileHandler, String type) {
         super(x, y, width, height, solid, id, tileHandler, type);
     }
+
     @Override
     public void render(GraphicsContext gc) {
-        gc.drawImage(imageWater, x, y, width, height);
+        gc.drawImage(fireTrap, x, y,width,height);
     }
 
     @Override
     public void tick() {
-        x += this.getVelX();
-        y += this.getVelY();
-        if (velY < 10) {
-            velY += 1;
-        }
         tileCollidingChecking();
+
     }
     public void tileCollidingChecking(){
         copiedTile = new LinkedList<>(tileHandler.getTile());
         for(Tile t: copiedTile){
             if(t.solid == false){
-                if(t.getType().equalsIgnoreCase("water")){
+            }
+            else{
+                if(t.getId() == Id.wall){
                     if(this.intersectsTopTile(t)){
                         y = t.getY() - height;
                     }
-
 
                     if(this.intersectsBottomTile(t)){
                         y = t.getY() + height;
@@ -50,28 +49,6 @@ public class Water extends Tile {
                     if(this.intersectsLeftTile(t)){
                         x = t.getX()-t.width;
                     }
-                }
-            }
-            else{
-                if(t.getType().equalsIgnoreCase("fireTrap")){
-                    if(this.intersectsTile(t)){
-                        t.die();
-                    }
-                }
-                if(this.intersectsTopTile(t)){
-                    y = t.getY() - height;
-                }
-
-                if(this.intersectsBottomTile(t)){
-                    y = t.getY() + height;
-                }
-                if(this.intersectsRightTile(t)){
-                    x = t.getX()+t.width;
-                    this.setVelX(0);
-
-                }
-                if(this.intersectsLeftTile(t)){
-                    x = t.getX()-t.width;
                 }
             }
         }

@@ -36,19 +36,13 @@ public class FinalBoss extends AIenemy {
     @Override
     public void tileCollidingChecking(){
         for(Tile t: tileHandler.getTile()){
-            if(t.getId() == Id.wall || t.getId() == Id.fireTrap){
+            if(t.getId() == Id.wall){
                 if(this.intersectsTopTile(t)){
 //                    this.setJumping(false);
                     y = t.getY() - height;
-                    if(t.getId() == Id.fireTrap){
-                        this.jump();
-                    }
                 }
                 if(this.intersectsBottomTile(t)){
                     y = t.getY() + height;
-                    if(t.getId() == Id.fireTrap){
-                        this.jump();
-                    }
                 }
                 if(this.intersectsRightTile(t)){
                     this.setIsMovingRight(true);
