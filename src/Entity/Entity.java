@@ -39,6 +39,7 @@ public abstract class Entity{
     public boolean freeze = false;
     public boolean OnSlow = false;
     public boolean flyUp = false,flyDown = false;
+    public boolean isSwimming = false,isSwimmingLeft = false,isSwimmingRight = false,isSwimmingUp = false, isSwimmingDown = false;
     private double shootDelay = 1;
 
 
@@ -193,7 +194,7 @@ public abstract class Entity{
         return new Rectangle2D(getX(), getY(), width, height);
     }  
     public Rectangle2D getTopBoundary(){
-        return new Rectangle2D(getX() + 10,getY(),width-20,5);
+        return new Rectangle2D(getX(),getY(),width,5);
     }
     public Rectangle2D getBottomBoundary(){
         return new Rectangle2D(getX() + 10,getY()+ height - 5,width-20,5);
@@ -394,4 +395,7 @@ public abstract class Entity{
 
     public abstract void moveLeft();
     public abstract void moveRight();
+    public abstract void swimUp();
+    public abstract void swimDown();
+    public abstract void notSwimUpDown();
 }

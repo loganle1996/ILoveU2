@@ -96,11 +96,9 @@ public class MainMenu extends Application{
             case "Map 1":
                 gameController.chooseMap("map1");
                 break;
-
             case "Map 2":
                 gameController.chooseMap("map2");
                 break;
-
             default:
                 gameController.chooseMap("map1");
                 break;

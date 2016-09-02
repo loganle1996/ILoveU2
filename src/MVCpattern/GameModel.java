@@ -14,6 +14,7 @@ import GraphicsforAnimation.Sprite;
 import GraphicsforAnimation.SpriteSheet;
 import Items.*;
 import Map.GameMap;
+import Rope.PointHandler;
 import Sound.SoundHandler;
 import Target.AiHouse;
 import Target.HouseHandler;
@@ -25,6 +26,7 @@ import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
+import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 import tile.Tile;
 import tile.TileCache;
@@ -48,7 +50,7 @@ public class GameModel{
     public SpriteSheet sheet,crocodileSheet, crocodileSheetFrozen;
     public Sprite crocodileSprite [] = new Sprite[6];
     public Sprite crocodileFrozen [] = new Sprite[6];
-    public Sprite playerSprite [] = new Sprite[8];
+    public Sprite playerSprite [] = new Sprite[20];
     public Sprite eagleSprite [] = new Sprite[8];
     public Sprite crocodileBoss[] = new Sprite[1];
 
@@ -78,7 +80,7 @@ public class GameModel{
     public GameMap gameMap = GameMap.getInstance();
     public BulletCache bulletCache = BulletCache.getInstance();
     public ItemCache itemCache = ItemCache.getInstance();
-
+    public PointHandler pointHandler = PointHandler.getInstance();
     // FPS calculation
     boolean showFPS = false;
     boolean firstTick = true;
@@ -120,6 +122,8 @@ public class GameModel{
                 }
             }
             tickAndRenderModel(currentNanoTime);
+//            gc.setFill(Color.BLACK);
+//            gc.strokeLine(pointHandler.getPoints().get(0).getX(),pointHandler.getPoints().get(0).getY(),pointHandler.getPoints().get(1).getX(),pointHandler.getPoints().get(1).getY());
 
             camera.setTranslateX(player1.getX());
             camera.setTranslateY(player1.getY());
@@ -185,13 +189,15 @@ public class GameModel{
         bulletHandler.tickBullets(currentime);
         houseHandler.tickHouses();
         itemHandler.tickItems(currentime);
+        pointHandler.tick();
     }
     public void renderModelGame(GraphicsContext g){
-        entityHandler.renderEntities(g,playerSprite,crocodileSprite, crocodileFrozen,crocodileBoss,eagleSprite);
         tileHandler.renderTiles(g);
+        entityHandler.renderEntities(g,playerSprite,crocodileSprite, crocodileFrozen,crocodileBoss,eagleSprite);
         houseHandler.renderHouses(g);
         bulletHandler.renderBullets(g);
         itemHandler.renderItems(g);
+        pointHandler.renderPoints(g);
     }
     public void main(String[] args) {
 //        mainStage.close();
@@ -227,7 +233,7 @@ public class GameModel{
         loadGraphicsAndObjects();
         // main scene listens for keyevent
         prepareKeyEvent(mainScene);
-
+        //run animation
         animation.start();
         gameStage.show();
 
@@ -312,7 +318,7 @@ public class GameModel{
         SoundHandler.getInstance().loadAllSounds();
     }
     public void tickAndRenderModel(long currentime){
-        gc.clearRect(0, 0, WIDTH+50, HEIGHT+50);
+        gc.clearRect(0-50, 0, WIDTH+50, HEIGHT+50);
         gc.drawImage(Background, 0, 0, WIDTH, HEIGHT);
         this.TickModelGame(currentime);
         this.renderModelGame(gc);
@@ -326,7 +332,6 @@ public class GameModel{
           entityHandler.addEntity(new AIenemy((int)aiHouse.getX(), (int)aiHouse.getY(), 40, 40, true, Id.Goomba, entityHandler));
           }
       }
-
     }
     public void spawnItems(){
         Random random = new Random();
@@ -382,7 +387,13 @@ public class GameModel{
                             if (en.isJumping() == false)
                             {
                                 en.setJumping(true);
-                                en.setVelY(-15);
+                                if (en.isSwimming == false){
+                                    en.setVelY(-15);
+                                }
+                                else{
+                                    en.setVelY(-10);
+                                }
+
                                 SoundHandler.getInstance().playSound("jump");
                             }
 
@@ -413,12 +424,11 @@ public class GameModel{
                             break;
 
                         case A:
-                            en.setIsMovingLeft(true);
-
+                                en.moveLeft();
                             break;
 
                         case D:
-                            en.setIsMovingRight(true);
+                                en.moveRight();
                             break;
 
                         case MINUS:
@@ -430,6 +440,25 @@ public class GameModel{
                             {
                                 showFPS = true;
                             }
+                            break;
+                        case W:
+//                            en.swimUp();
+                            if(en.isSwimming){
+                                if(en.isSwimmingUp == false){
+                                    en.isSwimmingUp = true;
+                                    en.setVelY(-3);
+                                }
+                            }
+                            break;
+                        case S:
+//                            en.swimDown();
+                            if(en.isSwimming){
+                                if(en.isSwimmingDown == false){
+                                    en.isSwimmingDown = true;
+                                    en.setVelY(3);
+                                }
+                            }
+                            break;
                     }
                 }
 
@@ -445,6 +474,12 @@ public class GameModel{
                             break;
                         case D:
                             en.setIsMovingRight(false);
+                            break;
+                        case W:
+                            en.notSwimUpDown();
+                            break;
+                        case S:
+                            en.notSwimUpDown();
                             break;
                     }
                 }

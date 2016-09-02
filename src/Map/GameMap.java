@@ -8,6 +8,8 @@ package Map;
 
 import Entity.AIenemy;
 import Entity.Eagle;
+import Rope.Point;
+import Rope.PointHandler;
 import Target.AiHouse;
 import Entity.EntityHandler;
 import Entity.FinalBoss;
@@ -17,12 +19,7 @@ import Items.ItemHandler;
 import Target.HouseHandler;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import tile.Portal;
-import tile.Tile;
-import tile.TileCache;
-import tile.TileHandler;
-import tile.Trap1;
-import tile.WoodBridge;
+import tile.*;
 
 /**
  *
@@ -46,12 +43,16 @@ public class GameMap
     public WoodBridge woodBridge;
     public Eagle eagle;
     public static Portal portal;
+    public Point point;
+    public Water water;
+    public Dwall2 ground1;
 //    Image aiHouseImage = new Image("AiHouse.png");
     private static GameMap gameMap = new GameMap();
     EntityHandler entityHandler = EntityHandler.getInstance();
     public TileHandler tileHandler = TileHandler.getInstance();
     HouseHandler houseHandler = HouseHandler.getInstance();
     ItemHandler  itemHandler = ItemHandler.getInstance();
+    PointHandler pointHandler = PointHandler.getInstance();
     //contructor
     private GameMap(){
 
@@ -93,12 +94,12 @@ public class GameMap
             {"x"," "," "," "," "," "," "," "," "," "," "," "," "," "," "," "," "," "," "," "," "," "," "," "," "," "," "," "," "," "," "," "," "," "," "," "," "," "," ","x"},
             {"x"," "," "," "," "," "," "," "," "," "," "," "," "," "," "," "," "," "," "," "," "," "," "," "," "," "," "," "," "," "," "," "," "," "," "," "," "," "," ","x"},
             {"x"," "," "," "," "," "," "," "," "," "," "," "," "," "," "," "," "," "," "," "," "," "," "," "," "," "," "," ","m","m","m","m"," "," "," "," "," "," "," ","x"},
-            {"x"," "," "," "," "," "," "," "," "," ","i"," "," ","E"," "," "," "," "," "," "," "," "," "," "," "," "," "," "," "," "," ","i"," "," "," "," "," "," "," ","x"},
+            {"x"," "," "," "," "," "," "," "," "," ","i"," "," ","P"," "," "," "," "," "," "," "," "," "," "," "," "," "," "," "," "," ","i"," "," "," "," "," "," "," ","x"},
             {"x"," "," "," "," "," "," "," "," "," "," ","m","m","m","m"," "," "," "," "," "," "," "," "," "," "," "," "," "," "," "," "," ","m","m","m","m","m","m","m","x"},
-            {"x","P"," "," "," "," "," "," "," "," ","m"," "," "," "," ","m"," "," "," "," "," "," "," "," "," "," "," "," "," "," ","i"," "," "," "," "," "," ","E"," ","x"},
-            {"x","m","m"," "," ","-"," "," ","m","m","m","m"," "," "," ","m","m","-"," "," ","m","m","m","m","m","m"," ","-","-"," "," "," "," "," "," "," "," "," "," ","x"},
-            {"x"," "," ","^","^","^","^","^","^","^","^","^","^"," "," "," ","^","^","^","^","^","^","^","^","^","^","^","^","^","^","^","^","^","^","^","^","^","^","^","x"},
-            {"x","^","^","^","^","^","^","^","^","^","^","^","^","^","^","^","^","^","^","^","^","^","^","^","^","^","^","^","^","^","^","^","^","^","^","^","^","^","^","x"},
+            {"x"," "," "," "," "," "," "," "," "," ","m"," "," "," "," ","m"," "," "," "," "," "," "," "," "," "," "," "," "," "," ","i"," "," "," "," "," "," "," "," ","x"},
+            {"x","m"," "," "," "," "," "," ","m","m","m","m"," "," "," ","m"," ","i","-"," ","m","m","m","m","m","m"," ","-","-"," "," "," "," "," "," "," "," "," "," ","x"},
+            {"x","w","w","w","w","w","w","w","a","w","w","w","w","w","w","a","w","m"," "," "," "," "," "," "," "," "," "," "," "," "," "," "," "," "," "," "," "," "," ","x"},
+            {"x","a","a","a","a","a","a","a","a","a","a","a","a","a","a","m","m","m","^","^","^","^","^","^","^","^","^","^","^","^","^","^","^","^","^","^","^","^","^","x"},
             {"x","x","x","x","x","x","x","x","x","x","x","x","x","x","x","x","x","x","x","x","x","x","x","x","x","x","x","x","x","x","x","x","x","x","x","x","x","x","x","x"}
 
         };
@@ -116,11 +117,11 @@ public class GameMap
           {"x"," "," "," "," "," "," "," "," "," "," "," "," "," "," "," "," "," "," "," "," "," "," "," "," "," "," "," ","d"," "," "," "," "," "," "," "," "," "," ","x"},
           {"x"," "," "," "," "," "," "," "," "," "," "," "," "," "," "," "," "," "," "," "," "," "," "," "," "," "," "," ","d"," "," "," "," "," "," "," "," "," "," ","x"},
           {"x"," "," "," "," "," "," "," "," "," "," "," "," "," "," "," "," ","^","^","^"," ","P"," "," "," "," "," ","h","d"," "," ","g"," "," "," "," "," "," ","g","x"},
-          {"x","i"," ","-","-"," "," "," "," "," "," "," ","i","m","m","m","m","m","m","m","m","m","m","m","m","m","m","m","m","m","m","m","m","m","m","m","m","m","m","x"},
+          {"x"," "," ","-","-"," "," "," "," "," "," "," "," ","m","m","m","m","m","m","m","m","m","m","m","m","m","m","m","m","m","m","m","m","m","m","m","m","m","m","x"},
           {"x"," "," "," "," "," "," "," "," "," "," "," "," "," "," "," "," "," "," "," "," "," "," "," "," "," "," "," "," "," "," "," "," "," "," "," "," "," "," ","x"},
           {"x","m"," "," "," "," "," "," "," "," "," "," "," "," "," "," "," "," "," "," "," "," "," "," "," "," "," "," "," "," "," "," "," "," "," "," "," "," "," ","x"},
           {"x","m","E"," "," "," "," "," "," "," "," "," "," "," "," "," "," ","m","m"," "," "," "," "," "," "," "," "," "," "," "," "," "," "," "," "," "," "," "," ","x"},
-          {"x","m","m","m"," "," "," "," ","E"," "," "," "," ","E"," "," "," ","m","m","m"," "," "," "," "," "," "," "," "," "," "," "," "," "," "," "," "," "," "," ","x"},
+          {"x","m","m","m"," ","i","i"," ","E"," ","i","i"," ","E"," "," ","i","m","m","m"," "," "," "," "," "," "," "," "," "," "," "," "," "," "," "," "," "," "," ","x"},
           {"x","m","m","m","m"," "," ","m","m","m"," "," ","m","m","m","m"," ","m","m","m","m"," "," "," "," "," "," "," "," "," "," "," "," "," "," "," "," "," "," ","x"},
           {"x"," "," "," "," "," "," "," "," "," "," "," "," "," "," "," "," ","m","m","m","m","m"," "," "," "," "," "," "," "," "," "," "," "," "," "," "," "," "," ","x"},
           {"x","^","^","^","^","^","^","^","^","^","^","^","^","^","^","^","^","m","m","m","m","m","m"," "," "," "," "," "," "," "," "," "," "," "," "," "," "," "," ","x"},
@@ -186,12 +187,10 @@ public class GameMap
                     clonedTile3.setY((i/40) * clonedTile3.getHeight());
                     tileHandler.addTile(clonedTile3);
                     break;
-//                case 5:
-//                    clonedTile2 = (Tile) tileCache.getTile("wall2");
-//                    clonedTile2.setX((i%40) * clonedTile2.getWidth());
-//                    clonedTile2.setY((i/40) * clonedTile2.getWidth());
-//                    tileHandler.addTile(clonedTile2);
-//                    break;
+                case "s":
+                    point = new Point((i%40)*40,(i/40)*40);
+                    pointHandler.addPoints(point);
+                    break;
                 case "-":
                     woodBridge = (WoodBridge) tileCache.getTile("woodBridge");
                     woodBridge.setX((i%40)*woodBridge.getWidth());
@@ -241,6 +240,18 @@ public class GameMap
                     portal.setX((i%40)* 40);
                     portal.setY((i/40)*40);
                     break;
+                case "w":
+                    water = (Water) tileCache.getTile("water");
+                    water.setX((i%40)*40);
+                    water.setY((i/40)*40);
+                    tileHandler.addTile(water);
+                    break;
+                case "a":
+                    ground1 = (Dwall2) tileCache.getTile("dWall2");
+                    ground1.setX((i%40) * ground1.getWidth());
+                    ground1.setY((i/40) * ground1.getWidth());
+                    tileHandler.addTile(ground1);
+                    break;
                 default:
 
             }
@@ -264,6 +275,7 @@ public class GameMap
         tileHandler.emptyHandler();
         houseHandler.emptyHandler();
         itemHandler.removeAllItems();
+        pointHandler.emptyPoints();
     }
     public void resetMap(){
         emptyMap();
@@ -275,6 +287,7 @@ public class GameMap
         tileHandler.emptyHandler();
         houseHandler.emptyHandler();
         itemHandler.removeAllItems();
+        pointHandler.emptyPoints();
 //        this.getMapData2();
         this.addAllObjectsToGameModel();
     }

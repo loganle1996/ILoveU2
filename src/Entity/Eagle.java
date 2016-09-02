@@ -172,4 +172,19 @@ public class Eagle extends Entity{
             this.setIsOnSlow(false);
         }
     }
+
+    @Override
+    public void swimUp() {
+
+    }
+
+    @Override
+    public void swimDown() {
+
+    }
+
+    @Override
+    public void notSwimUpDown() {
+
+    }
 }

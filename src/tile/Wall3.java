@@ -37,7 +37,6 @@ public class Wall3 extends Tile{
     public void tick() {
         if(this.getHp() <= 0.0){
             this.die();
-            System.out.println("XCoordinate: "+ this.getX());
         }
         x += this.getVelX();
         y += this.getVelY();
