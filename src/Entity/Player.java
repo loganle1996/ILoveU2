@@ -8,12 +8,9 @@ package Entity;
 import Bullet.*;
 import GraphicsforAnimation.Sprite;
 import InfoBox.AlertBox;
-import Map.GameMap;
 import Sound.SoundHandler;
-import Target.AiHouse;
 import Target.HouseHandler;
 import javafx.scene.canvas.GraphicsContext;
-import javafx.scene.control.Alert;
 import tile.Tile;
 
 /**
@@ -44,7 +41,7 @@ public class Player extends Entity {
                     g.drawImage(playerSprite[frame+5].getImage(), x, y, width, height);
                 }
                 else{
-                    
+
                     g.drawImage(playerSprite[4].getImage(), x, y, width, height);
                 }
             }
@@ -197,7 +194,6 @@ public class Player extends Entity {
             this.setShootable(true);
         }
 
-
         if(this.getHp() <= 0){
             this.die();
             alertBox.display("Restart to Menu","Would you like to restart the game?");
@@ -210,6 +206,7 @@ public class Player extends Entity {
         if(this.isMovingLeft){
             this.setVelX(-5.0);
             this.facing = 0;
+
             if (!this.jumping)
             {
                 SoundHandler.getInstance().playSound("footstep");
@@ -228,6 +225,7 @@ public class Player extends Entity {
         else if(freeze == true ||(isMovingLeft == false && isMovingRight == false)) {
             this.setVelX(0);
         }
+
         enemyCollidingChecking();
         tileCollidingChecking();
 
@@ -259,6 +257,7 @@ public class Player extends Entity {
                         y = t.getY() - height;
                         this.setVelY(10);
                         this.setJumping(false);
+                        this.setJumpCount(0);
                         if(t.getId() == Id.fireTrap){
                             hp -= 10;
                             SoundHandler.getInstance().playSound("player_hurt");
@@ -267,12 +266,12 @@ public class Player extends Entity {
                             this.setVelX(this.getVelX() + t.getVelX());
                         }
                     }
-                        
+
                     if (this.intersectsExtraBounds(t) && this.intersectsTile(t))  {
-                            
+
 //                            System.out.println("intersecting extra bounds");
-                        } 
-                    
+                        }
+
                     if(this.intersectsBottomTile(t)){
                         y = t.getY() + height;
                         if(t.getId() == Id.fireTrap){
@@ -302,7 +301,7 @@ public class Player extends Entity {
             }
         }
     }
-    
+
     public void enemyCollidingChecking(){
         for(Entity en : entityHandler.getEntity()){
             if((en.getId() == Id.Goomba ||en.getId() == Id.GoombaBoss ||en.getId()== Id.Eagle) && en.isFreeze() == false){
@@ -368,5 +367,5 @@ public class Player extends Entity {
     public void setScore(int score) {
         this.score = score;
     }
-    
+
 }

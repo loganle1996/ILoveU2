@@ -379,10 +379,12 @@ public class GameModel{
 
                     switch (event.getCode()) {
                         case SPACE:
-                            if (en.isJumping() == false)
+
+                            if (en.getJumpCount() < 1)
                             {
-                                en.setJumping(true);
+                                en.setJumpCount(en.getJumpCount() + 1);
                                 en.setVelY(-15);
+                                en.setJumping(true);
                                 SoundHandler.getInstance().playSound("jump");
                             }
 
