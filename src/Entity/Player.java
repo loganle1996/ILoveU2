@@ -52,7 +52,12 @@ public class Player extends Entity {
                 }
                 else{
                     if(this.isSwimming == false){
-                        g.drawImage(playerSprite[4].getImage(), x, y, width, height);
+                        if(this.isShooting == true){
+                            g.drawImage(playerSprite[21].getImage(), x, y, width, height);
+                        }
+                        else{
+                            g.drawImage(playerSprite[4].getImage(), x, y, width, height);
+                        }
                     }
                     else{
                         g.drawImage(playerSprite[frame+8].getImage(), x, y, width, height);
@@ -77,7 +82,12 @@ public class Player extends Entity {
                 }
                 else{
                     if(this.isSwimming == false){
-                        g.drawImage(playerSprite[0].getImage(), x, y, width, height);
+                        if(this.isShooting == true){
+                            g.drawImage(playerSprite[20].getImage(), x, y, width, height);
+                        }
+                        else{
+                            g.drawImage(playerSprite[0].getImage(), x, y, width, height);
+                        }
                     }
                     else {
                         g.drawImage(playerSprite[frame+15].getImage(), x, y, width, height);
@@ -291,7 +301,7 @@ public class Player extends Entity {
             }
             else if(this.isSwimming == true){
                 frameDelay2++;
-                if(frameDelay2 >= 7){
+                if(frameDelay2 >= 10){
                     frame++;
                     if(frame >=5){
                         frame = 0;

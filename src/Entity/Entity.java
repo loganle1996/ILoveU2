@@ -40,6 +40,7 @@ public abstract class Entity{
     public boolean OnSlow = false;
     public boolean flyUp = false,flyDown = false;
     public boolean isSwimming = false,isSwimmingLeft = false,isSwimmingRight = false,isSwimmingUp = false, isSwimmingDown = false;
+    public boolean isShooting = false;
     private double shootDelay = 1;
 
 

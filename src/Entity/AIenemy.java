@@ -65,7 +65,7 @@ public class AIenemy extends Entity
         searchingDanger();
         if(this.isJumping() == true){
             
-                if(this.jumping ){
+                if(this.getVelY() < 10){
                     velY += this.getGravity() / 10;
                 }
                 else{

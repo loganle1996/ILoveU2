@@ -50,7 +50,7 @@ public class GameModel{
     public SpriteSheet sheet,crocodileSheet, crocodileSheetFrozen;
     public Sprite crocodileSprite [] = new Sprite[6];
     public Sprite crocodileFrozen [] = new Sprite[6];
-    public Sprite playerSprite [] = new Sprite[20];
+    public Sprite playerSprite [] = new Sprite[22];
     public Sprite eagleSprite [] = new Sprite[8];
     public Sprite crocodileBoss[] = new Sprite[1];
 
@@ -410,7 +410,7 @@ public class GameModel{
                             if (en.shootable == true)
                             {
                                 en.shootFireBall(gc);
-
+                                en.isShooting = true;
                                 en.setShootable(false);
                             }
                             break;
@@ -480,6 +480,9 @@ public class GameModel{
                             break;
                         case S:
                             en.notSwimUpDown();
+                            break;
+                        case J:
+                            en.isShooting = false;
                             break;
                     }
                 }
