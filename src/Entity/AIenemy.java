@@ -60,9 +60,11 @@ public class AIenemy extends Entity
         if(this.getHp() <= 0){
             this.die();
         }
-        this.watchingAround();
-        searchingEntities();
-        searchingDanger();
+        if(isFreeze() == false){
+            this.watchingAround();
+            searchingEntities();
+            searchingDanger();
+        }
         if(this.isJumping() == true){
             
                 if(this.getVelY() < 10){

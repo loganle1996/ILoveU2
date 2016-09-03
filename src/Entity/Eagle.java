@@ -17,10 +17,9 @@ import tile.Tile;
  * @author LoganLe
  */
 public class Eagle extends Entity{
-
+    private boolean protectAiHouse = false;
     public Eagle(int width, int height, boolean solid, Id id, EntityHandler entityHandler) {
         super(width, height, solid, id, entityHandler);
-//        this.isMovingLeft = true;
         this.setFollowSkill(new FlyFollow());
         this.setVelY(0);
         this.animate = true;
@@ -31,6 +30,16 @@ public class Eagle extends Entity{
         this.setFollowSkill(new FlyFollow());
         this.setVelY(0);
         this.animate = true;
+        this.isMovingLeft = true;
+        this.setProtectAiHouse(true);
+    }
+
+    public boolean isProtectAiHouse() {
+        return protectAiHouse;
+    }
+
+    public void setProtectAiHouse(boolean protectAiHouse) {
+        this.protectAiHouse = protectAiHouse;
     }
 
     @Override
@@ -64,7 +73,9 @@ public class Eagle extends Entity{
         }
         watchingAround();
         searchingEntities();
-        tileCollidingChecking();
+        if(protectAiHouse){
+            tileCollidingChecking();
+        }
         if(this.isMovingLeft == true && this.isFreeze() == false)
         {
             this.moveLeft();
@@ -77,12 +88,6 @@ public class Eagle extends Entity{
         {
             this.setVelX(0);
         }
-//        if(velX != 0){
-//            this.animate = true;
-//        }
-//        else{
-//            this.animate = false;
-//        }
         if(animate == true){
                 frameDelay++;
                 if(frameDelay >=7){
@@ -121,22 +126,22 @@ public class Eagle extends Entity{
     }
     public void tileCollidingChecking(){
         for(Tile t: tileHandler.getTile()){
-            if((t.getId() == Id.wall ) && t.getType().equalsIgnoreCase("wall1")){
+            if((t.getId() == Id.wall ) && t.getType().equalsIgnoreCase("invisibleWall")){
                 if(this.intersectsTopTile(t)){
-                    y = t.getY() - height;
+//                    y = t.getY() - height;
                 }
                 if(this.intersectsBottomTile(t)){
-                    y = t.getY() + height;
+//                    y = t.getY() + height;
                 }
                 if(this.intersectsRightTile(t)){
                     this.setIsMovingRight(true);
                     this.setIsMovingLeft(false);
-                    x = t.getX()+t.width;
+//                    x = t.getX()+t.width;
                 }
                 if(this.intersectsLeftTile(t)){
                     this.setIsMovingLeft(true);
                     this.setIsMovingRight(false);
-                    x = t.getX()-t.width;
+//                    x = t.getX()-t.width;
                 }
             }
         }
