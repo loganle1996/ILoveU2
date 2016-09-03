@@ -334,39 +334,41 @@ public class GameModel{
       }
     }
     public void spawnItems(){
-        Random random = new Random();
-        double x = (((random.nextDouble() * 1440) % 1440) + 50);
-        double y = (((random.nextDouble() * 1440) % 1440) + 50);
-        FireRune randomFireRune = (FireRune)itemCache.getItem("fireRune");
-        AirRune randomAirRune = (AirRune) itemCache.getItem("airRune");
-        WaterRune randomWaterRune = (WaterRune) itemCache.getItem("waterRune");
-        EarthRune randomEarthRune = (EarthRune) itemCache.getItem("earthRune");
+        if(itemHandler.getItems().size() < 7){
+            Random random = new Random();
+            double x = (((random.nextDouble() * 1440) % 1440) + 50);
+            double y = (((random.nextDouble() * 1440) % 1440) + 50);
+            FireRune randomFireRune = (FireRune)itemCache.getItem("fireRune");
+            AirRune randomAirRune = (AirRune) itemCache.getItem("airRune");
+            WaterRune randomWaterRune = (WaterRune) itemCache.getItem("waterRune");
+            EarthRune randomEarthRune = (EarthRune) itemCache.getItem("earthRune");
 
-        Integer itemIndex = random.nextInt(4);
+            Integer itemIndex = random.nextInt(4);
 
-        switch (itemIndex)
-        {
-            case 0:
-                randomFireRune.setX(x);
-                randomFireRune.setY(y);
-                itemHandler.addItem(randomFireRune);
-                break;
-            case 1:
-                randomAirRune.setX(x);
-                randomAirRune.setY(y);
-                itemHandler.addItem(randomAirRune);
-                break;
-            case 2:
-                randomWaterRune.setX(x);
-                randomWaterRune.setY(y);
-                itemHandler.addItem(randomWaterRune);
-                break;
-            case 3:
-                randomEarthRune.setX(x);
-                randomEarthRune.setY(y);
-                itemHandler.addItem(randomEarthRune);
-                break;
+            switch (itemIndex)
+            {
+                case 0:
+                    randomFireRune.setX(x);
+                    randomFireRune.setY(y);
+                    itemHandler.addItem(randomFireRune);
+                    break;
+                case 1:
+                    randomAirRune.setX(x);
+                    randomAirRune.setY(y);
+                    itemHandler.addItem(randomAirRune);
+                    break;
+                case 2:
+                    randomWaterRune.setX(x);
+                    randomWaterRune.setY(y);
+                    itemHandler.addItem(randomWaterRune);
+                    break;
+                case 3:
+                    randomEarthRune.setX(x);
+                    randomEarthRune.setY(y);
+                    itemHandler.addItem(randomEarthRune);
+                    break;
 
+            }
         }
 
 //        System.out.println("X is " + x + "" + "Y is " + y);

@@ -7,6 +7,7 @@ package tile;
 
 
 
+import Entity.Entity;
 import Entity.EntityHandler;
 import MVCpattern.GameModel;
 import Entity.Id;
@@ -133,6 +134,22 @@ public abstract class Tile implements Cloneable{
     }
     public boolean intersectsBottomTile(Tile ti){
         return ti.getBottomBoundary().intersects(this.getBoundary());
+    }
+
+    public boolean intersectsEntity(Entity en){
+        return en.getBoundary().intersects(this.getBoundary());
+    }
+    public boolean intersectsTopEntity(Entity en){
+        return en.getTopBoundary().intersects(this.getBoundary());
+    }
+    public boolean intersectsLeftEntity(Entity en){
+        return en.getLeftBoundary().intersects(this.getBoundary());
+    }
+    public boolean intersectsRightEntity(Entity en){
+        return en.getRightBoundary().intersects(this.getBoundary());
+    }
+    public boolean intersectsBottomEntity(Entity en){
+        return en.getBottomBoundary().intersects(this.getBoundary());
     }
     
 

@@ -135,22 +135,38 @@ public class AIenemy extends Entity
     }
     public void tileCollidingChecking(){
         for(Tile t: tileHandler.getTile()){
-            if(t.getId() == Id.wall ){
-                if(this.intersectsTopTile(t)){
-                    y = t.getY() - height;
+            if(t.solid == false){
+                if(t.getType().equalsIgnoreCase("invisibleWall")){
+                    if (this.intersectsRightTile(t)) {
+                        this.setIsMovingRight(true);
+                        this.setIsMovingLeft(false);
+                        x = t.getX() + t.width;
+                    }
+                    if (this.intersectsLeftTile(t)) {
+                        this.setIsMovingLeft(true);
+                        this.setIsMovingRight(false);
+                        x = t.getX() - t.width;
+                    }
                 }
-                if(this.intersectsBottomTile(t)){
-                    y = t.getY() + height;
-                }
-                if(this.intersectsRightTile(t)){
-                    this.setIsMovingRight(true);
-                    this.setIsMovingLeft(false);
-                    x = t.getX()+t.width;
-                }
-                if(this.intersectsLeftTile(t)){
-                    this.setIsMovingLeft(true);
-                    this.setIsMovingRight(false);
-                    x = t.getX()-t.width;
+            }
+            else {
+                if (t.getId() == Id.wall) {
+                    if (this.intersectsTopTile(t)) {
+                        y = t.getY() - height;
+                    }
+                    if (this.intersectsBottomTile(t)) {
+                        y = t.getY() + height;
+                    }
+                    if (this.intersectsRightTile(t)) {
+                        this.setIsMovingRight(true);
+                        this.setIsMovingLeft(false);
+                        x = t.getX() + t.width;
+                    }
+                    if (this.intersectsLeftTile(t)) {
+                        this.setIsMovingLeft(true);
+                        this.setIsMovingRight(false);
+                        x = t.getX() - t.width;
+                    }
                 }
             }
         }

@@ -5,6 +5,7 @@
  */
 package tile;
 
+import Entity.Entity;
 import Entity.Id;
 import MVCpattern.GameModel;
 import MVCpattern.GameView;
@@ -37,7 +38,18 @@ public class Wall2 extends Tile{
 
     @Override
     public void tick() {
-        
+        entityCollidingCheck();
     }
-    
+    public void entityCollidingCheck(){
+        for(Entity en: entityHandler.getEntity()){
+            if(en.getId() != Id.Eagle){
+                if(this.intersectsRightEntity(en)){
+                    en.setX(this.getX());
+                }
+                if(this.intersectsLeftEntity(en)){
+                    en.setX(this.getX()+height);
+                }
+            }
+        }
+    }
 }

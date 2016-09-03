@@ -10,6 +10,7 @@ import java.util.LinkedList;
  * Created by LoganLe on 9/1/16.
  */
 public class Water extends Tile {
+    private boolean stickWater = false;
     private LinkedList<Tile> copiedTile;
     Image imageWater = new Image("water.jpeg");
     public Water(int x, int y, int width, int height, boolean solid, Id id, TileHandler tileHandler, String type) {
@@ -33,12 +34,10 @@ public class Water extends Tile {
         copiedTile = new LinkedList<>(tileHandler.getTile());
         for(Tile t: copiedTile){
             if(t.solid == false){
-                if(t.getType().equalsIgnoreCase("water")){
+                if(t.getType().equalsIgnoreCase("water")&& t != this){
                     if(this.intersectsTopTile(t)){
                         y = t.getY() - height;
                     }
-
-
                     if(this.intersectsBottomTile(t)){
                         y = t.getY() + height;
                     }
