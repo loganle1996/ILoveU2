@@ -65,7 +65,7 @@ public class AIenemy extends Entity
         searchingDanger();
         if(this.isJumping() == true){
             
-                if(velY <10){
+                if(this.getVelY() < 10){
                     velY += this.getGravity() / 10;
                 }
                 else{
@@ -144,13 +144,11 @@ public class AIenemy extends Entity
                     this.setIsMovingRight(true);
                     this.setIsMovingLeft(false);
                     x = t.getX()+t.width;
-                    this.jump();
                 }
                 if(this.intersectsLeftTile(t)){
                     this.setIsMovingLeft(true);
                     this.setIsMovingRight(false);
                     x = t.getX()-t.width;
-                    this.jump();
                 }
             }
         }
@@ -218,6 +216,22 @@ public class AIenemy extends Entity
             this.setIsOnSlow(false);
         }
     }
+
+    @Override
+    public void swimUp() {
+
+    }
+
+    @Override
+    public void swimDown() {
+
+    }
+
+    @Override
+    public void notSwimUpDown() {
+
+    }
+
     @Override
     public void placeSlowSpirit(GraphicsContext gc) {
         

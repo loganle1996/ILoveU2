@@ -52,6 +52,13 @@ public class TileCache {
         
         Portal portal = new Portal(40, 40, 40, 40, true, Id.Portal, tileHandler, "portal");
         tileTable.put(portal.getType(), portal);
+
+        Water water = new Water(40, 40, 40, 40, false, Id.wall, tileHandler, "water");
+        tileTable.put(water.getType(),water);
+
+        Dwall2 dwall2 = new Dwall2(40, 40, 40, 40, true, Id.wall, tileHandler, "dWall2");
+        tileTable.put(dwall2.getType(),dwall2);
+
     }
     public static TileCache getInstance(){
         return tileCache;

@@ -24,6 +24,7 @@ public class Player extends Entity {
     int deltaTime = 0;
     private int score = 0;
     private AlertBox alertBox = new AlertBox();
+    public double frameDelay2 =0;
 
     private Player(int width, int height, boolean solid, Id id, EntityHandler entityHandler) {
         super(width, height, solid, id, entityHandler);
@@ -38,28 +39,61 @@ public class Player extends Entity {
         if(this.facing == 0){
             if(isJumping() == false){
                 if(isMovingLeft){
-                    g.drawImage(playerSprite[frame+5].getImage(), x, y, width, height);
+                    if(this.isSwimming == false){
+                        g.drawImage(playerSprite[frame+5].getImage(), x, y, width, height);
+                    }
+                    else if(this.isSwimming == true){
+                        g.drawImage(playerSprite[frame+8].getImage(), x, y, width, height);
+                    }
+
                 }
                 else{
-
-                    g.drawImage(playerSprite[4].getImage(), x, y, width, height);
+                    if(this.isSwimming == false){
+                        if(this.isShooting == true){
+                            g.drawImage(playerSprite[21].getImage(), x, y, width, height);
+                        }
+                        else{
+                            g.drawImage(playerSprite[4].getImage(), x, y, width, height);
+                        }
+                    }
+                    else{
+                        g.drawImage(playerSprite[frame+8].getImage(), x, y, width, height);
+                    }
                 }
             }
             else if(isJumping() == true){
                 g.drawImage(playerSprite[5].getImage(), x, y, width, height);
+
             }
         }
         else if(this.facing == 1){
             if(this.isJumping()== false){
                 if(isMovingRight){
-                    g.drawImage(playerSprite[frame+1].getImage(), x, y, width, height);
+                    if(isSwimming == false){
+                        g.drawImage(playerSprite[frame+1].getImage(), x, y, width, height);
+                    }
+                    else if(this.isSwimming == true){
+                        g.drawImage(playerSprite[frame+15].getImage(), x, y, width, height);
+                    }
+
                 }
                 else{
-                    g.drawImage(playerSprite[0].getImage(), x, y, width, height);
+                    if(this.isSwimming == false){
+                        if(this.isShooting == true){
+                            g.drawImage(playerSprite[20].getImage(), x, y, width, height);
+                        }
+                        else{
+                            g.drawImage(playerSprite[0].getImage(), x, y, width, height);
+                        }
+                    }
+                    else {
+                        g.drawImage(playerSprite[frame+15].getImage(), x, y, width, height);
+                    }
                 }
             }
             else if(isJumping() == true){
                 g.drawImage(playerSprite[1].getImage(), x, y, width, height);
+
             }
         }
     }
@@ -184,7 +218,6 @@ public class Player extends Entity {
 
     @Override
     public void tick(long currentime) {
-
         x += velX;
         y += velY;
         deltaTime = (int)  (currentime - lasttime) / 1000000000;
@@ -193,71 +226,109 @@ public class Player extends Entity {
             lasttime = currentime;
             this.setShootable(true);
         }
-
         if(this.getHp() <= 0){
             this.die();
+            SoundHandler.getInstance().stopBackgroundMusic();
             alertBox.display("Restart to Menu","Would you like to restart the game?");
         }
 
-        if (this.jumping) {
-              velY += this.getGravity() / 10;
-        }
-
-        if(this.isMovingLeft){
-            this.setVelX(-5.0);
-            this.facing = 0;
-
-            if (!this.jumping)
-            {
-                SoundHandler.getInstance().playSound("footstep");
+        if (this.getVelY() <= 10) {
+            if(this.isSwimming== false){
+                velY += this.getGravity() / 10;
             }
         }
-        else if(this.isMovingRight){
-            this.setVelX(5);
-            this.facing = 1;
-            if (!this.jumping)
-            {
-                SoundHandler.getInstance().playSound("footstep");
+        if(this.isSwimming == false) {
+            if (this.isMovingLeft) {
+                this.setVelX(-5);
+                this.facing = 0;
+                if (!this.jumping) {
+                    SoundHandler.getInstance().playSound("footstep");
+                }
+            } else if (this.isMovingRight) {
+                this.setVelX(5);
+                this.facing = 1;
+                if (!this.jumping) {
+                    SoundHandler.getInstance().playSound("footstep");
+                }
+                this.moveRight();
             }
-            this.moveRight();
+        }
+        else if(this.isSwimming == true){
+
+            SoundHandler.getInstance().playSound("swimming");
+
+            if(this.isIsMovingLeft()){
+                this.setVelX(-3);
+                this.facing = 0;
+            }
+            else if(this.isMovingRight){
+                this.setVelX(3);
+                this.facing = 1;
+            }
+//            if(this.isSwimmingUp){
+//                this.setVelY(-3);
+//
+//            }
+//            else if(this.isSwimmingDown){
+//                this.setVelY(3);
+//            }
         }
 
-        else if(freeze == true ||(isMovingLeft == false && isMovingRight == false)) {
+        if(freeze == true ||(isMovingLeft == false && isMovingRight == false)) {
             this.setVelX(0);
         }
-
         enemyCollidingChecking();
         tileCollidingChecking();
 
-        if(velX != 0){
+        if(this.isMovingRight == true || this.isMovingLeft == true){
             this.animate = true;
         }
         else{
             this.animate = false;
         }
+        if(this.isSwimming){
+            this.animate = true;
+        }
         if(animate == true){
-            frameDelay++;
-            if(frameDelay >=3){
-                frame++;
-                if(frame >=3){
-                    frame = 0;
+            if (this.isSwimming == false){
+                frameDelay++;
+                if(frameDelay >= 3){
+                    frame++;
+                    if(frame >=3){
+                        frame = 0;
+                    }
+                    frameDelay = 0;
                 }
-                frameDelay = 0;
+            }
+            else if(this.isSwimming == true){
+                frameDelay2++;
+                if(frameDelay2 >= 10){
+                    frame++;
+                    if(frame >=5){
+                        frame = 0;
+                    }
+                    frameDelay2 = 0;
+                }
             }
         }
 
     }
     public void tileCollidingChecking(){
+        isSwimming = false;
         for(Tile t: tileHandler.getTile()){
             if(t.solid == false){
+                if(t.getType().equalsIgnoreCase("water")){
+                    if(this.intersectsTile(t)){
+                        this.isSwimming = true;
+                    }
+                }
             }
             else{
                 if(t.getId() == Id.wall || t.getId() == Id.fireTrap){
                     if(this.intersectsTopTile(t)){
                         y = t.getY() - height;
-                        this.setVelY(10);
+                        this.setVelY(0.1);
                         this.setJumping(false);
-                        this.setJumpCount(0);
                         if(t.getId() == Id.fireTrap){
                             hp -= 10;
                             SoundHandler.getInstance().playSound("player_hurt");
@@ -267,17 +338,11 @@ public class Player extends Entity {
                         }
                     }
 
-                    if (this.intersectsExtraBounds(t) && this.intersectsTile(t))  {
-
-//                            System.out.println("intersecting extra bounds");
-                        }
-
                     if(this.intersectsBottomTile(t)){
                         y = t.getY() + height;
                         if(t.getId() == Id.fireTrap){
                             hp -= 10;
                             SoundHandler.getInstance().playSound("player_hurt");
-
                         }
                     }
                     if(this.intersectsRightTile(t)){
@@ -294,7 +359,6 @@ public class Player extends Entity {
                         if(t.getId() == Id.fireTrap){
                             hp -= 10;
                             SoundHandler.getInstance().playSound("player_hurt");
-
                         }
                     }
                 }
@@ -350,16 +414,39 @@ public class Player extends Entity {
 
     @Override
     public void moveLeft() {
-        this.setVelX(-5.0);
-        this.facing = 0;
+        this.isMovingLeft = true;
+        this.isMovingRight = false;
     }
 
     @Override
     public void moveRight() {
-        this.setVelX(5);
-        this.facing = 1;
+        this.isMovingRight = true;
+        this.isMovingLeft = false;
     }
+    @Override
+    public void swimUp(){
+        if(this.isSwimming){
+            this.isSwimmingUp = true;
+            this.isSwimmingDown = false;
+        }
 
+
+    }
+    @Override
+    public void swimDown(){
+        if(this.isSwimming){
+            this.isSwimmingUp = false;
+            this.isSwimmingDown = true;
+        }
+
+    }
+    @Override
+    public void notSwimUpDown(){
+        if(this.isSwimming){
+            this.isSwimmingUp = false;
+            this.isSwimmingDown = false;
+        }
+    }
     public int getScore() {
         return score;
     }

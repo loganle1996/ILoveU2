@@ -55,7 +55,7 @@ public class FireBall extends Bullet{
             }
             else if(t.getId() == Id.wall){
                 if(this.intersectsTile(t)){
-                    if(t.getType().equalsIgnoreCase("wall3")){
+                    if(t.getType().equalsIgnoreCase("wall3") || t.getType().equalsIgnoreCase("dWall2")){
                         t.setHp(t.getHp()-200);
                     }
                     this.disappear();

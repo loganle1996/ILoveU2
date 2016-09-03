@@ -91,7 +91,7 @@ public class AirRune extends Item {
                                 duration--;
                                 if (duration == 0)
                                 {
-                                    en.setShootDelay(1);
+                                    en.setShootDelay(0.5);
                                 }
                             })
                     );

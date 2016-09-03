@@ -28,7 +28,7 @@ public class SoundHandler
 
     public void loadAllSounds()
     {
-      String[] soundArray = new String[] {"fireball", "iceball", "footstep", "jump", "monster_death", "monster_hurt", "player_hurt", "pickup"};
+      String[] soundArray = new String[] {"fireball", "iceball", "footstep", "jump", "monster_death", "monster_hurt", "player_hurt", "pickup", "swimming"};
 
       for (String sound : soundArray)
       {
@@ -42,6 +42,7 @@ public class SoundHandler
     {
         if (!soundEffectsMap.get(id).isPlaying())
         {
+            soundEffectsMap.get(id).setVolume(0.5);
             soundEffectsMap.get(id).play();
         }
 
@@ -54,8 +55,17 @@ public class SoundHandler
       this.backgroundPlayer = new MediaPlayer(backgroundFile);
       MediaPlayer background = this.backgroundPlayer;
       background.setCycleCount(Animation.INDEFINITE);
+      background.setVolume(0.5);
       background.setAutoPlay(true);
     }
+
+    public void stopBackgroundMusic()
+    {
+     backgroundPlayer.stop();
+    }
+
+
+
 
     public void editInstance(SoundHandler soundHandler){
         this.soundHandler = soundHandler;

@@ -1,42 +1,33 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package tile;
 
 import Entity.Id;
-import MVCpattern.GameModel;
-import MVCpattern.GameView;
-import Sound.SoundHandler;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
 
 /**
- *
- * @author owne
+ * Created by LoganLe on 9/1/16.
  */
-public class Wall3 extends Tile{
-    Image image = new Image("bricks_3.png");
-    public Wall3(int x, int y, int width, int height, boolean solid, Id id, TileHandler tileHandler, String type) {
-        super(x, y, width, height, solid, id, tileHandler, type);
-    }
-    public Wall3(){
-        
-    }
-
-    public Wall3(boolean solid, Id id) {
-        super(solid, id);
-    }
-
+public class Dwall2 extends  Tile {
+    Image image = new Image("ground.jpeg");
+    private TileCache tileCache = TileCache.getInstance();
     @Override
     public void render(GraphicsContext gc) {
         gc.drawImage(image, x, y, width, height);
     }
+
+    public Dwall2(int x, int y, int width, int height, boolean solid, Id id, TileHandler tileHandler, String type) {
+        super(x, y, width, height, solid, id, tileHandler, type);
+        this.setHp(200);
+    }
+
     @Override
     public void tick() {
         if(this.getHp() <= 0.0){
             this.die();
+            Water water = (Water) tileCache.getTile("water");
+            water.setX(this.getX());
+            water.setY(this.getY());
+            tileHandler.addTile(water);
         }
         x += this.getVelX();
         y += this.getVelY();
@@ -53,9 +44,9 @@ public class Wall3 extends Tile{
                 if(t.getId() == Id.wall || t.getId() == Id.fireTrap){
                     if(this.intersectsTopTile(t)){
                         y = t.getY() - height;
-                    }                  
+                    }
 
-                    
+
                     if(this.intersectsBottomTile(t)){
                         y = t.getY() + height;
                         if(t.getId() == Id.fireTrap){
