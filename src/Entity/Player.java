@@ -8,12 +8,9 @@ package Entity;
 import Bullet.*;
 import GraphicsforAnimation.Sprite;
 import InfoBox.AlertBox;
-import Map.GameMap;
 import Sound.SoundHandler;
-import Target.AiHouse;
 import Target.HouseHandler;
 import javafx.scene.canvas.GraphicsContext;
-import javafx.scene.control.Alert;
 import tile.Tile;
 
 import java.util.LinkedList;
@@ -234,6 +231,7 @@ public class Player extends Entity {
         }
         if(this.getHp() <= 0){
             this.die();
+            SoundHandler.getInstance().stopBackgroundMusic();
             alertBox.display("Restart to Menu","Would you like to restart the game?");
         }
 
@@ -259,6 +257,9 @@ public class Player extends Entity {
             }
         }
         else if(this.isSwimming == true){
+
+            SoundHandler.getInstance().playSound("swimming");
+
             if(this.isIsMovingLeft()){
                 this.setVelX(-3);
                 this.facing = 0;
@@ -404,7 +405,7 @@ public class Player extends Entity {
             }
         }
     }
-    
+
     public void enemyCollidingChecking(){
         for(Entity en : entityHandler.getEntity()){
             if((en.getId() == Id.Goomba ||en.getId() == Id.GoombaBoss ||en.getId()== Id.Eagle) && en.isFreeze() == false){
@@ -493,5 +494,5 @@ public class Player extends Entity {
     public void setScore(int score) {
         this.score = score;
     }
-    
+
 }

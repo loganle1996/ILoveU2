@@ -5,7 +5,8 @@
  */
 package MVCpattern;
 
-import Map.GameMap;
+import Sound.SoundHandler;
+
 import java.util.LinkedList;
 
 /**
@@ -44,5 +45,6 @@ public class GameController {
     public void renderGameScene(){
         //display all game graphics
         gameView.display(gameModel);
+        SoundHandler.getInstance().playBackgroundMusic("background");
     }
 }

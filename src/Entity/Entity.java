@@ -21,7 +21,7 @@ import tile.TileHandler;
 public abstract class Entity{
     public double x, y;
     public int width = 40 , height = 40;
-    
+
     public boolean solid;
     public final double gravity= 10;
     public double velX,velY;
@@ -41,7 +41,7 @@ public abstract class Entity{
     public boolean flyUp = false,flyDown = false;
     public boolean isSwimming = false,isSwimmingLeft = false,isSwimmingRight = false,isSwimmingUp = false, isSwimmingDown = false;
     public boolean isShooting = false;
-    private double shootDelay = 1;
+    private double shootDelay = 0.5;
 
 
     public boolean isOnSlow() {
@@ -83,20 +83,20 @@ public abstract class Entity{
         velY += gravity;
     }
     public abstract void render(GraphicsContext g, Sprite[] sprite);
-        
+
     public abstract void tick(long currentTime);
 
     public abstract void shootFireBall(GraphicsContext gc);
     public abstract void shootIceBall(GraphicsContext gc);
     public abstract void placeSlowSpirit(GraphicsContext gc);
-    
+
     public void healAndRefill(){
         this.numberFireball = 50;
         this.numberIceBall = 10;
         this.setHp(1000);
         System.out.println("healandrefill succesfully");
     }
-        
+
     public void setFollowSkill(Follow followSkill){
         this.followskill = followSkill;
     }
@@ -139,7 +139,7 @@ public abstract class Entity{
         this.numberIceBall = numberIceBall;
     }
 
-    
+
     public void setY(int y) {
         this.y = y;
     }
@@ -190,10 +190,10 @@ public abstract class Entity{
     public double getGravity() {
         return gravity;
     }
-    
+
     public Rectangle2D getBoundary(){
         return new Rectangle2D(getX(), getY(), width, height);
-    }  
+    }
     public Rectangle2D getTopBoundary(){
         return new Rectangle2D(getX(),getY(),width,5);
     }
@@ -225,7 +225,7 @@ public abstract class Entity{
     public boolean intersectsExtraBounds(Tile ti) {
         return ti.getExtraBoundary().intersects(this.getBoundary());
     }
-    
+
     // is intersected Entity
     public boolean intersectsEntity(Entity en){
         return en.getBoundary().intersects(this.getBoundary());
@@ -349,9 +349,9 @@ public abstract class Entity{
     public void setEntityHandler(EntityHandler entityHandler) {
         this.entityHandler = entityHandler;
     }
-    
+
     public void watchingAround(){
-        
+
         if(facing == 0){
             bigRectangle2D =  new Rectangle2D(this.getX()-200, this.getY()-200, 210, 400);
             smallRectangle2D = new Rectangle2D(this.getX()-100,this.getY(), 100, 40);
@@ -360,7 +360,7 @@ public abstract class Entity{
             bigRectangle2D =  new Rectangle2D(this.getX()-10, this.getY()-200, 200, 400);
             smallRectangle2D = new Rectangle2D(this.getX(),this.getY(), 140, 40);
         }
-        
+
     }
     public boolean foundDanger(Bullet bullet){
         return smallRectangle2D.intersects(bullet.getBoundary());
