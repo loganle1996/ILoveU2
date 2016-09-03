@@ -239,13 +239,12 @@ public class AIenemy extends Entity
     @Override
         public void watchingAround(){
         if(facing == 0){
-            bigRectangle2D =  new Rectangle2D(this.getX()-20, this.getY()-50, 60, 140);
+            bigRectangle2D =  new Rectangle2D(this.getX()-100, this.getY()-200, 110, 400);
             smallRectangle2D = new Rectangle2D(this.getX()-100,this.getY(), 100, 40);
         }
         else if(facing == 1){
-            bigRectangle2D =  new Rectangle2D(this.getX(), this.getY()-50, 60, 140);
+            bigRectangle2D =  new Rectangle2D(this.getX()-10, this.getY()-200, 200, 400);
             smallRectangle2D = new Rectangle2D(this.getX(),this.getY(), 140, 40);
         }
-        
     }
 }

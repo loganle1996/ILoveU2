@@ -21,7 +21,7 @@ import javafx.scene.image.Image;
 public class Portal extends Tile
 {
     private GameMap gameMap = GameMap.getInstance();
-    Image image = new Image("portal.png");
+    Image image = new Image("door.png");
     LinkedList<Entity> copEntities;
 
     Portal(int x, int y, int width, int height, boolean solid, Id id,TileHandler tileHandler,String type) {

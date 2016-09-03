@@ -26,6 +26,13 @@ public class Eagle extends Entity{
         this.animate = true;
     }
 
+    public Eagle(int x, int y, int width, int height, boolean solid, Id id, EntityHandler entityHandler) {
+        super(x, y, width, height, solid, id, entityHandler);
+        this.setFollowSkill(new FlyFollow());
+        this.setVelY(0);
+        this.animate = true;
+    }
+
     @Override
     public void render(GraphicsContext g, Sprite[] eagleSprite) {
         if(this.facing == 0){

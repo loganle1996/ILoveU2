@@ -327,9 +327,10 @@ public class GameModel{
 
     public void spawnEnemy()
     {
-      if(houseHandler.getAiHouses().size() <= 7){
+      if(entityHandler.getEntity().size() < 15){
           for(AiHouse aiHouse: houseHandler.getAiHouses()){
-          entityHandler.addEntity(new AIenemy((int)aiHouse.getX(), (int)aiHouse.getY(), 40, 40, true, Id.Goomba, entityHandler));
+            entityHandler.addEntity(new AIenemy((int)aiHouse.getX(), (int)aiHouse.getY(), 40, 40, true, Id.Goomba, entityHandler));
+            entityHandler.addEntity(new Eagle((int)aiHouse.getX()-80, (int)aiHouse.getY()-50, 40, 40, true, Id.Eagle, entityHandler));
           }
       }
     }
