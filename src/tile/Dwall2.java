@@ -21,7 +21,7 @@ public class Dwall2 extends  Tile {
     }
 
     @Override
-    public void tick() {
+    public void tick(long currentTimes) {
         if(this.getHp() <= 0.0){
             this.die();
             Water water = (Water) tileCache.getTile("water");

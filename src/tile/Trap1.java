@@ -45,7 +45,7 @@ public class Trap1 extends Tile {
     }
 
     @Override
-    public void tick() {
+    public void tick(long currentTime) {
         watchingAround();
         if(this.getDirection().equalsIgnoreCase("Down")){
             for(Entity entity: entityHandler.getEntity()){
@@ -97,7 +97,7 @@ public class Trap1 extends Tile {
         }
     }
     public void watchingAround(){
-        bigRectangle2D =  new Rectangle2D(this.getX()-20, this.getY()+140, 45, 140);
+        bigRectangle2D =  new Rectangle2D(this.getX()-20, this.getY()+140, 45+20, 140);
     }
     public boolean foundPlayer(Entity en){
         return bigRectangle2D.intersects(en.getBoundary());

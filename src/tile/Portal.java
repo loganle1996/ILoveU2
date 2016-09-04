@@ -60,7 +60,7 @@ public class Portal extends Tile
         return en.getBottomBoundary().intersects(this.getBoundary());
     }
     @Override
-    public void tick() 
+    public void tick(long currentTime)
     {
         playerCollidingCheck();
     }

@@ -32,7 +32,6 @@ public abstract class Tile implements Cloneable{
     public Id id;
     public boolean isAddedGameModel = true;
     public String direction;
-//    public Image image; //= new Image(imagePath);
     
     public Tile(int x, int y, int width, int height, boolean solid,Id id,TileHandler tileHandler,String type) {
         this.x = x;
@@ -53,7 +52,7 @@ public abstract class Tile implements Cloneable{
     }
     public abstract void render(GraphicsContext gc);
         
-    public abstract void tick();
+    public abstract void tick(long currentTime);
     public void die(){
         tileHandler.removeTile(this);
     }
@@ -120,7 +119,7 @@ public abstract class Tile implements Cloneable{
         return new Rectangle2D(getX() + width - 5, getY() + 10,5, height - 20);
     }
     //is intersected
-       public boolean intersectsTile(Tile ti){
+    public boolean intersectsTile(Tile ti){
         return ti.getBoundary().intersects(this.getBoundary());
     }
     public boolean intersectsTopTile(Tile ti){

@@ -46,7 +46,7 @@ public class WoodBridge extends Tile{
     }
 
     @Override
-    public void tick() {
+    public void tick(long currentTime) {
         x+= velX;
         y+=velY;
         if(this.isMovingLeft == true){
@@ -59,8 +59,8 @@ public class WoodBridge extends Tile{
     }
     public void tileCollidingChecking(){
         for(Tile t: tileHandler.getTile()){
-            if(t.getId() == Id.wall && t != this){
-//                if(!t.getType().equalsIgnoreCase("woodBridge")){
+            if(t.solid == false){
+                if(t.getType().equalsIgnoreCase("invisibleWall")){
                     if(this.intersectsRightTile(t)){
                         this.setIsMovingRight(true);
                         this.setIsMovingLeft(false);
@@ -69,8 +69,21 @@ public class WoodBridge extends Tile{
                         this.setIsMovingLeft(true);
                         this.setIsMovingRight(false);
                     }
-//                }
-                
+                }
+            }
+            else {
+                if(t.getId() == Id.wall && t != this){
+                    if(this.intersectsRightTile(t)){
+                        this.setIsMovingRight(true);
+                        this.setIsMovingLeft(false);
+                    }
+                    if(this.intersectsLeftTile(t)){
+                        this.setIsMovingLeft(true);
+                        this.setIsMovingRight(false);
+                    }
+
+                }
+
             }
         }
 }

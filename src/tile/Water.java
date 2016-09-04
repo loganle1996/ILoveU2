@@ -22,7 +22,7 @@ public class Water extends Tile {
     }
 
     @Override
-    public void tick() {
+    public void tick(long currentTime) {
         x += this.getVelX();
         y += this.getVelY();
         if (velY < 10) {

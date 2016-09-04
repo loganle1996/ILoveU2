@@ -54,10 +54,10 @@ public class TileHandler implements Cloneable{
         this.tile = tile;
     }
     //tick
-    public void tickTiles(){
+    public void tickTiles(long currentTime){
         copiedTile = new LinkedList<>(tile);
         for(Tile ti: copiedTile){
-            ti.tick();
+            ti.tick(currentTime);
         }
     }
     public void emptyHandler(){

@@ -62,6 +62,9 @@ public class TileCache {
         Trap2 trap2 = new Trap2(40,40,40,40,true,Id.wall,tileHandler,"fireTrap");
         tileTable.put(trap2.getType(),trap2);
 
+        Smoke smoke = new Smoke(40,40,40,40,false,Id.wall,tileHandler,"smoke");
+        tileTable.put(smoke.getType(),smoke);
+
     }
     public static TileCache getInstance(){
         return tileCache;

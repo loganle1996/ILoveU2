@@ -10,7 +10,10 @@ import java.util.LinkedList;
  * Created by LoganLe on 9/2/16.
  */
 public class Trap2 extends Tile {
+    private long lastTime = 0;
     private LinkedList<Tile> copiedTile;
+    private TileCache tileCache = TileCache.getInstance();
+    private Smoke smoke;
     Image fireTrap = new Image("fire.gif");
 
     public Trap2(int x, int y, int width, int height, boolean solid, Id id, TileHandler tileHandler, String type) {
@@ -23,7 +26,19 @@ public class Trap2 extends Tile {
     }
 
     @Override
-    public void tick() {
+    public void tick(long currentTime) {
+        if(lastTime == 0){
+            lastTime = currentTime;
+        }
+        else{
+            if(((currentTime - lastTime) / 1000000000.0) > 3){
+                smoke = (Smoke) tileCache.getTile("smoke");
+                smoke.setX(this.getX());
+                smoke.setY(this.getY());
+                tileHandler.addTile(smoke);
+                lastTime = currentTime;
+            }
+        }
         tileCollidingChecking();
 
     }

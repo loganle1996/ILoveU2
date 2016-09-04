@@ -20,6 +20,8 @@ import java.util.LinkedList;
  * @author owne
  */
 public class Player extends Entity {
+    private boolean hurtable = true;
+    private long lastTimeHurt = 0;
     HouseHandler houseHandler = HouseHandler.getInstance();
     private static Player player = new Player(40, 40, true, Id.player, entityHandler);
     private BulletCache bulletCache = BulletCache.getInstance();
@@ -140,6 +142,13 @@ public class Player extends Entity {
 
     }
 
+    public boolean isHurtable() {
+        return hurtable;
+    }
+
+    public void setHurtable(boolean hurtable) {
+        this.hurtable = hurtable;
+    }
 
     @Override
     public void shootIceBall(GraphicsContext gc)
@@ -223,7 +232,21 @@ public class Player extends Entity {
     public void tick(long currentime) {
         x += velX;
         y += velY;
+        if(this.getHp() > 1000){
+            this.setHp(1000);
+        }
         deltaTime = (int)  (currentime - lasttime) / 1000000000;
+        if(hurtable == false){
+            if(lastTimeHurt == 0){
+                lastTimeHurt = currentime;
+            }
+            else {
+                if(((currentime-lastTimeHurt)/1000000000.0) > 1 ){
+                    this.hurtable = true;
+                    lastTimeHurt = currentime;
+                }
+            }
+        }
 
         if (deltaTime > this.getShootDelay()){
             lasttime = currentime;
@@ -268,19 +291,12 @@ public class Player extends Entity {
                 this.setVelX(3);
                 this.facing = 1;
             }
-//            if(this.isSwimmingUp){
-//                this.setVelY(-3);
-//
-//            }
-//            else if(this.isSwimmingDown){
-//                this.setVelY(3);
-//            }
         }
 
         if(freeze == true ||(isMovingLeft == false && isMovingRight == false)) {
             this.setVelX(0);
         }
-        enemyCollidingChecking();
+        enemyCollidingChecking(currentime);
         tileCollidingChecking();
 
         if(this.isMovingRight == true || this.isMovingLeft == true){
@@ -406,42 +422,33 @@ public class Player extends Entity {
         }
     }
 
-    public void enemyCollidingChecking(){
+    public void enemyCollidingChecking(long currentime){
         for(Entity en : entityHandler.getEntity()){
             if((en.getId() == Id.Goomba ||en.getId() == Id.GoombaBoss ||en.getId()== Id.Eagle) && en.isFreeze() == false){
+                if(this.intersectsEntity(en)){
+                    if(this.isHurtable()){
+                        this.setHp(this.getHp() - 200);
+                        this.hurtable = false;
+                    }
+                }
                 if(this.intersectsTopEntity(en)){
-//                        y = en.getY() - height;
                     this.setVelY(10);
-//                        this.setJumping(false);
 
-                    this.setHp(this.getHp() - 10);
                     SoundHandler.getInstance().playSound("player_hurt");
 
                 }
                 if (this.intersectsBottomEntity(en)){
 
-                    if(en.getId() == Id.Goomba){
-                        this.setHp(this.getHp() - 10);
-                    }
-                    if(en.getId() == Id.GoombaBoss){
-                        this.setHp(this.getHp() - 80);
-                    }
                 }
                 if (this.intersectsBottomEntity(en)){
-
-                    this.setHp(this.getHp() - 10);
                     SoundHandler.getInstance().playSound("player_hurt");
 
                 }
                 if(this.intersectsRightEntity(en)){
-//                        x = en.getX()+en.width;
-                    this.setHp(this.getHp() - 10);
                     SoundHandler.getInstance().playSound("player_hurt");
 
                 }
                 if(this.intersectsLeftEntity(en)){
-//                        x = en.getX()-en.width;
-                    this.setHp(this.getHp() - 10);
                     SoundHandler.getInstance().playSound("player_hurt");
 
                 }

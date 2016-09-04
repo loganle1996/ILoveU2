@@ -34,7 +34,7 @@ public class Wall3 extends Tile{
         gc.drawImage(image, x, y, width, height);
     }
     @Override
-    public void tick() {
+    public void tick(long currentTime) {
         if(this.getHp() <= 0.0){
             this.die();
         }

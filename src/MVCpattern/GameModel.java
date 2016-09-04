@@ -26,6 +26,7 @@ import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
+import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 import tile.Tile;
 import tile.TileCache;
@@ -184,7 +185,7 @@ public class GameModel{
 
     public void TickModelGame(long currentime){
         entityHandler.tickEntities(currentime);
-        tileHandler.tickTiles();
+        tileHandler.tickTiles(currentime);
         bulletHandler.tickBullets(currentime);
         houseHandler.tickHouses();
         itemHandler.tickItems(currentime);
@@ -210,6 +211,7 @@ public class GameModel{
         mainScene = new Scene(root);
         gameStage.setScene(mainScene);
         mainScene.setCamera(camera);
+        mainScene.setFill(Color.BLACK);
         camera.setNearClip(0.1);
         camera.setFarClip(1500);
         camera.setTranslateX(800);

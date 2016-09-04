@@ -39,7 +39,7 @@ public class Wall1 extends Tile {
     }
 
     @Override
-    public void tick() {
+    public void tick(long currentTime) {
         entityCollidingCheck();
     }
     public void entityCollidingCheck(){

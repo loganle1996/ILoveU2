@@ -26,7 +26,7 @@ public class InvisibleWall extends Tile {
     }
 
     @Override
-    public void tick() {
+    public void tick(long currentTime) {
         
     }
     
