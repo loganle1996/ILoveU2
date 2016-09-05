@@ -42,7 +42,7 @@ public class SoundHandler
     {
         if (!soundEffectsMap.get(id).isPlaying())
         {
-            soundEffectsMap.get(id).setVolume(0.5);
+            soundEffectsMap.get(id).setVolume(1);
             soundEffectsMap.get(id).play();
         }
 

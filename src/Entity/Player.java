@@ -8,12 +8,19 @@ package Entity;
 import Bullet.*;
 import GraphicsforAnimation.Sprite;
 import InfoBox.AlertBox;
+import ScoreData.PlayerScoreData;
+import ScoreData.ScoreData;
 import Sound.SoundHandler;
 import Target.HouseHandler;
+import javafx.application.Platform;
 import javafx.scene.canvas.GraphicsContext;
+import javafx.scene.control.Alert;
+import javafx.scene.control.TextInputDialog;
 import tile.Tile;
 
+import java.io.IOException;
 import java.util.LinkedList;
+import java.util.Optional;
 
 /**
  *
@@ -255,7 +262,8 @@ public class Player extends Entity {
         if(this.getHp() <= 0){
             this.die();
             SoundHandler.getInstance().stopBackgroundMusic();
-            alertBox.display("Restart to Menu","Would you like to restart the game?");
+
+            alertBox.display("Restart to Menu","Would you like to restart the game?", this.getScore());
         }
 
         if (this.getVelY() <= 10) {

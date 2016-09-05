@@ -7,7 +7,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<Pane fx:id="menuScenePane" maxHeight="768.0" maxWidth="1024.0" minHeight="-Infinity" minWidth="-Infinity" prefHeight="768.0" prefWidth="1024.0" style="-fx-background-color: black;" stylesheets="@MenuScene.css" xmlns="http://javafx.com/javafx/8.0.65" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ArcaneArena.MainMenu">
+<Pane fx:id="menuScenePane" maxHeight="768.0" maxWidth="1024.0" minHeight="-Infinity" minWidth="-Infinity" prefHeight="768.0" prefWidth="1024.0" style="-fx-background-color: black;" stylesheets="@MenuScene.css" xmlns="http://javafx.com/javafx/8.0.60" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ArcaneArena.MainMenu">
    <children>
       <Label fx:id="wouldYouKindlyTitle" layoutX="374.0" layoutY="83.0" text="Arcane Arena" textAlignment="CENTER" textFill="WHITE">
          <effect>
@@ -35,7 +35,7 @@
                   <Glow level="0.25" />
                </effect>
             </Button>
-            <Button fx:id="highScoresButton" layoutX="443.0" layoutY="342.0" mnemonicParsing="false" style="-fx-background-color: transparent;" text="High Scores" textFill="WHITE">
+            <Button fx:id="highScoresButton" layoutX="443.0" layoutY="342.0" mnemonicParsing="false" onAction="#viewHighScores" style="-fx-background-color: transparent;" text="High Scores" textFill="WHITE">
                <font>
                   <Font size="30.0" />
                </font>

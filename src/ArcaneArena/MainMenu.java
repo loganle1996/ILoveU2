@@ -9,6 +9,8 @@ import MVCpattern.GameController;
 import MVCpattern.GameModel;
 import MVCpattern.GameView;
 import Map.GameMap;
+import ScoreData.PlayerScoreData;
+import ScoreData.ScoreData;
 import javafx.application.Application;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
@@ -16,12 +18,17 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
 import javafx.scene.control.ChoiceDialog;
+import javafx.scene.control.TextInputDialog;
 import javafx.stage.Stage;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  *
@@ -55,6 +62,16 @@ public class MainMenu extends Application{
         mainStage = new Stage();
         Parent root = FXMLLoader.load(getClass().getResource("MenuScene.fxml"));
         mainScene = new Scene(root);
+
+        // Tries to read score data from a file.
+        try {
+           ScoreData.getInstance().readHighScoreData("highScoreData.tmp");
+        } catch (IOException ex) {
+            System.out.println("No high score data found.");
+//            Logger.getLogger(HighScoreScene.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (ClassNotFoundException ex) {
+            Logger.getLogger(HighScoreScene.class.getName()).log(Level.SEVERE, null, ex);
+        }
 
         Platform.setImplicitExit(false);
         mainStage.setScene(mainScene);
@@ -103,6 +120,50 @@ public class MainMenu extends Application{
                 gameController.chooseMap("map1");
                 break;
         }
+    }
+
+    @FXML
+    private void viewHighScores(ActionEvent event) throws IOException
+    {
+
+          Stage stage = mainStage;
+          Parent root = null;
+
+              try {
+                  // Get the reference to the button's stage
+                  root = FXMLLoader.load(getClass().getResource("HighScoreScene.fxml"));
+              } catch (IOException ex) {
+                  Logger.getLogger(MainMenu.class.getName()).log(Level.SEVERE, null, ex);
+              }
+
+
+          // Create a new scene with root.
+          Scene scene = new Scene(root);
+          stage.setScene(scene);
+          stage.show();
+
+    }
+
+    @FXML
+    private void showHowToPlay(ActionEvent event) throws IOException
+    {
+
+        Stage stage = mainStage;
+        Parent root = null;
+
+        try {
+            // Get the reference to the button's stage
+            root = FXMLLoader.load(getClass().getResource("HowToPlayScene.fxml"));
+        } catch (IOException ex) {
+            Logger.getLogger(MainMenu.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
+
+        // Create a new scene with root.
+        Scene scene = new Scene(root);
+        stage.setScene(scene);
+        stage.show();
+
     }
 
     @FXML

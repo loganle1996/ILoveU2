@@ -110,6 +110,7 @@ public class AIenemy extends Entity
         if(this.getHp() <= 0){
             this.die();
             SoundHandler.getInstance().playSound("monster_death");
+
         }
         
         //check if this collides tiles

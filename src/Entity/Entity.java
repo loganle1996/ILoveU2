@@ -31,6 +31,7 @@ public abstract class Entity{
     public BulletHandler bulletHandler = BulletHandler.getInstance();
     public boolean isMovingLeft = false, isMovingRight = false, jumping = false;
     public int facing = 0; //0 is left; 1 is right
+    public int score = 0;
     public double hp = 1000; //1000
     public boolean isCollidingLeft = false, isCollidingRight = false,collidingTop = false, collidingBottom = false,shootable = true;
     public int frame = 0;
@@ -95,6 +96,14 @@ public abstract class Entity{
         this.numberIceBall = 10;
         this.setHp(1000);
         System.out.println("healandrefill succesfully");
+    }
+
+    public int getScore() {
+        return score;
+    }
+
+    public void setScore(int score) {
+        this.score = score;
     }
 
     public void setFollowSkill(Follow followSkill){

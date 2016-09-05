@@ -27,6 +27,27 @@ public class EntityHandler implements Cloneable{
     }
     public void removeEntity(Entity en){
         entity.remove(en);
+        if (en.getId() == Id.Goomba || en.getId() == Id.Eagle)
+        {
+            for (Entity eachentity: entity)
+            {
+                if (eachentity.getId() == Id.player)
+                {
+                    eachentity.setScore(eachentity.getScore() + 1);
+                }
+            }
+        }
+
+        if (en.getId() == Id.GoombaBoss)
+        {
+            for (Entity eachentity: entity)
+            {
+                if (eachentity.getId() == Id.player)
+                {
+                    eachentity.setScore(eachentity.getScore() + 10);
+                }
+            }
+        }
     }
     //clone
     @Override

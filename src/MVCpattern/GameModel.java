@@ -76,6 +76,7 @@ public class GameModel{
     public Label fireBallLabel = new Label();
     public Label iceBallLabel = new Label();
     public Label timeLabel = new Label();
+    public Label scoreLabel = new Label();
 
     public GameMap gameMap = GameMap.getInstance();
     public BulletCache bulletCache = BulletCache.getInstance();
@@ -131,6 +132,11 @@ public class GameModel{
             timeLabel.setText("Time: "+minute +":"+ (second));
             timeLabel.setTranslateX(player1.getX());
             timeLabel.setTranslateY(player1.getY() - 210);
+
+            scoreLabel.setText("Score: "+ player1.getScore());
+            scoreLabel.setTranslateX(player1.getX());
+            scoreLabel.setTranslateY(player1.getY() - 180);
+
             hpLabel.setText("HP:" + player1.getHp());
             hpLabel.setTranslateX(player1.getX() - 350);
             hpLabel.setTranslateY(player1.getY() - 210);
@@ -142,6 +148,7 @@ public class GameModel{
             iceBallLabel.setText("Ice Shards left: " + player1.getNumberIceBall());
             iceBallLabel.setTranslateX(player1.getX() + 220);
             iceBallLabel.setTranslateY(player1.getY() - 190);
+
         }
     };
 
@@ -219,12 +226,13 @@ public class GameModel{
         camera.setTranslateZ(-800);
 
         // Player's HP HUD
-        hpLabel.setTextFill(javafx.scene.paint.Color.WHITE);
-        fireBallLabel.setTextFill(javafx.scene.paint.Color.WHITE);
-        iceBallLabel.setTextFill(javafx.scene.paint.Color.WHITE);
+        hpLabel.setTextFill(javafx.scene.paint.Color.BLACK);
+        fireBallLabel.setTextFill(javafx.scene.paint.Color.BLACK);
+        iceBallLabel.setTextFill(javafx.scene.paint.Color.BLACK);
+        scoreLabel.setTextFill(javafx.scene.paint.Color.BLACK);
 
         Canvas canvas = new Canvas(WIDTH, HEIGHT);
-        root.getChildren().addAll(canvas, hpLabel, fireBallLabel, iceBallLabel,timeLabel);
+        root.getChildren().addAll(canvas, hpLabel, fireBallLabel, iceBallLabel,timeLabel, scoreLabel);
 
         //Associate gc to the canvas to draw.
         gc = canvas.getGraphicsContext2D();
@@ -241,6 +249,7 @@ public class GameModel{
         gameStage.setOnCloseRequest(e -> {
             animation.stop();
             gameMap.emptyMap();
+            SoundHandler.getInstance().stopBackgroundMusic();
 //            Platform.exit();
 //            System.exit(0);
         });
