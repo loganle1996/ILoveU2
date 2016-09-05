@@ -289,6 +289,7 @@ public class GameMap
     public void resetMap(){
         emptyMap();
         player1.healAndRefill();
+        player1.setScore(0);
         this.addAllObjectsToGameModel();
     }
     public void changeMap(){

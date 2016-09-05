@@ -51,6 +51,16 @@ package ArcaneArena;
      @Override
      public void initialize(URL location, ResourceBundle resources) {
 
+       // Tries to read score data from a file.
+       try {
+          ScoreData.getInstance().readHighScoreData("highScoreData.tmp");
+       } catch (IOException ex) {
+           System.out.println("No high score data found.");
+//            Logger.getLogger(HighScoreScene.class.getName()).log(Level.SEVERE, null, ex);
+       } catch (ClassNotFoundException ex) {
+           Logger.getLogger(HighScoreScene.class.getName()).log(Level.SEVERE, null, ex);
+       }
+
          ObservableList<PlayerScoreData> highScoreData = ScoreData.getInstance().getPlayerHighScoreData();
          highScoreTable.getItems().removeAll(highScoreData);
          nameColumn.setCellValueFactory(cellData -> cellData.getValue().playerNameProperty());
