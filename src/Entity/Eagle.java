@@ -45,21 +45,9 @@ public class Eagle extends Entity{
     @Override
     public void render(GraphicsContext g, Sprite[] eagleSprite) {
         if(this.facing == 0){
-//            if(velX != 0){
-//               g.drawImage(eagleSprite[frame+4].getImage(), x, y, width, height); 
-//            }
-//            else{
-//                g.drawImage(eagleSprite[4].getImage(), x, y, width, height); 
-//            }
             g.drawImage(eagleSprite[frame+4].getImage(), x, y, width, height); 
         }
-        else if(this.facing == 1){              
-//            if(velX != 0){
-//                   g.drawImage(eagleSprite[frame+1].getImage(), x, y, width, height); 
-//                }
-//                else{
-//                    g.drawImage(eagleSprite[0].getImage(), x, y, width, height);
-//                } 
+        else if(this.facing == 1){
             g.drawImage(eagleSprite[frame].getImage(), x, y, width, height); 
         }    
     }
@@ -73,9 +61,7 @@ public class Eagle extends Entity{
         }
         watchingAround();
         searchingEntities();
-        if(protectAiHouse){
             tileCollidingChecking();
-        }
         if(this.isMovingLeft == true && this.isFreeze() == false)
         {
             this.moveLeft();
@@ -126,22 +112,36 @@ public class Eagle extends Entity{
     }
     public void tileCollidingChecking(){
         for(Tile t: tileHandler.getTile()){
-            if((t.getId() == Id.wall ) && t.getType().equalsIgnoreCase("invisibleWall")){
-                if(this.intersectsTopTile(t)){
-//                    y = t.getY() - height;
+            if(t.isSolid() == false){
+                if(this.protectAiHouse){
+                    if(this.intersectsRightTile(t)){
+                        this.setIsMovingRight(true);
+                        this.setIsMovingLeft(false);
+                    }
+                    if(this.intersectsLeftTile(t)){
+                        this.setIsMovingLeft(true);
+                        this.setIsMovingRight(false);
+                    }
                 }
-                if(this.intersectsBottomTile(t)){
-//                    y = t.getY() + height;
-                }
-                if(this.intersectsRightTile(t)){
-                    this.setIsMovingRight(true);
-                    this.setIsMovingLeft(false);
-//                    x = t.getX()+t.width;
-                }
-                if(this.intersectsLeftTile(t)){
-                    this.setIsMovingLeft(true);
-                    this.setIsMovingRight(false);
-//                    x = t.getX()-t.width;
+            }
+            else{
+                if((t.getType().equalsIgnoreCase("wall1") )){
+                    if(this.intersectsTopTile(t)){
+                        y = t.getY() - height;
+                    }
+                    if(this.intersectsBottomTile(t)){
+                        y = t.getY() + height;
+                    }
+                    if(this.intersectsRightTile(t)){
+                        this.setIsMovingRight(true);
+                        this.setIsMovingLeft(false);
+                        x = t.getX()+t.width;
+                    }
+                    if(this.intersectsLeftTile(t)){
+                        this.setIsMovingLeft(true);
+                        this.setIsMovingRight(false);
+                        x = t.getX()-t.width;
+                    }
                 }
             }
         }

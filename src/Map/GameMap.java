@@ -8,8 +8,6 @@ package Map;
 
 import Entity.AIenemy;
 import Entity.Eagle;
-import Rope.Point;
-import Rope.PointHandler;
 import Target.AiHouse;
 import Entity.EntityHandler;
 import Entity.FinalBoss;
@@ -43,23 +41,22 @@ public class GameMap
     public WoodBridge woodBridge;
     public Eagle eagle;
     public static Portal portal;
-    public Point point;
     public Water water;
     public Dwall2 ground1;
     public Trap2 trap2;
+    public int mapId;
 //    Image aiHouseImage = new Image("AiHouse.png");
     private static GameMap gameMap = new GameMap();
     EntityHandler entityHandler = EntityHandler.getInstance();
     public TileHandler tileHandler = TileHandler.getInstance();
     HouseHandler houseHandler = HouseHandler.getInstance();
     ItemHandler  itemHandler = ItemHandler.getInstance();
-    PointHandler pointHandler = PointHandler.getInstance();
     //contructor
     private GameMap(){
 
     }
 
-    public void getMapData2()
+    public void getMapData1()
     {
         map = new String [][]{
             {"x","x","x","x","x","x","x","x","x","x","x","x","x","x","x","x","x","x","x","x","x","x","x","x","x","x","x","x","x","x","x","x","x","x","x","x","x","x","x","x"},
@@ -92,7 +89,7 @@ public class GameMap
             {"x"," "," "," "," "," "," "," "," "," "," "," "," "," "," "," "," "," "," "," ","m","m","m"," "," "," "," "," "," "," "," "," "," "," "," "," "," "," ","F","x"},
             {"x"," "," "," "," "," "," "," "," "," "," "," "," "," "," "," "," "," "," "," "," "," ","m"," "," "," "," "," "," "," "," "," "," "," "," "," "," "," "," ","x"},
             {"x"," "," "," "," "," "," "," "," "," "," "," "," "," "," "," "," "," "," "," "," "," ","m","m","m","m","m","m","m"," "," "," "," "," "," "," "," "," "," ","x"},
-            {"x"," "," "," "," "," "," "," "," "," "," "," "," "," "," "," "," "," "," "," "," "," "," "," "," "," "," "," "," "," "," "," "," "," "," "," "," "," "," ","x"},
+            {"x"," "," "," "," "," "," "," "," "," "," "," "," "," "," "," "," "," "," "," "," "," "," "," "," "," "," ","i"," "," "," "," "," "," "," "," "," "," "," ","x"},
             {"x"," "," "," "," "," "," "," "," "," ","m","m"," "," "," "," "," "," "," "," "," "," "," "," "," "," "," ","i"," "," "," "," "," "," "," "," "," "," "," ","x"},
             {"x"," "," "," "," "," "," "," "," "," ","m","m"," "," "," "," "," "," "," "," "," "," "," "," "," "," "," "," ","m","m","m","m"," "," "," "," "," "," "," ","x"},
             {"x"," "," "," "," "," "," "," "," "," ","m","m"," "," "," "," "," "," "," "," "," "," "," "," "," "," "," "," "," "," "," ","i"," "," "," "," "," "," "," ","x"},
@@ -104,9 +101,10 @@ public class GameMap
             {"x","x","x","x","x","x","x","x","x","x","x","x","x","x","x","x","x","x","x","x","x","x","x","x","x","x","x","x","x","x","x","x","x","x","x","x","x","x","x","x"}
 
         };
+        mapId = 1;
     }
 
-    public void getMapData1()
+    public void getMapData2()
     {
         map = new String [][]{
           {"x","x","x","x","x","x","x","x","x","x","x","x","x","x","x","x","x","x","x","x","x","x","x","x","x","x","x","x","x","x","x","x","x","x","x","x","x","x","x","x"},
@@ -151,6 +149,7 @@ public class GameMap
           {"x","x","x","x","x","x","x","x","x","x","x","x","x","x","x","x","x","x","x","x","x","x","x","x","x","x","x","x","x","x","x","x","x","x","x","x","x","x","x","x"}
 
         };
+        mapId = 2;
     }
 
 
@@ -188,10 +187,6 @@ public class GameMap
                     clonedTile3.setY((i/40) * clonedTile3.getHeight());
                     tileHandler.addTile(clonedTile3);
                     break;
-                case "s":
-                    point = new Point((i%40)*40,(i/40)*40);
-                    pointHandler.addPoints(point);
-                    break;
                 case "-":
                     woodBridge = (WoodBridge) tileCache.getTile("woodBridge");
                     woodBridge.setX((i%40)*woodBridge.getWidth());
@@ -215,6 +210,7 @@ public class GameMap
                     break;
                 case "h":
                     aiHouse = new AiHouse((i%40)* 40,(i/40)*40);
+                    aiHouse.healHouse();  // this is for when the user wants to restart the game
                     houseHandler.addHouse(aiHouse);
                     break;
 
@@ -289,7 +285,6 @@ public class GameMap
         tileHandler.emptyHandler();
         houseHandler.emptyHandler();
         itemHandler.removeAllItems();
-        pointHandler.emptyPoints();
     }
     public void resetMap(){
         emptyMap();
@@ -301,8 +296,12 @@ public class GameMap
         tileHandler.emptyHandler();
         houseHandler.emptyHandler();
         itemHandler.removeAllItems();
-        pointHandler.emptyPoints();
-        this.getMapData2();
+        if(mapId == 1){
+            this.getMapData2();
+        }
+        else if(mapId == 2){
+            this.getMapData1();
+        }
         this.addAllObjectsToGameModel();
     }
     public void addPortal(){

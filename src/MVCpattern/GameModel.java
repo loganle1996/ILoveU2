@@ -14,7 +14,6 @@ import GraphicsforAnimation.Sprite;
 import GraphicsforAnimation.SpriteSheet;
 import Items.*;
 import Map.GameMap;
-import Rope.PointHandler;
 import Sound.SoundHandler;
 import Target.AiHouse;
 import Target.HouseHandler;
@@ -81,7 +80,6 @@ public class GameModel{
     public GameMap gameMap = GameMap.getInstance();
     public BulletCache bulletCache = BulletCache.getInstance();
     public ItemCache itemCache = ItemCache.getInstance();
-    public PointHandler pointHandler = PointHandler.getInstance();
     // FPS calculation
     boolean showFPS = false;
     boolean firstTick = true;
@@ -196,7 +194,6 @@ public class GameModel{
         bulletHandler.tickBullets(currentime);
         houseHandler.tickHouses();
         itemHandler.tickItems(currentime);
-        pointHandler.tick();
     }
     public void renderModelGame(GraphicsContext g){
         tileHandler.renderTiles(g);
@@ -204,7 +201,6 @@ public class GameModel{
         houseHandler.renderHouses(g);
         bulletHandler.renderBullets(g);
         itemHandler.renderItems(g);
-        pointHandler.renderPoints(g);
     }
     public void main(String[] args) {
 //        mainStage.close();

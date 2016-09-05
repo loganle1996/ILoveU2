@@ -52,7 +52,7 @@ public abstract class Entity{
     public void setIsOnSlow(boolean isOnSlow) {
         this.OnSlow = isOnSlow;
     }
-    public int numberFireball = 50,numberIceBall = 10,numberSlowSpirit = 20;
+    public int numberFireball = 15,numberIceBall = 3,numberSlowSpirit = 5;
     public Rectangle2D bigRectangle2D,smallRectangle2D;
     private Follow followskill;
     public long lasttime = 0;
@@ -92,10 +92,10 @@ public abstract class Entity{
     public abstract void placeSlowSpirit(GraphicsContext gc);
 
     public void healAndRefill(){
-        this.numberFireball = 50;
-        this.numberIceBall = 10;
+        this.numberFireball = 15;
+        this.numberIceBall = 3;
+        this.numberSlowSpirit = 5;
         this.setHp(1000);
-        System.out.println("healandrefill succesfully");
     }
 
     public int getScore() {

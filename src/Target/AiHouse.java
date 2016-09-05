@@ -102,7 +102,9 @@ public class AiHouse {
     public void render(GraphicsContext gc){
         gc.drawImage(houseImage, x, y, width, height);
     }
-    
+    public void healHouse(){
+        this.setHp(2000);
+    }
     public void tileCollidingCheck(){
         for(Tile t: tileHandler.getTile()){
             if(t.solid == false){
