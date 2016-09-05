@@ -202,6 +202,7 @@ public class GameMap
                 case "P":
                     player1.setX((i%40)*40);
                     player1.setY((i/40)*40);
+                    player1.healAndRefill();
                     entityHandler.addEntity(player1);
                     break;
                 case "E":
@@ -288,8 +289,6 @@ public class GameMap
     }
     public void resetMap(){
         emptyMap();
-        player1.healAndRefill();
-        player1.setScore(0);
         this.addAllObjectsToGameModel();
     }
     public void changeMap(){

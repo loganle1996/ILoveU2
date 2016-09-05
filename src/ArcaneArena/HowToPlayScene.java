@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package WouldYouKindly;
+package ArcaneArena;
 
 import java.io.IOException;
 import java.net.URL;
@@ -32,44 +32,34 @@ public class HowToPlayScene implements Initializable{
 
     @FXML
     private Button backToMainMenuButton;
-    
+
     @FXML
     private Pane howToPlayPane;
-    
+
     @Override
     public void initialize(URL location, ResourceBundle resources) {
 
     }
-    
-     @FXML
+
+    @FXML
     private void handleBackToMenu(ActionEvent event) throws IOException {
 
-            Stage stage = (Stage) howToPlayPane.getScene().getWindow();
-            Parent root = null;
+        Stage stage = (Stage) howToPlayPane.getScene().getWindow();
+        Parent root = null;
 
-            if (event.getSource() == backToMainMenuButton) {
-                try {
-                    // Get the reference to the button's stage
-                    root = FXMLLoader.load(getClass().getResource("MenuScene.fxml"));
-                } catch (IOException ex) {
-                    Logger.getLogger(MainMenu.class.getName()).log(Level.SEVERE, null, ex);
-                }
+        // Get the reference to the button's stage
+        root = FXMLLoader.load(getClass().getResource("MenuScene.fxml"));
 
-            } else {
-                try {
-                    root = FXMLLoader.load(getClass().getResource("HowToPlayScene.fxml"));
-                } catch (IOException ex) {
-                    Logger.getLogger(MainMenu.class.getName()).log(Level.SEVERE, null, ex);
-                }
-            }
 
-           
-            // Create a new scene with root.
-            Scene scene = new Scene(root);
-            stage.setScene(scene);
-            stage.show();
+
+
+
+        // Create a new scene with root.
+        Scene scene = new Scene(root);
+        stage.setScene(scene);
+        stage.show();
 
     }
-    
-    
+
+
 }
