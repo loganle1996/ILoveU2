@@ -1,6 +1,7 @@
 package InfoBox;
 
 import ArcaneArena.MainMenu;
+import MVCpattern.GameModel;
 import Map.GameMap;
 import ScoreData.PlayerScoreData;
 import ScoreData.ScoreData;
@@ -41,12 +42,12 @@ public class AlertBox{
             window.close();
         });
         noButton.setOnAction(e -> {
-
+            GameMap gameMap = GameMap.getInstance();
+            gameMap.emptyMap();
+            MainMenu.getGameModel().getAnimationTimer().stop();
             ask(score);
-
-            Platform.exit();
-            System.exit(0);
             window.close();
+            GameModel.gameStage.close();
         });
         VBox layout = new VBox(10);
         layout.getChildren().addAll(label,yesButton,noButton);

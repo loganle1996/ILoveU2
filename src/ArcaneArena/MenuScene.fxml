@@ -27,7 +27,7 @@
                   <Glow level="0.25" />
                </effect>
             </Button>
-            <Button fx:id="howToPlayButton" layoutX="450.0" layoutY="280.0" mnemonicParsing="false" style="-fx-background-color: transparent;" text="How to Play" textFill="WHITE">
+            <Button fx:id="howToPlayButton" layoutX="450.0" layoutY="280.0" mnemonicParsing="false" onAction="#showHowToPlay" style="-fx-background-color: transparent;" text="How to Play" textFill="WHITE">
                <font>
                   <Font size="30.0" />
                </font>

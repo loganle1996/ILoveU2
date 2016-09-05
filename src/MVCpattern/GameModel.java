@@ -80,6 +80,7 @@ public class GameModel{
     public GameMap gameMap = GameMap.getInstance();
     public BulletCache bulletCache = BulletCache.getInstance();
     public ItemCache itemCache = ItemCache.getInstance();
+    public static Stage gameStage;
     // FPS calculation
     boolean showFPS = false;
     boolean firstTick = true;
@@ -203,10 +204,9 @@ public class GameModel{
         itemHandler.renderItems(g);
     }
     public void main(String[] args) {
-//        mainStage.close();
 
         //Create a camera
-        Stage gameStage = new Stage();
+        gameStage = new Stage();
 
         this.camera = new PerspectiveCamera(true);
 
@@ -503,7 +503,7 @@ public class GameModel{
         String[] args = null;
         main(args);
     }
-    public AnimationTimer getAnimationTimer(){
+    public  AnimationTimer getAnimationTimer(){
         return animation;
     }
 }

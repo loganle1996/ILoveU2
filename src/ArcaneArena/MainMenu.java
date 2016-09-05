@@ -150,13 +150,7 @@ public class MainMenu extends Application{
 
         Stage stage = mainStage;
         Parent root = null;
-
-        try {
-            // Get the reference to the button's stage
-            root = FXMLLoader.load(getClass().getResource("HowToPlayScene.fxml"));
-        } catch (IOException ex) {
-            Logger.getLogger(MainMenu.class.getName()).log(Level.SEVERE, null, ex);
-        }
+        root = FXMLLoader.load(getClass().getResource("HowToPlayScene.fxml"));
 
 
         // Create a new scene with root.
