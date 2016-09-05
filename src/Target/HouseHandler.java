@@ -5,6 +5,9 @@
  */
 package Target;
 
+import Entity.Entity;
+import Entity.EntityHandler;
+import Entity.Id;
 import Map.GameMap;
 import java.util.LinkedList;
 import javafx.scene.canvas.GraphicsContext;
@@ -46,6 +49,16 @@ public class HouseHandler {
     }
     public void removeHouse(AiHouse aiHouse){
         aiHouses.remove(aiHouse);
+
+        LinkedList<Entity> entity = EntityHandler.getInstance().getEntity();
+
+        for (Entity eachentity: entity)
+        {
+            if (eachentity.getId() == Id.player)
+            {
+                eachentity.setScore(eachentity.getScore() + 10);
+            }
+        }
     }
     public void tickHouses(){
         copiedHouse = new LinkedList<AiHouse>(aiHouses);

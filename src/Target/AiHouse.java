@@ -93,7 +93,6 @@ public class AiHouse {
     {
         if(this.getHp() <= 0 )
         {
-
             this.die();
             gameMap.addPortal();
         }

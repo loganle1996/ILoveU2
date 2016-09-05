@@ -4,6 +4,7 @@ import ArcaneArena.MainMenu;
 import Map.GameMap;
 import ScoreData.PlayerScoreData;
 import ScoreData.ScoreData;
+import Sound.SoundHandler;
 import javafx.application.Platform;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
@@ -36,6 +37,7 @@ public class AlertBox{
         yesButton.setOnAction(e -> {
             GameMap gameMap = GameMap.getInstance();
             gameMap.resetMap();
+            SoundHandler.getInstance().playBackgroundMusic("background");
             window.close();
         });
         noButton.setOnAction(e -> {
