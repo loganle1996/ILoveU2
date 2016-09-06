@@ -8,6 +8,7 @@ package Entity;
 import Entity.Folow.FlyFollow;
 import Entity.Folow.WalkingFollow;
 import GraphicsforAnimation.Sprite;
+import Sound.SoundHandler;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.paint.Color;
 import tile.Tile;
@@ -58,6 +59,7 @@ public class Eagle extends Entity{
         y += velY;
         if(hp<= 0){
             this.die();
+            SoundHandler.getInstance().playSound("eagle_death");
         }
         watchingAround();
         searchingEntities();

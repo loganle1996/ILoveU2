@@ -262,7 +262,7 @@ public class Player extends Entity {
         if(this.getHp() <= 0){
             this.die();
             SoundHandler.getInstance().stopBackgroundMusic();
-
+            SoundHandler.getInstance().playSound("player_death");
             alertBox.display("Restart to Menu","Would you like to restart the game?", this.getScore());
         }
 

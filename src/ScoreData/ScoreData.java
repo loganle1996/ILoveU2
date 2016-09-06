@@ -68,6 +68,8 @@ package ScoreData;
              }
          }
 
+         this.getPlayerHighScoreData().clear();
+
          for (PlayerScoreData player: this.getScoreList()) {
              this.getPlayerHighScoreData().add(player);
          }

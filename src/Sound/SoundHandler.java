@@ -28,7 +28,7 @@ public class SoundHandler
 
     public void loadAllSounds()
     {
-      String[] soundArray = new String[] {"fireball", "iceball", "footstep", "jump", "monster_death", "monster_hurt", "player_hurt", "pickup", "swimming"};
+      String[] soundArray = new String[] {"player_death", "eagle_death", "fireball", "iceball", "footstep", "jump", "monster_death", "monster_hurt", "player_hurt", "pickup", "swimming"};
 
       for (String sound : soundArray)
       {
