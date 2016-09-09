@@ -36,7 +36,7 @@ public class HouseHandler {
         copiedHouse2 = new LinkedList<>(aiHouses);
         for(AiHouse ai: copiedHouse2)
         {
-            copiedHouse.remove(ai);
+            aiHouses.remove(ai);
         }
     }
     

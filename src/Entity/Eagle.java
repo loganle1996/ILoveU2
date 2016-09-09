@@ -63,7 +63,7 @@ public class Eagle extends Entity{
         }
         watchingAround();
         searchingEntities();
-            tileCollidingChecking();
+        tileCollidingChecking();
         if(this.isMovingLeft == true && this.isFreeze() == false)
         {
             this.moveLeft();
@@ -105,7 +105,7 @@ public class Eagle extends Entity{
     
     public void searchingEntities(){
         for(Entity en: entityHandler.getEntity()){
-            if(en.getId() == Id.player){
+            if(en.getId() == Id.player && en.isSwimming == false){
                 if(this.foundObject(en)){
                     this.follow(en);
                 }
@@ -125,14 +125,36 @@ public class Eagle extends Entity{
                         this.setIsMovingRight(false);
                     }
                 }
+                if(t.getType().equalsIgnoreCase("water")){
+                    if(this.intersectsTopTile(t)){
+                        this.setFlyDown(false);
+                        this.flyUp();
+                    }
+                    if(this.intersectsBottomTile(t)){
+                        this.setFlyUp(false);
+                        this.flyDown();
+                    }
+                    if(this.intersectsRightTile(t)){
+                        this.setIsMovingRight(true);
+                        this.setIsMovingLeft(false);
+                    }
+                    if(this.intersectsLeftTile(t)){
+                        this.setIsMovingLeft(true);
+                        this.setIsMovingRight(false);
+                    }
+                }
             }
             else{
                 if((t.getType().equalsIgnoreCase("wall1") )){
                     if(this.intersectsTopTile(t)){
                         y = t.getY() - height;
+                        this.setFlyDown(false);
+                        this.flyUp();
                     }
                     if(this.intersectsBottomTile(t)){
                         y = t.getY() + height;
+                        this.setFlyUp(false);
+                        this.flyDown();
                     }
                     if(this.intersectsRightTile(t)){
                         this.setIsMovingRight(true);

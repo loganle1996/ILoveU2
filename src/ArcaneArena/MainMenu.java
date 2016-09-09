@@ -95,6 +95,7 @@ public class MainMenu extends Application{
 
         choices.add("Map 1");
         choices.add("Map 2");
+        choices.add("Map 3");
 
         ChoiceDialog<String> dialog = new ChoiceDialog<>("Map 1", choices);
         dialog.setTitle("Map Selection");
@@ -115,6 +116,9 @@ public class MainMenu extends Application{
                 break;
             case "Map 2":
                 gameController.chooseMap("map2");
+                break;
+            case "Map 3":
+                gameController.chooseMap("map3");
                 break;
             default:
                 gameController.chooseMap("map1");

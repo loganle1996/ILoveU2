@@ -246,8 +246,6 @@ public class GameModel{
             animation.stop();
             gameMap.emptyMap();
             SoundHandler.getInstance().stopBackgroundMusic();
-//            Platform.exit();
-//            System.exit(0);
         });
     }
 //
@@ -341,7 +339,14 @@ public class GameModel{
       }
     }
     public void spawnItems(){
-        if(itemHandler.getItems().size() < 7){
+        int spawnSeconds = 4;
+        if(gameMap.mapId == 3){
+            spawnSeconds = 4;
+        }
+        else if(gameMap.mapId == 2){
+            spawnSeconds = 4;
+        }
+        if(itemHandler.getItems().size() < spawnSeconds){
             Random random = new Random();
             double x = (((random.nextDouble() * 1440) % 1440) + 50);
             double y = (((random.nextDouble() * 1440) % 1440) + 50);

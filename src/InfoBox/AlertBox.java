@@ -57,6 +57,28 @@ public class AlertBox{
         window.setScene(scene);
         window.show();
     }
+    public void displayWinMessage(String title, String message){
+        Stage window = new Stage();
+        window.initModality(Modality.APPLICATION_MODAL);
+        window.setTitle(title);
+        window.setMinWidth(250);
+
+        Label label = new Label();
+        label.setText(message);
+        Button okButton = new Button("Ok");
+
+        okButton.setOnAction(e->{
+            window.close();
+            GameModel.gameStage.close();
+        });
+        VBox layout = new VBox(10);
+        layout.getChildren().addAll(label,okButton);
+        layout.setAlignment(Pos.CENTER);
+
+        Scene scene = new Scene(layout);
+        window.setScene(scene);
+        window.show();
+    }
 
     public void ask(int score)
     {

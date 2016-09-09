@@ -181,7 +181,7 @@ public class AIenemy extends Entity
         else
         {
             this.setIsOnSlow(false);
-            this.setVelY(-10);
+            this.setVelY(-11);
             this.setJumping(true);
         }
 
@@ -258,11 +258,11 @@ public class AIenemy extends Entity
     @Override
         public void watchingAround(){
         if(facing == 0){
-            bigRectangle2D =  new Rectangle2D(this.getX()-100, this.getY()-200, 110, 400);
+            bigRectangle2D =  new Rectangle2D(this.getX()-100, this.getY()-100, 110, 200);
             smallRectangle2D = new Rectangle2D(this.getX()-100,this.getY(), 100, 40);
         }
         else if(facing == 1){
-            bigRectangle2D =  new Rectangle2D(this.getX()-10, this.getY()-200, 200, 400);
+            bigRectangle2D =  new Rectangle2D(this.getX()-10, this.getY()-100, 200, 200);
             smallRectangle2D = new Rectangle2D(this.getX(),this.getY(), 140, 40);
         }
     }

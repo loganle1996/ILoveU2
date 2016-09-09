@@ -10,6 +10,7 @@ import Entity.Id;
 import javafx.geometry.Rectangle2D;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
+import javafx.scene.paint.Color;
 
 import java.util.LinkedList;
 
@@ -29,6 +30,7 @@ public class Trap1 extends Tile {
     //Constructor
     public Trap1( int x, int y, int width, int height, boolean solid, Id id, TileHandler tileHandler, String type) {
         super(x, y, width, height, solid, id, tileHandler, type);
+
     }
 
 
@@ -42,6 +44,8 @@ public class Trap1 extends Tile {
             gc.drawImage(imageUp, x, y,width,height);
         else if(direction.equalsIgnoreCase("Down"))
             gc.drawImage(imageDown, x, y,width,height);
+//        gc.setFill(Color.RED);
+//        gc.fillRect(this.getX()-20, this.getY(), 45+20, 250);
     }
 
     @Override
@@ -72,7 +76,7 @@ public class Trap1 extends Tile {
             }
             else{
                 if(t.getId() == Id.wall){
-                    if(t.getType().equalsIgnoreCase("wall2")){
+                    if(t.getType().equalsIgnoreCase("wall2") || t.getType().equalsIgnoreCase("wall3") || t.getType().equalsIgnoreCase("woodBridge")){
                         if(this.intersectsTile(t)){
                             this.die();
                         }
@@ -97,7 +101,7 @@ public class Trap1 extends Tile {
         }
     }
     public void watchingAround(){
-        bigRectangle2D =  new Rectangle2D(this.getX()-20, this.getY()+140, 45+20, 140);
+        bigRectangle2D =  new Rectangle2D(this.getX()-20, this.getY(), 45+20, 245);
     }
     public boolean foundPlayer(Entity en){
         return bigRectangle2D.intersects(en.getBoundary());
