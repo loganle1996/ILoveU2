@@ -1,2 +1,1 @@
-# MultiRunningWorld-game
-[img]https://i.imgur.com/nKJzhON.gif[/img]
+<img src="https://imgur.com/nKJzhON" width=200><br>
