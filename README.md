@@ -23,6 +23,7 @@ game.
 *****************************************
 DESIGN PATTERNS
 *****************************************
+<img src="https://i.imgur.com/Mzobdfe.jpg" width=600><br>
 1.Prototype Pattern
 Where to use :
 -This pattern has been used to clone different sorts of wall objects and then use a map which is a two dimensional array to modify the location of the objects using setX() and setY() methods.
