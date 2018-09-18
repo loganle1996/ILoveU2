@@ -9,15 +9,24 @@ Scrolls range from basic attacks such as Fireballs, to scrolls that grant effect
 User Stories:
 *****************************************
 ● As a player, I want to see how much HP and Mana I have left so I can adjust the way I play.
+
 ● As a player, I want to see what scrolls are there on the board so I can adjust my strategies.
+
 ● As a player, I would like my game to be smooth and nice so that I don’t get frustrated.
+
 ● As a player, I would like my game to be low on requirements so I can play it on bad computers.
+
 ● As a player, I would like my game to not disconnect when I am playing a match so I can enjoy a smooth experience.
+
 ● As a player, I want to have a balanced game so I can have fun.
+
 ● As a player, I want the game to look good so I can enjoy the aesthetics of the
 game.
+
 ● As a player, I want diversity in scrolls so I don’t get bored.
+
 ● As a player, I want constant updates to the game so that it always feel fresh.
+
 ● As a player, I want to easily install and uninstall the game.
 
 *****************************************
