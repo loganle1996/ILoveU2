@@ -29,6 +29,8 @@ game.
 
 ● As a player, I want to easily install and uninstall the game.
 
+● As a player, I want to be able to move my character in my desired direction such as moving left or right or jumping
+
 *****************************************
 DESIGN PATTERNS
 *****************************************
